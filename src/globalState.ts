@@ -32,12 +32,12 @@ export const appStore = store({
 	},
 	dashboard: {
 		songFilter: "",
-		isEditModeEnabled: false,
+		editedSongList: null as Song[] | null,
 	},
 	dangerZone: {
 		threshold: 0.75,
 		isShowBelowEnabled: false,
-		isEditModeEnabled: false,
+		editedSongList: null as Song[] | null,
 	},
 	songList: [] as Song[],
 	folderList: [] as string[], // folder path
