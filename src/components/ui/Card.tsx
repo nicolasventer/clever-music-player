@@ -1,10 +1,8 @@
-import React from "react";
+import type { ReactNode } from "react";
 
-interface CardProps {
-	children?: React.ReactNode;
+export type CardProps = {
+	children?: ReactNode;
 	className?: string;
-}
-
-export const Card: React.FC<CardProps> = ({ children, className = "" }) => {
-	return <div className={`card ${className}`}>{children}</div>;
 };
+
+export const Card = ({ children, className = "" }: CardProps) => <div className={`card ${className}`}>{children}</div>;

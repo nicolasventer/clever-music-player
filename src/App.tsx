@@ -20,7 +20,7 @@ export const App = () => {
 			<Vertical heightFull className={os === "android" || os === "ios" ? "mobile" : "not-mobile"} paddingTop={16}>
 				<Title order={1} text="🎵 Clever Music Player" />
 				{app.currentTab === "Player" && <Player />}
-				{app.currentTab === "Playlist" && <Playlist />}
+				{app.currentTab === "Playlist" && <Playlist playlist={app.playlist} />}
 				{app.currentTab === "Dashboard" && <Dashboard />}
 				{app.currentTab === "Danger Zone" && <DangerZone />}
 				<Horizontal gap={4}>

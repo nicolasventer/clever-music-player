@@ -463,23 +463,6 @@ tfoot th {
 	gap: 16px;
 }
 
-.danger-zone-warning {
-	padding: 16px;
-	background: rgba(255, 255, 255, 0.05);
-	border-radius: 8px;
-	border: 1px solid rgba(255, 255, 255, 0.1);
-	text-align: center;
-}
-
-.danger-zone-warning-text {
-	color: #cbd5e1;
-	font-size: 14px;
-	line-height: 1.5;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
 /* Card component styles */
 .card {
 	background: rgba(255, 255, 255, 0.05);
@@ -536,11 +519,10 @@ button:disabled {
 	}
 }
 
-.mobile *:hover,
+/* TODO: need to fix this */
+/* .mobile *:hover,
 .mobile *:focus:hover,
 .mobile *:active:hover {
-	/* all: unset !important; */
-	/* Optionally, re-apply pointer and inherited color for usability */
 	cursor: inherit !important;
 	color: inherit !important;
 	background: none !important;
@@ -548,7 +530,7 @@ button:disabled {
 	text-decoration: none !important;
 	outline: none !important;
 	border-color: inherit !important;
-}
+} */
 
 /* Title component styles */
 .title-1 {

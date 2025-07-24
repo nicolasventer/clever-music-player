@@ -1,17 +1,17 @@
-import React from "react";
+import type { ReactNode } from "react";
 
-interface ButtonProps {
+export type ButtonProps = {
 	text?: string;
-	icon?: React.ReactNode;
+	icon?: ReactNode;
 	variant: "filled" | "light";
 	isCompact?: boolean;
 	color?: "theme" | "danger" | "warning";
 	onClick?: () => void;
 	className?: string;
 	disabled?: boolean;
-}
+};
 
-export const Button: React.FC<ButtonProps> = ({
+export const Button = ({
 	text,
 	icon,
 	variant,
@@ -20,7 +20,7 @@ export const Button: React.FC<ButtonProps> = ({
 	onClick,
 	className = "",
 	disabled = false,
-}) => {
+}: ButtonProps) => {
 	const getButtonClasses = () => {
 		const baseClasses = ["btn"];
 

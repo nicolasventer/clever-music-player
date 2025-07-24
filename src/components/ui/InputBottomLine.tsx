@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import type { InputHTMLAttributes } from "react";
+import { useState } from "react";
 
-export interface InputBottomLineProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "value" | "onChange" | "max"> {
+export type InputBottomLineProps = Omit<InputHTMLAttributes<HTMLInputElement>, "value" | "onChange" | "max"> & {
 	className?: string;
 	max?: number;
-}
+};
 
-export const InputBottomLine: React.FC<InputBottomLineProps> = ({ className = "", max, type = "text", ...props }) => {
+export const InputBottomLine = ({ className = "", max, type = "text", ...props }: InputBottomLineProps) => {
 	const [value, setValue] = useState("");
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

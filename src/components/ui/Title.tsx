@@ -1,14 +1,14 @@
-import React from "react";
+import type { ReactNode } from "react";
 
-interface TitleProps {
+export type TitleProps = {
 	order: 1 | 2 | 3 | 4 | 5 | 6;
 	text?: string;
-	icon?: React.ReactNode;
+	icon?: ReactNode;
 	color?: "theme" | "danger" | "warning";
 	className?: string;
-}
+};
 
-export const Title: React.FC<TitleProps> = ({ order, text, icon, color = "theme", className = "" }) => {
+export const Title = ({ order, text, icon, color = "theme", className = "" }: TitleProps) => {
 	const getTitleClasses = () => {
 		const baseClasses = [`title-${order}`];
 

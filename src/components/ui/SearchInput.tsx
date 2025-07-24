@@ -1,22 +1,22 @@
 import { Search } from "lucide-react";
-import React from "react";
+import type { ChangeEvent } from "react";
 
-interface SearchInputProps {
+export type SearchInputProps = {
 	value: string;
 	onChange?: (newValue: string) => void;
 	placeholder?: string;
 	className?: string;
 	disabled?: boolean;
-}
+};
 
-export const SearchInput: React.FC<SearchInputProps> = ({
+export const SearchInput = ({
 	value,
 	onChange,
 	placeholder = "Search...",
 	className = "",
 	disabled = false,
-}) => {
-	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+}: SearchInputProps) => {
+	const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
 		onChange?.(event.target.value);
 	};
 

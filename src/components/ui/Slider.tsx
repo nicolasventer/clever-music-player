@@ -1,6 +1,6 @@
-import React from "react";
+import type { ChangeEvent } from "react";
 
-interface SliderProps {
+export type SliderProps = {
 	value: number;
 	onChange?: (newValue: number) => void;
 	min?: number;
@@ -8,18 +8,10 @@ interface SliderProps {
 	step?: number;
 	className?: string;
 	disabled?: boolean;
-}
+};
 
-export const Slider: React.FC<SliderProps> = ({
-	value,
-	onChange,
-	min = 0,
-	max = 100,
-	step = 1,
-	className = "",
-	disabled = false,
-}) => {
-	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+export const Slider = ({ value, onChange, min = 0, max = 100, step = 1, className = "", disabled = false }: SliderProps) => {
+	const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
 		const newValue = parseFloat(event.target.value);
 		onChange?.(newValue);
 	};
