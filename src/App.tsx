@@ -18,7 +18,7 @@ export const App = () => {
 		<FullViewport>
 			<WriteToolboxClasses />
 			<Vertical heightFull className={os === "android" || os === "ios" ? "mobile" : "not-mobile"} paddingTop={16}>
-				<Title order={1} text="🎵 Clever Music Player" />
+				<Title order={1} text="🎵 Clever Music Player" className="margin-bottom-16" />
 				{app.currentTab === "Player" && <Player />}
 				{app.currentTab === "Playlist" && <Playlist playlist={app.playlist} />}
 				{app.currentTab === "Dashboard" && <Dashboard />}

@@ -2,7 +2,7 @@ import { actions } from "@/actions/actions";
 import { Button, SearchInput, Tab, Title } from "@/components/ui";
 import type { AppState } from "@/globalState";
 import { Horizontal, Vertical } from "@/utils/ComponentToolbox";
-import { Ban, FolderOpen, Music, Play, RefreshCw } from "lucide-react";
+import { Ban, FolderOpen, Music, Play, Plus, RefreshCw, Trash2 } from "lucide-react";
 
 const PlaylistSongs = () => (
 	<Vertical widthFull>
@@ -11,7 +11,7 @@ const PlaylistSongs = () => (
 				<tr>
 					<th colSpan={2}>
 						<Horizontal justifyContent="space-between">
-							<Title order={3} text="Songs" icon={<Music size={20} style={{ marginTop: 4 }} />} />
+							<Title order={3} text="Songs" icon={<Music size={20} style={{ marginTop: 4 }} />} className="no-margin" />
 							<SearchInput value="" placeholder="Search songs..." />
 						</Horizontal>
 					</th>
@@ -83,18 +83,42 @@ const PlaylistFolders = () => (
 				<tr>
 					<th colSpan={2}>
 						<Horizontal justifyContent="space-between">
-							<Title order={3} text="Folders" icon={<FolderOpen size={20} style={{ marginTop: 4 }} />} />
-							<SearchInput value="" placeholder="Search folders..." />
+							<Title order={3} text="Folders" icon={<FolderOpen size={20} style={{ marginTop: 4 }} />} className="no-margin" />
+							<Button icon={<Plus size={16} />} variant="light" />
 						</Horizontal>
 					</th>
 				</tr>
 			</thead>
+			<tbody>
+				<tr>
+					<td>
+						<Horizontal justifyContent="space-between">
+							<Vertical gap={4}>
+								<Title order={5} text="C:/Users/John Doe/Music" />
+								<Title order={6} text="📂 123 songs, 1h23" />
+							</Vertical>
+							<Button icon={<Trash2 size={16} />} variant="light" color="danger" />
+						</Horizontal>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<Horizontal justifyContent="space-between">
+							<Vertical gap={4}>
+								<Title order={5} text="C:/Users/Ricky/Music/Rock" />
+								<Title order={6} text="📂 85 songs, 0h53" />
+							</Vertical>
+							<Button icon={<Trash2 size={16} />} variant="light" color="danger" />
+						</Horizontal>
+					</td>
+				</tr>
+			</tbody>
 		</table>
 	</Vertical>
 );
 
 export const Playlist = ({ playlist }: { playlist: AppState["playlist"] }) => (
-	<Vertical alignItems="center" flexGrow className="container">
+	<Vertical alignItems="center" flexGrow className="container" overflowAuto>
 		<Horizontal justifyContent="flex-end" positionAbsolute style={{ top: 0, right: 0, padding: 16 }}>
 			<Button icon={<RefreshCw size={16} />} variant="light" />
 		</Horizontal>
