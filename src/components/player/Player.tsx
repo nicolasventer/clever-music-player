@@ -6,8 +6,7 @@ export const Player = () => {
 	return (
 		<Vertical alignItems="center" flexGrow>
 			<div className="player-container">
-				<img src="cover.jpg" alt="cover" />
-				<div className="status-indicator playing status-indicator-large"></div>
+				<img src="https://fastly.picsum.photos/id/830/300/300.jpg?hmac=ir_VjfhHplWelY0wWwUlqdRl_N4KTR-caNJPFMUz2r8" alt="cover" />
 			</div>
 			<Title order={3} text="🎶 Bohemian Rhapsody" />
 			<Title order={4} text="👤 Queen • A Night at the Opera" />

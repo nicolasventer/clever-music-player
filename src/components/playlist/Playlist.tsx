@@ -8,9 +8,9 @@ export const Playlist = () => {
 			<Horizontal justifyContent="flex-end" positionAbsolute style={{ top: 0, right: 0, padding: "16px" }}>
 				<Button text="Refresh" icon={<RefreshCw size={16} />} variant="light" />
 			</Horizontal>
-			<Horizontal width={300}>
-				<Tab isActive={true} value="Songs" icon={<Music size={16} />} />
-				<Tab isActive={false} value="Folders" icon={<FolderOpen size={16} />} />
+			<Horizontal width={400} gap={4}>
+				<Tab isActive={true} tabCount={2} text="Songs" icon={<Music size={16} />} />
+				<Tab isActive={false} tabCount={2} text="Folders" icon={<FolderOpen size={16} />} />
 			</Horizontal>
 			<Vertical className="playlist-container">
 				<table>

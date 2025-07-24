@@ -9,8 +9,6 @@ body {
 	font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", sans-serif;
 	background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
 	color: #ffffff;
-	min-height: 100vh;
-	overflow-x: hidden;
 }
 
 /* Custom scrollbar */
@@ -30,60 +28,6 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
 	background: rgba(255, 255, 255, 0.5);
-}
-
-/* Layout utilities */
-.FullViewport {
-	min-height: 100vh;
-	width: 100vw;
-	display: flex;
-	flex-direction: column;
-}
-
-.Vertical {
-	display: flex;
-	flex-direction: column;
-}
-
-.Horizontal {
-	display: flex;
-	flex-direction: row;
-}
-
-.heightFull {
-	height: 100%;
-}
-
-.flexGrow {
-	flex-grow: 1;
-}
-
-.widthFull {
-	width: 100%;
-}
-
-.alignItemsCenter {
-	align-items: center;
-}
-
-.justifyContentCenter {
-	justify-content: center;
-}
-
-.justifyContentSpaceBetween {
-	justify-content: space-between;
-}
-
-.justifyContentFlexEnd {
-	justify-content: flex-end;
-}
-
-.positionRelative {
-	position: relative;
-}
-
-.positionAbsolute {
-	position: absolute;
 }
 
 /* Icon utilities */
@@ -148,15 +92,7 @@ h6 {
 	opacity: 0.8;
 }
 
-/* Tab navigation */
-.tab-navigation {
-	background: rgba(255, 255, 255, 0.05);
-	backdrop-filter: blur(20px);
-	border-top: 1px solid rgba(255, 255, 255, 0.1);
-	padding: 8px 16px;
-	gap: 4px;
-}
-
+/* Tab component styles */
 .tab {
 	background: rgba(255, 255, 255, 0.1);
 	border: none;
@@ -173,7 +109,6 @@ h6 {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: 25%;
 }
 
 .tab:hover {
@@ -412,7 +347,6 @@ th {
 	font-weight: 600;
 	color: #e2e8f0;
 	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-	display: flex;
 	align-items: center;
 }
 
@@ -456,25 +390,6 @@ tfoot th {
 	font-weight: 500;
 }
 
-/* Score colors */
-.score-warning {
-	color: #fbbf24;
-	font-weight: 600;
-	font-size: 14px;
-}
-
-.score-danger {
-	color: #ef4444;
-	font-weight: 600;
-	font-size: 14px;
-}
-
-.score-success {
-	color: #4ade80;
-	font-weight: 600;
-	font-size: 14px;
-}
-
 /* Player specific styles */
 .player-container {
 	position: relative;
@@ -486,12 +401,7 @@ tfoot th {
 	border-radius: 16px;
 	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 	margin: 24px 0;
-	transition: transform 0.3s ease;
 	object-fit: cover;
-}
-
-.player-container img:hover {
-	transform: scale(1.05);
 }
 
 .player-controls {
@@ -538,44 +448,6 @@ tfoot th {
 	}
 	100% {
 		transform: translateX(100%);
-	}
-}
-
-/* Status indicators */
-.status-indicator {
-	display: inline-block;
-	width: 8px;
-	height: 8px;
-	border-radius: 50%;
-	margin-right: 8px;
-}
-
-.status-indicator.playing {
-	background: #4ade80;
-	box-shadow: 0 0 8px rgba(74, 222, 128, 0.6);
-	animation: pulse 2s infinite;
-}
-
-.status-indicator.paused {
-	background: #fbbf24;
-	box-shadow: 0 0 8px rgba(251, 191, 36, 0.6);
-}
-
-.status-indicator-large {
-	position: absolute;
-	top: 16px;
-	right: 16px;
-	width: 12px;
-	height: 12px;
-}
-
-@keyframes pulse {
-	0%,
-	100% {
-		opacity: 1;
-	}
-	50% {
-		opacity: 0.5;
 	}
 }
 

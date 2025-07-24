@@ -17,17 +17,19 @@ export const ComponentDemo: React.FC = () => {
 				<div style={{ display: "flex", gap: "8px", marginBottom: "24px" }}>
 					<Tab
 						isActive={activeTab === "player"}
-						value="Player"
+						tabCount={3}
+						text="Player"
 						icon={<Music size={16} />}
 						onClick={() => setActiveTab("player")}
 					/>
 					<Tab
 						isActive={activeTab === "playlist"}
-						value="Playlist"
+						tabCount={3}
+						text="Playlist"
 						icon={<Play size={16} />}
 						onClick={() => setActiveTab("playlist")}
 					/>
-					<Tab isActive={activeTab === "settings"} value="Settings" onClick={() => setActiveTab("settings")} />
+					<Tab isActive={activeTab === "settings"} tabCount={3} text="Settings" onClick={() => setActiveTab("settings")} />
 				</div>
 			</Card>
 
