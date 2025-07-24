@@ -3,7 +3,7 @@ import { DangerZone } from "@/components/dangerZone/DangerZone";
 import { Dashboard } from "@/components/dashboard/Dashboard";
 import { Player } from "@/components/player/Player";
 import { Playlist } from "@/components/playlist/Playlist";
-import { Tab } from "@/components/ui";
+import { Tab, Title } from "@/components/ui";
 import { useApp } from "@/globalState";
 import PWABadge from "@/PWABadge";
 import { FullViewport, Horizontal, Vertical, WriteToolboxClasses } from "@/utils/ComponentToolbox";
@@ -17,8 +17,8 @@ export const App = () => {
 	return (
 		<FullViewport>
 			<WriteToolboxClasses />
-			<Vertical heightFull className={os === "android" || os === "ios" ? "mobile" : "not-mobile"}>
-				<h1>🎵 Clever Music Player</h1>
+			<Vertical heightFull className={os === "android" || os === "ios" ? "mobile" : "not-mobile"} paddingTop={16}>
+				<Title order={1} text="🎵 Clever Music Player" />
 				{app.currentTab === "Player" && <Player />}
 				{app.currentTab === "Playlist" && <Playlist />}
 				{app.currentTab === "Dashboard" && <Dashboard />}

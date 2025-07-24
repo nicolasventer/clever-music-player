@@ -15,6 +15,7 @@ export type Song = {
 	picture: Blob;
 	skipCount: number;
 	actionCount: number;
+	isBanned: boolean; // if true, automatically skipped
 	folderList: string[]; // can have several or can be empty, if empty not considered in threshold deletion
 };
 

@@ -4,8 +4,8 @@ import { BarChart3, Edit, Music } from "lucide-react";
 
 export const Dashboard = () => {
 	return (
-		<Vertical alignItems="center" flexGrow>
-			<Vertical className="dashboard-container">
+		<Vertical alignItems="center" flexGrow className="container">
+			<Vertical widthFull>
 				<Title order={3} text="Most Skipped Songs" icon={<BarChart3 size={24} />} />
 				<table>
 					<thead>
@@ -16,7 +16,7 @@ export const Dashboard = () => {
 									Song
 								</div>
 							</th>
-							<th>
+							<th className="score-col">
 								<div className="icon-with-text">
 									<BarChart3 size={18} />
 									Score
@@ -27,7 +27,7 @@ export const Dashboard = () => {
 							<td>
 								<SearchInput value="" placeholder="Search songs..." />
 							</td>
-							<td>
+							<td className="score-col">
 								<Button text="Edit" icon={<Edit size={14} />} variant="filled" isCompact />
 							</td>
 						</tr>
@@ -35,31 +35,30 @@ export const Dashboard = () => {
 					<tbody>
 						<tr>
 							<td>
-								<h5>🎶 Bohemian Rhapsody</h5>
-								<h6>👤 Queen • A Night at the Opera</h6>
+								<Title order={5} text="🎶 Bohemian Rhapsody" />
+								<Title order={6} text="👤 Queen • A Night at the Opera" />
 							</td>
-							<td>2/7</td>
+							<td className="score-col">2 / 7</td>
 						</tr>
 						<tr>
 							<td>
-								<h5>🎵 Another One Bites the Dust</h5>
-								<h6>👤 Queen • The Game</h6>
+								<Title order={5} text="🎵 Another One Bites the Dust" />
+								<Title order={6} text="👤 Queen • The Game" />
 							</td>
-							<td>1/7</td>
+							<td className="score-col">1 / 7</td>
 						</tr>
 						<tr>
 							<td>
-								<h5>🎸 Back in Black</h5>
-								<h6>👤 AC/DC • Back in Black</h6>
+								<Title order={5} text="🎸 Back in Black" />
+								<Title order={6} text="👤 AC/DC • Back in Black" />
 							</td>
-							<td>6/7</td>
+							<td className="score-col">6 / 7</td>
 						</tr>
 					</tbody>
 					<tfoot>
 						<tr>
-							<th colSpan={2} className="table-footer">
-								📊 Mean score: 1.32/7.05
-							</th>
+							<th className="table-footer">📊 Mean score</th>
+							<th className="table-footer score-col">1.32 / 7.05</th>
 						</tr>
 					</tfoot>
 				</table>

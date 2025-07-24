@@ -4,9 +4,9 @@ import { AlertTriangle, Eye, FolderOpen, RotateCcw, Target, Trash2 } from "lucid
 
 export const DangerZone = () => {
 	return (
-		<Vertical alignItems="center" flexGrow>
-			<Vertical className="danger-zone-container">
-				<Card className="danger-zone-section">
+		<Vertical alignItems="center" flexGrow className="container">
+			<Vertical widthFull gap={12}>
+				<Card>
 					<Title order={3} text="Skip Threshold" icon={<Target size={20} />} color="danger" />
 					<Horizontal justifyContent="space-between" className="danger-zone-controls">
 						<Horizontal className="danger-zone-input-group">
@@ -23,7 +23,7 @@ export const DangerZone = () => {
 						<Button text="Delete" icon={<Trash2 size={16} />} variant="filled" color="danger" />
 					</Horizontal>
 				</Card>
-				<Card className="danger-zone-section">
+				<Card>
 					<Title order={3} text="Reset Options" icon={<RotateCcw size={20} />} color="danger" />
 					<Vertical className="danger-zone-options">
 						<Button

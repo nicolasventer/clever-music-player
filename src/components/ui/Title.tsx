@@ -1,7 +1,7 @@
 import React from "react";
 
 interface TitleProps {
-	order: 1 | 2 | 3 | 4;
+	order: 1 | 2 | 3 | 4 | 5 | 6;
 	text?: string;
 	icon?: React.ReactNode;
 	color?: "theme" | "danger" | "warning";
@@ -42,6 +42,10 @@ export const Title: React.FC<TitleProps> = ({ order, text, icon, color = "theme"
 				return <h3 className={getTitleClasses()}>{content}</h3>;
 			case 4:
 				return <h4 className={getTitleClasses()}>{content}</h4>;
+			case 5:
+				return <h5 className={getTitleClasses()}>{content}</h5>;
+			case 6:
+				return <h6 className={getTitleClasses()}>{content}</h6>;
 			default:
 				return <h1 className={getTitleClasses()}>{content}</h1>;
 		}
