@@ -1,4 +1,4 @@
-import { Button, Card, Title } from "@/components/ui";
+import { Button, Card, InputBottomLine, Title } from "@/components/ui";
 import { Horizontal, Vertical } from "@/utils/ComponentToolbox";
 import { AlertTriangle, Eye, FolderOpen, RotateCcw, Target, Trash2 } from "lucide-react";
 
@@ -11,7 +11,10 @@ export const DangerZone = () => {
 					<Horizontal justifyContent="space-between" className="danger-zone-controls">
 						<Horizontal className="danger-zone-input-group">
 							<div className="danger-zone-label">Threshold:</div>
-							<input type="number" className="input-number-small" defaultValue="3" />
+							<Horizontal alignItems="center" style={{ gap: 4 }}>
+								<InputBottomLine type="number" max={99} style={{ width: 48 }} inputMode="numeric" />
+								<span style={{ color: "#fecaca", fontWeight: 500 }}>%</span>
+							</Horizontal>
 						</Horizontal>
 						<div className="danger-zone-badge icon-with-text-small">
 							<AlertTriangle size={14} />

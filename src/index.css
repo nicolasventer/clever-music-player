@@ -281,6 +281,30 @@ input[type="number"]:focus {
 	font-weight: 600;
 }
 
+.input-bottom-line {
+	border: none !important;
+	border-bottom: 2px solid #ccc !important;
+	background: transparent !important;
+	border-radius: 0 !important;
+	outline: none;
+	padding: 4px 0;
+	font-size: 1rem;
+	color: inherit;
+	transition: border-color 0.2s;
+}
+.input-bottom-line:focus {
+	border-bottom-color: #e53935 !important;
+}
+
+.input-bottom-line[type="number"]::-webkit-inner-spin-button,
+.input-bottom-line[type="number"]::-webkit-outer-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+.input-bottom-line[type="number"] {
+	-moz-appearance: textfield;
+}
+
 /* Tables */
 table {
 	width: 100%;
