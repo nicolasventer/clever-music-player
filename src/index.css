@@ -410,7 +410,7 @@ tfoot th {
 	right: 0;
 	bottom: 0;
 	background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-	animation: shimmer 2s infinite;
+	animation: shimmer 3s infinite;
 }
 
 @keyframes shimmer {
@@ -418,7 +418,7 @@ tfoot th {
 		transform: translateX(-100%);
 	}
 	100% {
-		transform: translateX(100%);
+		transform: translateX(200%);
 	}
 }
 
@@ -441,6 +441,16 @@ tfoot th {
 .danger-zone-input-group {
 	align-items: center;
 	gap: 12px;
+}
+
+@media (max-width: 768px) {
+	.danger-zone-controls {
+		font-size: 14px;
+	}
+
+	.danger-zone-badge {
+		font-size: 10px;
+	}
 }
 
 .danger-zone-label {
@@ -616,9 +626,6 @@ button:disabled {
 /* Right-align for score column in tables */
 .score-col {
 	text-align: right;
-	display: flex;
-	justify-content: flex-end;
-	align-items: center;
 }
 
 /* Responsive .title-1 at the end for override */

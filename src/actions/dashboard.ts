@@ -2,17 +2,19 @@ import { setAppWithUpdate } from "@/globalState";
 
 const updateSongFilter = (filter: string) => setAppWithUpdate((app) => (app.dashboard.songFilter = filter));
 
-const startEditMode = () => setAppWithUpdate((app) => (app.dashboard.editedSongList = app.songList));
-
-const cancelEditMode = () => setAppWithUpdate((app) => (app.dashboard.editedSongList = null));
-
-const saveEditMode = () =>
+const increaseSkipOdds = (folderIndex: number, songIndex: number) =>
 	setAppWithUpdate((app) => {
-		if (app.dashboard.editedSongList) app.songList = app.dashboard.editedSongList;
-		app.dashboard.editedSongList = null;
+		const song = app.folderList[folderIndex].songList[songIndex];
+		song.skipOdds = Math.min(song.skipOdds + 0.05, 1);
+	});
+
+const decreaseSkipOdds = (folderIndex: number, songIndex: number) =>
+	setAppWithUpdate((app) => {
+		const song = app.folderList[folderIndex].songList[songIndex];
+		song.skipOdds = Math.max(song.skipOdds - 0.05, 0);
 	});
 
 export const dashboard = {
 	songFilter: { update: updateSongFilter },
-	editMode: { start: startEditMode, cancel: cancelEditMode, save: saveEditMode },
+	skipOdds: { increase: increaseSkipOdds, decrease: decreaseSkipOdds },
 };

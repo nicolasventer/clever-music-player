@@ -11,12 +11,17 @@ export type PlaylistTab = (typeof PLAYLIST_TABS)[number];
 export type Song = {
 	filename: string;
 	title: string;
+	album: string;
 	artist: string;
 	picture: Blob;
-	skipCount: number;
-	actionCount: number;
-	isBanned: boolean; // if true, automatically skipped
-	folderList: string[]; // can have several or can be empty, if empty not considered in threshold deletion
+	skipOdds: number;
+	playOrSkipCount: number;
+	isBanned: boolean; // if true, automatically skipped, increase playOrSkipCount but no change in skipOdds
+};
+
+export type Folder = {
+	folderName: string; // name randomly generated
+	songList: Song[];
 };
 
 export const appStore = store({
@@ -33,15 +38,12 @@ export const appStore = store({
 	},
 	dashboard: {
 		songFilter: "",
-		editedSongList: null as Song[] | null,
 	},
 	dangerZone: {
 		threshold: 0.75,
 		isShowBelowEnabled: false,
-		editedSongList: null as Song[] | null,
 	},
-	songList: [] as Song[],
-	folderList: [] as string[], // folder path
+	folderList: [] as Folder[],
 });
 
 export const useApp = () => appStore.use();
@@ -49,3 +51,5 @@ export const useApp = () => appStore.use();
 export type AppState = TypeOfStore<typeof appStore>;
 
 export const setAppWithUpdate = (update: (app: AppState) => void) => appStore.setValue((prev) => cloneWithUpdate(prev, update));
+
+export const folderInfoHandleMap = new Map<string, FileSystemFileHandle>();

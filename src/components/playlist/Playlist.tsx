@@ -76,6 +76,8 @@ const PlaylistSongs = () => (
 	</Vertical>
 );
 
+const handleOpenFolder = () => window.showDirectoryPicker().then(actions.playlist.folder.add).catch(console.error);
+
 const PlaylistFolders = () => (
 	<Vertical widthFull>
 		<table>
@@ -84,7 +86,7 @@ const PlaylistFolders = () => (
 					<th colSpan={2}>
 						<Horizontal justifyContent="space-between">
 							<Title order={3} text="Folders" icon={<FolderOpen size={20} style={{ marginTop: 4 }} />} className="no-margin" />
-							<Button icon={<Plus size={16} />} variant="light" />
+							<Button icon={<Plus size={16} />} variant="light" onClick={handleOpenFolder} />
 						</Horizontal>
 					</th>
 				</tr>
@@ -113,6 +115,11 @@ const PlaylistFolders = () => (
 					</td>
 				</tr>
 			</tbody>
+			<tfoot>
+				<tr>
+					<th className="table-footer">📊 Total: 208 songs, 2h16</th>
+				</tr>
+			</tfoot>
 		</table>
 	</Vertical>
 );
