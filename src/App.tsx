@@ -1,4 +1,5 @@
 import { actions } from "@/actions/actions";
+import { NoMusicModal } from "@/components/app/NoMusicModal";
 import { DangerZone } from "@/components/dangerZone/DangerZone";
 import { Dashboard } from "@/components/dashboard/Dashboard";
 import { Player } from "@/components/player/Player";
@@ -9,10 +10,17 @@ import PWABadge from "@/PWABadge";
 import { FullViewport, Horizontal, Vertical, WriteToolboxClasses } from "@/utils/ComponentToolbox";
 import { useOs } from "@/utils/useOs";
 import { AlertTriangle, BarChart3, ListMusic, Music } from "lucide-react";
+import { useEffect } from "react";
 
 export const App = () => {
 	const app = useApp();
 	const os = useOs();
+
+	useEffect(() => {
+		if (app.folderList.length === 0 && !app.bShowNoFolderModal) actions.app.noFolderModal.open();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+	console.log(`app.bShowNoFolderModal: ${app.bShowNoFolderModal}`);
 
 	return (
 		<FullViewport>
@@ -28,28 +36,29 @@ export const App = () => {
 						isActive={app.currentTab === "Player"}
 						tabCount={4}
 						icon={<Music size={16} />}
-						onClick={() => actions.currentTab.update("Player")}
+						onClick={() => actions.app.currentTab.update("Player")}
 					/>
 					<Tab
 						isActive={app.currentTab === "Playlist"}
 						tabCount={4}
 						icon={<ListMusic size={16} />}
-						onClick={() => actions.currentTab.update("Playlist")}
+						onClick={() => actions.app.currentTab.update("Playlist")}
 					/>
 					<Tab
 						isActive={app.currentTab === "Dashboard"}
 						tabCount={4}
 						icon={<BarChart3 size={16} />}
-						onClick={() => actions.currentTab.update("Dashboard")}
+						onClick={() => actions.app.currentTab.update("Dashboard")}
 					/>
 					<Tab
 						isActive={app.currentTab === "Danger Zone"}
 						tabCount={4}
 						icon={<AlertTriangle size={16} />}
-						onClick={() => actions.currentTab.update("Danger Zone")}
+						onClick={() => actions.app.currentTab.update("Danger Zone")}
 					/>
 				</Horizontal>
 			</Vertical>
+			<NoMusicModal isOpen={app.bShowNoFolderModal} onClose={actions.app.noFolderModal.close} />
 			<PWABadge />
 		</FullViewport>
 	);

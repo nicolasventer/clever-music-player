@@ -503,6 +503,34 @@ button:disabled {
 	color: white;
 }
 
+/* Modal styles */
+.modal-card {
+	background: rgba(255, 255, 255, 0.05);
+	backdrop-filter: blur(20px);
+	border-radius: 16px;
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.modal-card-inner {
+	background: transparent;
+	border: none;
+	box-shadow: none;
+}
+
+.modal-header {
+	margin-bottom: 16px;
+}
+
+.modal-close-btn {
+	min-width: auto;
+	padding: 8px;
+}
+
+.modal-content {
+	line-height: 1.6;
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
 	h1 {
@@ -623,9 +651,9 @@ button:disabled {
 	margin-bottom: 16px;
 }
 
-/* Right-align for score column in tables */
-.score-col {
-	text-align: right;
+.odds-text {
+	width: 50px;
+	text-align: center;
 }
 
 /* Responsive .title-1 at the end for override */

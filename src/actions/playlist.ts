@@ -88,9 +88,11 @@ const removeFolder = async (folderName: string) => {
 	setAppWithUpdate((app) => (app.folderList = app.folderList.filter((folder) => folder.folderName !== folderName)));
 };
 
+export const handleOpenFolder = () => window.showDirectoryPicker().then(addFolder).catch(console.error);
+
 export const playlist = {
 	currentTab: { update: updateCurrentTab },
 	songFilter: { update: updateSongFilter },
 	song: { ban: { update: updateSongIsBanned } },
-	folder: { add: addFolder, refreshInfo: refreshFolderInfo, remove: removeFolder },
+	folder: { handleOpen: handleOpenFolder, refreshInfo: refreshFolderInfo, remove: removeFolder },
 };

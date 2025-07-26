@@ -11,7 +11,7 @@ const PlaylistSongs = () => (
 				<tr>
 					<th colSpan={2}>
 						<Horizontal justifyContent="space-between">
-							<Title order={3} text="Songs" icon={<Music size={20} style={{ marginTop: 4 }} />} className="no-margin" />
+							<Title order={3} text="Songs" icon={<Music size={20} style={{ marginTop: 4 }} />} noMargin />
 							<SearchInput value="" placeholder="Search songs..." />
 						</Horizontal>
 					</th>
@@ -76,8 +76,6 @@ const PlaylistSongs = () => (
 	</Vertical>
 );
 
-const handleOpenFolder = () => window.showDirectoryPicker().then(actions.playlist.folder.add).catch(console.error);
-
 const PlaylistFolders = () => (
 	<Vertical widthFull>
 		<table>
@@ -85,8 +83,8 @@ const PlaylistFolders = () => (
 				<tr>
 					<th colSpan={2}>
 						<Horizontal justifyContent="space-between">
-							<Title order={3} text="Folders" icon={<FolderOpen size={20} style={{ marginTop: 4 }} />} className="no-margin" />
-							<Button icon={<Plus size={16} />} variant="light" onClick={handleOpenFolder} />
+							<Title order={3} text="Folders" icon={<FolderOpen size={20} style={{ marginTop: 4 }} />} noMargin />
+							<Button icon={<Plus size={16} />} variant="light" onClick={actions.playlist.folder.handleOpen} />
 						</Horizontal>
 					</th>
 				</tr>

@@ -1,11 +1,11 @@
-import { currentTab } from "@/actions/currentTab";
+import { app } from "@/actions/app";
 import { dangerZone } from "@/actions/dangerZone";
 import { dashboard } from "@/actions/dashboard";
 import { player } from "@/actions/player";
 import { playlist } from "@/actions/playlist";
 
 export const actions = {
-	currentTab,
+	app,
 	player,
 	playlist,
 	dashboard,

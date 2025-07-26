@@ -6,9 +6,10 @@ export type TitleProps = {
 	icon?: ReactNode;
 	color?: "theme" | "danger" | "warning";
 	className?: string;
+	noMargin?: boolean;
 };
 
-export const Title = ({ order, text, icon, color = "theme", className = "" }: TitleProps) => {
+export const Title = ({ order, text, icon, color = "theme", className = "", noMargin = false }: TitleProps) => {
 	const getTitleClasses = () => {
 		const baseClasses = [`title-${order}`];
 
@@ -20,6 +21,10 @@ export const Title = ({ order, text, icon, color = "theme", className = "" }: Ti
 
 		if (icon) {
 			baseClasses.push("icon-with-text");
+		}
+
+		if (noMargin) {
+			baseClasses.push("no-margin");
 		}
 
 		return [...baseClasses, className].filter(Boolean).join(" ");

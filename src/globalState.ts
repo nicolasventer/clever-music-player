@@ -25,6 +25,7 @@ export type Folder = {
 };
 
 export const appStore = store({
+	bShowNoFolderModal: false,
 	currentTab: "Player" as AppTab,
 	player: {
 		currentSongFileName: "",
