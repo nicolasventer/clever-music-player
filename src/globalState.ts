@@ -11,7 +11,7 @@ export type Song = {
 	title: string;
 	album: string;
 	artist: string;
-	picture: Blob | null;
+	picture: { data: number[]; type: string } | null;
 	skipOdds: number;
 	playOrSkipCount: number;
 	isBanned: boolean; // if true, automatically skipped, increase playOrSkipCount but no change in skipOdds
@@ -63,6 +63,6 @@ export const songFileMap = new Map<string, File>(); // filename -> songFileHandl
 
 export const currentAudio = new Audio();
 currentAudio.ontimeupdate = () => setAppWithUpdate((app) => (app.player.currentSong.currentTime = currentAudio.currentTime));
-currentAudio.onended = () => actions.player.song.nextSong();
+currentAudio.onended = () => actions.player.song.next();
 currentAudio.onplaying = () => setAppWithUpdate((app) => (app.player.isPlaying = true));
 currentAudio.onpause = () => setAppWithUpdate((app) => (app.player.isPlaying = false));

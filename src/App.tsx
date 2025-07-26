@@ -10,7 +10,7 @@ import PWABadge from "@/PWABadge";
 import { FullViewport, Horizontal, Vertical, WriteToolboxClasses } from "@/utils/ComponentToolbox";
 import { useOs } from "@/utils/useOs";
 import { AlertTriangle, BarChart3, ListMusic, Music } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 
 export const App = () => {
 	const app = useApp();
@@ -21,13 +21,28 @@ export const App = () => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
+	const filteredSongList = useMemo(
+		() =>
+			app.songList.filter(({ title, artist, album }) =>
+				[title, artist, album].some((x) => x.toLowerCase().includes(app.playlist.songFilter.toLowerCase()))
+			),
+		[app.playlist.songFilter, app.songList]
+	);
+
 	return (
 		<FullViewport>
 			<WriteToolboxClasses />
 			<Vertical heightFull className={os === "android" || os === "ios" ? "mobile" : "not-mobile"} paddingTop={16}>
 				<Title order={1} text="🎵 Clever Music Player" className="margin-bottom-16" />
 				{app.currentTab === "Player" && <Player player={app.player} />}
-				{app.currentTab === "Playlist" && <Playlist playlist={app.playlist} songList={app.songList} />}
+				{app.currentTab === "Playlist" && (
+					<Playlist
+						playlist={app.playlist}
+						songList={filteredSongList}
+						currentSong={app.player.currentSong.song}
+						isPlaying={app.player.isPlaying}
+					/>
+				)}
 				{app.currentTab === "Dashboard" && <Dashboard />}
 				{app.currentTab === "Danger Zone" && <DangerZone />}
 				<Horizontal gap={4}>

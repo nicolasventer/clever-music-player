@@ -11,7 +11,8 @@ export const getRandomSong = (songList: Song[]) => {
 export const playSong = (app: AppState, song: Song) => {
 	app.player.currentSong.song = song;
 	if (app.player.currentSong.imgSrc) URL.revokeObjectURL(app.player.currentSong.imgSrc);
-	app.player.currentSong.imgSrc = song.picture ? URL.createObjectURL(song.picture) : null;
+	const blob = song.picture ? new Blob([new Uint8Array(song.picture.data)], { type: song.picture.type }) : null;
+	app.player.currentSong.imgSrc = blob ? URL.createObjectURL(blob) : null;
 	app.player.rollbackSongList.push({ ...song });
 	if (app.player.rollbackSongList.length > 10) app.player.rollbackSongList.shift();
 };

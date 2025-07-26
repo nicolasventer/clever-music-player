@@ -1,10 +1,21 @@
 import { actions } from "@/actions/actions";
+import { displayArtistAlbum } from "@/components/componentUtil";
 import { Button, SearchInput, Title } from "@/components/ui";
-import type { AppState } from "@/globalState";
+import { currentAudio, type AppState, type Song } from "@/globalState";
 import { Horizontal, Vertical } from "@/utils/ComponentToolbox";
-import { Ban, FolderOpen, Music, Play, RefreshCw } from "lucide-react";
+import { Ban, FolderOpen, Music, Pause, Play, RefreshCw } from "lucide-react";
 
-const PlaylistSongs = ({ songFilter, songList }: { songFilter: string; songList: AppState["songList"] }) => (
+const PlaylistSongs = ({
+	songFilter,
+	songList,
+	currentSong,
+	isPlaying,
+}: {
+	songFilter: string;
+	songList: AppState["songList"];
+	currentSong: Song | null;
+	isPlaying: boolean;
+}) => (
 	<Vertical widthFull>
 		<table>
 			<thead>
@@ -18,57 +29,54 @@ const PlaylistSongs = ({ songFilter, songList }: { songFilter: string; songList:
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
+				{songList.length === 0 && (
+					<tr>
+						<td colSpan={2}>
+							<Title order={5} text="No songs found" />
+						</td>
+					</tr>
+				)}
+				{songList.map((song, index) => (
+					<tr key={song.filename}>
+						<td>
+							<Title order={5} text={`🎶 ${song.title}`} />
+							<Title order={6} text={displayArtistAlbum(song)} />
+						</td>
+						<td>
+							<Horizontal gap={16} justifyContent="flex-end">
+								{isPlaying && currentSong?.filename === song.filename ? (
+									<Button icon={<Pause size={14} />} variant="filled" onClick={actions.player.song.pause} />
+								) : (
+									<Button
+										icon={<Play size={14} />}
+										variant="filled"
+										onClick={actions.player.song.playFn(
+											song,
+											currentSong?.filename === song.filename ? currentAudio.currentTime : 0
+										)}
+									/>
+								)}
+
+								<Button
+									icon={<Ban size={14} />}
+									variant="filled"
+									color="danger"
+									onClick={actions.playlist.song.ban.toggleFn(index)}
+								/>
+							</Horizontal>
+						</td>
+					</tr>
+				))}
+				{/* <tr>
 					<th className="table-header-alphabet" colSpan={2}>
 						A
 					</th>
-				</tr>
-				<tr>
-					<td>
-						<Title order={5} text="🎶 Bohemian Rhapsody" />
-						<Title order={6} text="👤 Queen • A Night at the Opera" />
-					</td>
-					<td>
-						<Horizontal gap={16} justifyContent="flex-end">
-							<Button icon={<Play size={14} />} variant="filled" />
-							<Button icon={<Ban size={14} />} variant="filled" color="danger" />
-						</Horizontal>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<Title order={5} text="🎶 Another One Bites the Dust" />
-						<Title order={6} text="👤 Queen • The Game" />
-					</td>
-					<td>
-						<Horizontal gap={16} justifyContent="flex-end">
-							<Button icon={<Play size={14} />} variant="filled" />
-							<Button icon={<Ban size={14} />} variant="filled" color="danger" />
-						</Horizontal>
-					</td>
-				</tr>
-				<tr>
-					<th className="table-header-alphabet" colSpan={2}>
-						B
-					</th>
-				</tr>
-				<tr>
-					<td>
-						<Title order={5} text="🎶 Bohemian Rhapsody (Live)" />
-						<Title order={6} text="👤 Queen • Live at Wembley" />
-					</td>
-					<td>
-						<Horizontal gap={16} justifyContent="flex-end">
-							<Button icon={<Play size={14} />} variant="filled" />
-							<Button icon={<Ban size={14} />} variant="filled" color="danger" />
-						</Horizontal>
-					</td>
-				</tr>
+				</tr> */}
 			</tbody>
 			<tfoot>
 				<tr>
 					<th colSpan={2} className="table-footer">
-						📊 Total: 420 songs, 2h35
+						📊 Total: {songList.length} songs, 2h35
 					</th>
 				</tr>
 			</tfoot>
@@ -76,12 +84,22 @@ const PlaylistSongs = ({ songFilter, songList }: { songFilter: string; songList:
 	</Vertical>
 );
 
-export const Playlist = ({ playlist, songList }: { playlist: AppState["playlist"]; songList: AppState["songList"] }) => (
+export const Playlist = ({
+	playlist,
+	songList,
+	currentSong,
+	isPlaying,
+}: {
+	playlist: AppState["playlist"];
+	songList: AppState["songList"];
+	currentSong: Song | null;
+	isPlaying: boolean;
+}) => (
 	<Vertical alignItems="center" flexGrow className="container" overflowAuto>
 		<Horizontal justifyContent="space-between" gap={16} widthFull marginTop={12}>
 			<Button icon={<RefreshCw size={16} />} text="Refresh" variant="light" onClick={actions.playlist.folder.refresh} />
 			<Button icon={<FolderOpen size={16} />} text="Open Folder" variant="filled" onClick={actions.playlist.folder.handleOpen} />
 		</Horizontal>
-		<PlaylistSongs songFilter={playlist.songFilter} songList={songList} />
+		<PlaylistSongs songFilter={playlist.songFilter} songList={songList} currentSong={currentSong} isPlaying={isPlaying} />
 	</Vertical>
 );

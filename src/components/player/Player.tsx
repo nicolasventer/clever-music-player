@@ -1,21 +1,10 @@
 import { actions } from "@/actions/actions";
+import { displayArtistAlbum, formatTime } from "@/components/componentUtil";
 import { Button, Title } from "@/components/ui";
 import type { AppState } from "@/globalState";
-import { currentAudio, type Song } from "@/globalState";
+import { currentAudio } from "@/globalState";
 import { Horizontal, Vertical } from "@/utils/ComponentToolbox";
 import { Pause, Play, SkipBack, SkipForward } from "lucide-react";
-
-const formatTime = (time: number) => {
-	const minutes = Math.floor(time / 60);
-	const seconds = Math.floor(time % 60);
-	return `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
-};
-
-const displayArtistAlbum = (song: Song | null) => {
-	if (!song?.artist) return "No artist selected";
-	if (!song.album) return song.artist;
-	return `${song.artist} • ${song.album}`;
-};
 
 export const Player = ({ player }: { player: AppState["player"] }) => (
 	<Vertical alignItems="center" flexGrow>
@@ -42,14 +31,20 @@ export const Player = ({ player }: { player: AppState["player"] }) => (
 				></div>
 			</div>
 			<Horizontal justifyContent="center" style={{ gap: "16px", marginTop: "24px" }}>
-				<Button icon={<SkipBack size={20} />} variant="filled" isCompact />
+				<Button
+					icon={<SkipBack size={20} />}
+					variant="filled"
+					isCompact
+					disabled={player.rollbackSongList.length === 1 && currentAudio.currentTime < 10}
+					onClick={actions.player.song.previous}
+				/>
 				<Button
 					icon={player.isPlaying ? <Pause size={20} /> : <Play size={20} />}
 					variant="filled"
 					isCompact
 					onClick={actions.player.song.pressPlayFn(player.currentSong.song, player.currentSong.currentTime)}
 				/>
-				<Button icon={<SkipForward size={20} />} variant="filled" isCompact onClick={actions.player.song.nextSong} />
+				<Button icon={<SkipForward size={20} />} variant="filled" isCompact onClick={actions.player.song.next} />
 			</Horizontal>
 		</Vertical>
 	</Vertical>

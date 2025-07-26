@@ -7,7 +7,7 @@ import Mp3Tag from "mp3tag.js";
 
 const updateSongFilter = (filter: string) => setAppWithUpdate((app) => (app.playlist.songFilter = filter));
 
-const toggleSongIsBanned = (index: number) =>
+const toggleSongIsBannedFn = (index: number) => () =>
 	setAppWithUpdate((app) => (app.songList[index].isBanned = !app.songList[index].isBanned));
 
 const openFolder = async (dirHandle: FileSystemDirectoryHandle) => {
@@ -37,7 +37,13 @@ const openFolder = async (dirHandle: FileSystemDirectoryHandle) => {
 				album: mp3tag.tags.album,
 				artist: mp3tag.tags.artist,
 				filename: fileHandle.name,
-				picture: apic && apic[0] ? new Blob([new Uint8Array(apic[0].data)], { type: apic[0].format }) : null,
+				picture:
+					apic && apic[0]
+						? {
+								data: apic[0].data,
+								type: apic[0].format,
+						  }
+						: null,
 				skipOdds: fileMap.get(fileHandle.name)?.skipOdds ?? 0,
 				playOrSkipCount: fileMap.get(fileHandle.name)?.playOrSkipCount ?? 0,
 				isBanned: fileMap.get(fileHandle.name)?.isBanned ?? false,
@@ -89,6 +95,6 @@ const refreshFolder = () => {
 
 export const playlist = {
 	songFilter: { update: updateSongFilter },
-	song: { ban: { toggle: toggleSongIsBanned } },
+	song: { ban: { toggleFn: toggleSongIsBannedFn } },
 	folder: { handleOpen: handleOpenFolder, writeInfo: writeFolderInfo, refresh: refreshFolder },
 };
