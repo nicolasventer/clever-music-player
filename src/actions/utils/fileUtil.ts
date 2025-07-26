@@ -24,7 +24,7 @@ export const getFolderInfo = async (folderInfoHandle: FileSystemFileHandle) => {
 		const folderInfoFile = await folderInfoHandle.getFile();
 		const folderInfoText = await folderInfoFile.text();
 		return JSON.parse(folderInfoText) as Folder;
-	} catch (e) {
+	} catch {
 		return null;
 	}
 };

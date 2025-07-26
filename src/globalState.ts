@@ -13,7 +13,7 @@ export type Song = {
 	title: string;
 	album: string;
 	artist: string;
-	picture: Blob;
+	picture: Blob | null;
 	skipOdds: number;
 	playOrSkipCount: number;
 	isBanned: boolean; // if true, automatically skipped, increase playOrSkipCount but no change in skipOdds
@@ -28,10 +28,14 @@ export const appStore = store({
 	bShowNoFolderModal: false,
 	currentTab: "Player" as AppTab,
 	player: {
-		currentSongFileName: "",
+		currentSong: {
+			song: null as Song | null,
+			currentTime: 0,
+			imgSrc: null as string | null,
+		},
 		isPlaying: false,
-		currentSongTime: 0,
 		isEndTimeAbsoluteDisplayed: false,
+		rollbackSongList: [] as Song[], // storing the song to apply when rollback, max length is 10
 	},
 	playlist: {
 		currentTab: "Songs" as PlaylistTab,
@@ -53,4 +57,20 @@ export type AppState = TypeOfStore<typeof appStore>;
 
 export const setAppWithUpdate = (update: (app: AppState) => void) => appStore.setValue((prev) => cloneWithUpdate(prev, update));
 
-export const folderInfoHandleMap = new Map<string, FileSystemFileHandle>();
+export const folderHandleMap = new Map<string, FileSystemDirectoryHandle>(); // folderName -> folderHandle
+
+export const folderInfoHandleMap = new Map<string, FileSystemFileHandle>(); // folderName -> folderInfoFileHandle
+
+export const songFileMap = new Map<string, File>(); // filename -> songFileHandle
+
+export const currentSong = {
+	audio: null as HTMLAudioElement | null,
+};
+
+export type SongId = {
+	folderIndex: number;
+	songIndex: number;
+};
+
+export const songIdListMap = new Map<string, SongId[]>();
+export const songList: Song[] = [];
