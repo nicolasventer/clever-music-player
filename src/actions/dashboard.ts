@@ -1,22 +1,12 @@
-import { setAppWithUpdate, songIdListMap } from "@/globalState";
+import { setAppWithUpdate } from "@/globalState";
 
 const updateSongFilter = (filter: string) => setAppWithUpdate((app) => (app.dashboard.songFilter = filter));
 
-const increaseSkipOdds = (filename: string) =>
-	setAppWithUpdate((app) => {
-		songIdListMap.get(filename)?.forEach(({ folderIndex, songIndex }) => {
-			const song = app.folderList[folderIndex].songList[songIndex];
-			song.skipOdds = Math.min(song.skipOdds + 0.05, 1);
-		});
-	});
+const increaseSkipOdds = (index: number) =>
+	setAppWithUpdate((app) => (app.songList[index].skipOdds = Math.min(app.songList[index].skipOdds + 0.05, 1)));
 
-const decreaseSkipOdds = (filename: string) =>
-	setAppWithUpdate((app) => {
-		songIdListMap.get(filename)?.forEach(({ folderIndex, songIndex }) => {
-			const song = app.folderList[folderIndex].songList[songIndex];
-			song.skipOdds = Math.max(song.skipOdds - 0.05, 0);
-		});
-	});
+const decreaseSkipOdds = (index: number) =>
+	setAppWithUpdate((app) => (app.songList[index].skipOdds = Math.max(app.songList[index].skipOdds - 0.05, 0)));
 
 export const dashboard = {
 	songFilter: { update: updateSongFilter },

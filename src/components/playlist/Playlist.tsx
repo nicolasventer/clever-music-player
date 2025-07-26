@@ -1,10 +1,10 @@
 import { actions } from "@/actions/actions";
-import { Button, SearchInput, Tab, Title } from "@/components/ui";
+import { Button, SearchInput, Title } from "@/components/ui";
 import type { AppState } from "@/globalState";
 import { Horizontal, Vertical } from "@/utils/ComponentToolbox";
-import { Ban, FolderOpen, Music, Play, Plus, RefreshCw, Trash2 } from "lucide-react";
+import { Ban, FolderOpen, Music, Play, RefreshCw } from "lucide-react";
 
-const PlaylistSongs = () => (
+const PlaylistSongs = ({ songFilter, songList }: { songFilter: string; songList: AppState["songList"] }) => (
 	<Vertical widthFull>
 		<table>
 			<thead>
@@ -12,7 +12,7 @@ const PlaylistSongs = () => (
 					<th colSpan={2}>
 						<Horizontal justifyContent="space-between">
 							<Title order={3} text="Songs" icon={<Music size={20} style={{ marginTop: 4 }} />} noMargin />
-							<SearchInput value="" placeholder="Search songs..." />
+							<SearchInput value={songFilter} placeholder="Search songs..." onChange={actions.playlist.songFilter.update} />
 						</Horizontal>
 					</th>
 				</tr>
@@ -76,74 +76,12 @@ const PlaylistSongs = () => (
 	</Vertical>
 );
 
-const PlaylistFolders = () => (
-	<Vertical widthFull>
-		<table>
-			<thead>
-				<tr>
-					<th colSpan={2}>
-						<Horizontal justifyContent="space-between">
-							<Title order={3} text="Folders" icon={<FolderOpen size={20} style={{ marginTop: 4 }} />} noMargin />
-							<Button icon={<Plus size={16} />} variant="light" onClick={actions.playlist.folder.handleOpen} />
-						</Horizontal>
-					</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>
-						<Horizontal justifyContent="space-between">
-							<Vertical gap={4}>
-								<Title order={5} text="C:/Users/John Doe/Music" />
-								<Title order={6} text="📂 123 songs, 1h23" />
-							</Vertical>
-							<Button icon={<Trash2 size={16} />} variant="light" color="danger" />
-						</Horizontal>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<Horizontal justifyContent="space-between">
-							<Vertical gap={4}>
-								<Title order={5} text="C:/Users/Ricky/Music/Rock" />
-								<Title order={6} text="📂 85 songs, 0h53" />
-							</Vertical>
-							<Button icon={<Trash2 size={16} />} variant="light" color="danger" />
-						</Horizontal>
-					</td>
-				</tr>
-			</tbody>
-			<tfoot>
-				<tr>
-					<th className="table-footer">📊 Total: 208 songs, 2h16</th>
-				</tr>
-			</tfoot>
-		</table>
-	</Vertical>
-);
-
-export const Playlist = ({ playlist }: { playlist: AppState["playlist"] }) => (
+export const Playlist = ({ playlist, songList }: { playlist: AppState["playlist"]; songList: AppState["songList"] }) => (
 	<Vertical alignItems="center" flexGrow className="container" overflowAuto>
-		<Horizontal justifyContent="flex-end" positionAbsolute style={{ top: 0, right: 0, padding: 16 }}>
-			<Button icon={<RefreshCw size={16} />} variant="light" />
+		<Horizontal justifyContent="space-between" gap={16} widthFull marginTop={12}>
+			<Button icon={<RefreshCw size={16} />} text="Refresh" variant="light" onClick={actions.playlist.folder.refresh} />
+			<Button icon={<FolderOpen size={16} />} text="Open Folder" variant="filled" onClick={actions.playlist.folder.handleOpen} />
 		</Horizontal>
-		<Horizontal gap={4} widthFull>
-			<Tab
-				isActive={playlist.currentTab === "Songs"}
-				tabCount={2}
-				text="Songs"
-				icon={<Music size={16} />}
-				onClick={() => actions.playlist.currentTab.update("Songs")}
-			/>
-			<Tab
-				isActive={playlist.currentTab === "Folders"}
-				tabCount={2}
-				text="Folders"
-				icon={<FolderOpen size={16} />}
-				onClick={() => actions.playlist.currentTab.update("Folders")}
-			/>
-		</Horizontal>
-		{playlist.currentTab === "Songs" && <PlaylistSongs />}
-		{playlist.currentTab === "Folders" && <PlaylistFolders />}
+		<PlaylistSongs songFilter={playlist.songFilter} songList={songList} />
 	</Vertical>
 );

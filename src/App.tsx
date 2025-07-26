@@ -17,7 +17,7 @@ export const App = () => {
 	const os = useOs();
 
 	useEffect(() => {
-		if (app.folderList.length === 0 && !app.bShowNoFolderModal) actions.app.noFolderModal.open();
+		if (app.songList.length === 0 && !app.bShowNoFolderModal) actions.app.noFolderModal.open();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
@@ -27,7 +27,7 @@ export const App = () => {
 			<Vertical heightFull className={os === "android" || os === "ios" ? "mobile" : "not-mobile"} paddingTop={16}>
 				<Title order={1} text="🎵 Clever Music Player" className="margin-bottom-16" />
 				{app.currentTab === "Player" && <Player player={app.player} />}
-				{app.currentTab === "Playlist" && <Playlist playlist={app.playlist} />}
+				{app.currentTab === "Playlist" && <Playlist playlist={app.playlist} songList={app.songList} />}
 				{app.currentTab === "Dashboard" && <Dashboard />}
 				{app.currentTab === "Danger Zone" && <DangerZone />}
 				<Horizontal gap={4}>

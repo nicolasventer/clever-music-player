@@ -1,12 +1,10 @@
+import { actions } from "@/actions/actions";
 import { cloneWithUpdate } from "@/utils/ISerializable";
 import type { TypeOfStore } from "@/utils/Store";
 import { store } from "@/utils/Store";
 
 export const APP_TABS = ["Player", "Playlist", "Dashboard", "Danger Zone"] as const;
 export type AppTab = (typeof APP_TABS)[number];
-
-export const PLAYLIST_TABS = ["Songs", "Folders"] as const;
-export type PlaylistTab = (typeof PLAYLIST_TABS)[number];
 
 export type Song = {
 	filename: string;
@@ -38,7 +36,6 @@ export const appStore = store({
 		rollbackSongList: [] as Song[], // storing the song to apply when rollback, max length is 10
 	},
 	playlist: {
-		currentTab: "Songs" as PlaylistTab,
 		songFilter: "",
 	},
 	dashboard: {
@@ -48,7 +45,7 @@ export const appStore = store({
 		threshold: 0.75,
 		isShowBelowEnabled: false,
 	},
-	folderList: [] as Folder[],
+	songList: [] as Song[],
 });
 
 export const useApp = () => appStore.use();
@@ -57,20 +54,15 @@ export type AppState = TypeOfStore<typeof appStore>;
 
 export const setAppWithUpdate = (update: (app: AppState) => void) => appStore.setValue((prev) => cloneWithUpdate(prev, update));
 
-export const folderHandleMap = new Map<string, FileSystemDirectoryHandle>(); // folderName -> folderHandle
-
-export const folderInfoHandleMap = new Map<string, FileSystemFileHandle>(); // folderName -> folderInfoFileHandle
+export const folder = {
+	folderHandle: null as FileSystemDirectoryHandle | null,
+	folderInfoHandle: null as FileSystemFileHandle | null,
+};
 
 export const songFileMap = new Map<string, File>(); // filename -> songFileHandle
 
-export const currentSong = {
-	audio: null as HTMLAudioElement | null,
-};
-
-export type SongId = {
-	folderIndex: number;
-	songIndex: number;
-};
-
-export const songIdListMap = new Map<string, SongId[]>();
-export const songList: Song[] = [];
+export const currentAudio = new Audio();
+currentAudio.ontimeupdate = () => setAppWithUpdate((app) => (app.player.currentSong.currentTime = currentAudio.currentTime));
+currentAudio.onended = () => actions.player.song.nextSong();
+currentAudio.onplaying = () => setAppWithUpdate((app) => (app.player.isPlaying = true));
+currentAudio.onpause = () => setAppWithUpdate((app) => (app.player.isPlaying = false));

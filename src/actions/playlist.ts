@@ -1,41 +1,19 @@
-import { actions } from "@/actions/actions";
+import { getRandomSong, playAudio, playSong } from "@/actions/songUtil";
 import { getFilesRecursively, getFolderInfo, getFolderInfoFile, isMusicFile } from "@/actions/utils/fileUtil";
-import type { Folder, PlaylistTab, Song } from "@/globalState";
-import { folderHandleMap, folderInfoHandleMap, setAppWithUpdate, songFileMap, songIdListMap, songList } from "@/globalState";
+import type { Folder, Song } from "@/globalState";
+import { folder, setAppWithUpdate, songFileMap } from "@/globalState";
 import randomName from "@scaleway/random-name";
 import Mp3Tag from "mp3tag.js";
 
-const updateCurrentTab = (tab: PlaylistTab) => setAppWithUpdate((app) => (app.playlist.currentTab = tab));
-
 const updateSongFilter = (filter: string) => setAppWithUpdate((app) => (app.playlist.songFilter = filter));
 
-const toggleSongIsBanned = (filename: string) =>
-	setAppWithUpdate((app) => {
-		songIdListMap
-			.get(filename)
-			?.forEach(
-				({ folderIndex, songIndex }) =>
-					(app.folderList[folderIndex].songList[songIndex].isBanned = !app.folderList[folderIndex].songList[songIndex].isBanned)
-			);
-	});
+const toggleSongIsBanned = (index: number) =>
+	setAppWithUpdate((app) => (app.songList[index].isBanned = !app.songList[index].isBanned));
 
-const _refreshSongList = (folderList: Folder[]) => {
-	songIdListMap.clear();
-	songList.length = 0;
-
-	folderList.forEach((folder, folderIndex) => {
-		folder.songList.forEach((song, songIndex) => {
-			const oldSongIdList = songIdListMap.get(song.filename);
-			if (oldSongIdList) songList.push(song);
-			const songIdList = oldSongIdList ?? [];
-			songIdList.push({ folderIndex, songIndex });
-			songIdListMap.set(song.filename, songIdList);
-		});
-	});
-};
-
-const addFolder = async (dirHandle: FileSystemDirectoryHandle) => {
+const openFolder = async (dirHandle: FileSystemDirectoryHandle) => {
 	try {
+		songFileMap.clear();
+
 		const folderInfoHandle = await getFolderInfoFile(dirHandle);
 		const folderInfo = await getFolderInfo(folderInfoHandle);
 		const fileMap = new Map<string, Song>();
@@ -65,15 +43,17 @@ const addFolder = async (dirHandle: FileSystemDirectoryHandle) => {
 				isBanned: fileMap.get(fileHandle.name)?.isBanned ?? false,
 			});
 		}
-		folderHandleMap.set(newFolderInfo.folderName, dirHandle);
-		folderInfoHandleMap.set(newFolderInfo.folderName, folderInfoHandle);
+		folder.folderHandle = dirHandle;
+		folder.folderInfoHandle = folderInfoHandle;
+		// TODO: take care of songList.length === 0
+		const randomSong = getRandomSong(newFolderInfo.songList);
 		setAppWithUpdate((app) => {
 			app.bShowNoFolderModal = false;
-			app.folderList = [...app.folderList.filter((folder) => folder.folderName !== folderInfo?.folderName), newFolderInfo];
-			_refreshSongList(app.folderList);
+			app.songList = newFolderInfo.songList;
+			playSong(app, randomSong);
 		});
-		await writeFolderInfo(newFolderInfo);
-		actions.player.currentSong.updateToRandom();
+		playAudio(randomSong, 0);
+		writeFolderInfo(newFolderInfo);
 	} catch (e) {
 		console.error(e);
 	}
@@ -92,25 +72,23 @@ const folderToFolderInfo = (folder: Folder): FolderInfo => ({
 	})),
 });
 
-const writeFolderInfo = async (folder: Folder) => {
-	const folderInfoHandle = folderInfoHandleMap.get(folder.folderName);
-	if (!folderInfoHandle) return;
-	const writable = await folderInfoHandle.createWritable();
-	const folderInfo = folderToFolderInfo(folder);
+const writeFolderInfo = async (f: Folder) => {
+	if (!folder.folderInfoHandle) return;
+	const writable = await folder.folderInfoHandle.createWritable();
+	const folderInfo = folderToFolderInfo(f);
 	writable.write(JSON.stringify(folderInfo));
 	writable.close();
 };
 
-const removeFolder = async (folderName: string) => {
-	folderInfoHandleMap.delete(folderName);
-	setAppWithUpdate((app) => (app.folderList = app.folderList.filter((folder) => folder.folderName !== folderName)));
+const handleOpenFolder = () => window.showDirectoryPicker().then(openFolder).catch(console.error);
+
+const refreshFolder = () => {
+	if (!folder.folderHandle) return;
+	openFolder(folder.folderHandle);
 };
 
-export const handleOpenFolder = () => window.showDirectoryPicker().then(addFolder).catch(console.error);
-
 export const playlist = {
-	currentTab: { update: updateCurrentTab },
 	songFilter: { update: updateSongFilter },
 	song: { ban: { toggle: toggleSongIsBanned } },
-	folder: { handleOpen: handleOpenFolder, writeInfo: writeFolderInfo, remove: removeFolder },
+	folder: { handleOpen: handleOpenFolder, writeInfo: writeFolderInfo, refresh: refreshFolder },
 };
