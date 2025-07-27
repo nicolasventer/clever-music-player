@@ -24,6 +24,21 @@ export type Folder = {
 	songList: Song[];
 };
 
+export const LOCAL_STORAGE_KEY = "cleverMusicPlayer_globalState" as const;
+
+export type LocalStorageState = {
+	threshold: number;
+};
+export const loadLocalStorageState = (): LocalStorageState => {
+	const storedLocalStorageState = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY) ?? "{}") as Partial<LocalStorageState>;
+
+	return {
+		threshold: storedLocalStorageState.threshold ?? 0.75,
+	};
+};
+const localStorageState = loadLocalStorageState();
+export const localStorageStateStore = store(localStorageState);
+
 export const appStore = store({
 	bShowNoFolderModal: false,
 	currentTab: "Player" as AppTab,
@@ -45,7 +60,7 @@ export const appStore = store({
 		songFilter: "",
 	},
 	dangerZone: {
-		threshold: 0.75,
+		threshold: localStorageStateStore.value.threshold,
 		bShowAboveModal: false,
 		bShowDeleteModal: false,
 	},

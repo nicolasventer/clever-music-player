@@ -7,7 +7,7 @@ import { Dashboard } from "@/components/dashboard/Dashboard";
 import { Player } from "@/components/player/Player";
 import { Playlist } from "@/components/playlist/Playlist";
 import { Tab, Title } from "@/components/ui";
-import { useApp } from "@/globalState";
+import { LOCAL_STORAGE_KEY, localStorageStateStore, useApp } from "@/globalState";
 import PWABadge from "@/PWABadge";
 import { FullViewport, Horizontal, Vertical, WriteToolboxClasses } from "@/utils/ComponentToolbox";
 import { useOs } from "@/utils/useOs";
@@ -17,6 +17,13 @@ import { useEffect, useMemo } from "react";
 export const App = () => {
 	const app = useApp();
 	const os = useOs();
+
+	const threshold = app.dangerZone.threshold;
+	localStorageStateStore.useEffect((setLocalStorageState) => setLocalStorageState({ threshold }), [threshold]);
+
+	// save the local storage state to the local storage
+	const localStorageState = localStorageStateStore.use();
+	useEffect(() => localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(localStorageState)), [localStorageState]);
 
 	useEffect(() => {
 		if (app.folder.songList.length === 0 && !app.bShowNoFolderModal) actions.app.noFolderModal.open();
