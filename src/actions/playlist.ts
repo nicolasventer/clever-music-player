@@ -53,10 +53,11 @@ const openFolder = async (dirHandle: FileSystemDirectoryHandle) => {
 		folder.folderHandle = dirHandle;
 		folder.folderInfoHandle = folderInfoHandle;
 		// TODO: take care of songList.length === 0
-		const randomSong = getRandomSong(newFolderInfo.songList);
+		const { randomSong, newSongList } = getRandomSong(newFolderInfo.songList);
 		setAppWithUpdate((app) => {
 			app.bShowNoFolderModal = false;
 			app.folder = newFolderInfo;
+			if (newSongList !== app.folder.songList) app.folder.songList = newSongList;
 			playSong(app, randomSong);
 		});
 		playAudio(randomSong, 0);

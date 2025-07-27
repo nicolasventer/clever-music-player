@@ -28,14 +28,14 @@ const pressPlayFn = (song: Song | null, currentTime: number) => () => {
 };
 
 const nextSong = () => {
-	const randomSong = getRandomSong(appStore.value.folder.songList);
+	const { randomSong, newSongList } = getRandomSong(appStore.value.folder.songList);
 	setAppWithUpdate((app) => {
-		playSong(app, randomSong);
-		if (!app.player.currentSong.isConsideredAsPlayed) {
-			app.folder.songList = app.folder.songList.map((song) =>
+		if (!app.player.currentSong.isConsideredAsPlayed)
+			app.folder.songList = newSongList.map((song) =>
 				song.filename === app.player.currentSong.song?.filename ? updateSongSkipOdds(song, "skip") : song
 			);
-		}
+		else if (newSongList !== app.folder.songList) app.folder.songList = newSongList;
+		playSong(app, randomSong);
 	});
 	writeFolderInfo();
 	playAudio(randomSong, 0);

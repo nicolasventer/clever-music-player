@@ -2,9 +2,19 @@ import type { AppState, Song } from "@/globalState";
 import { currentAudio, songFileMap } from "@/globalState";
 
 export const getRandomSong = (songList: Song[]) => {
-	// TODO: better get random song
-	const randomSong = songList[Math.floor(Math.random() * songList.length)];
-	return randomSong;
+	let newSongList = songList;
+	while (true) {
+		const meanPlayOrSkipCount = newSongList.reduce((acc, song) => acc + song.playOrSkipCount, 0) / newSongList.length;
+		const randomSong = newSongList[Math.floor(Math.random() * newSongList.length)];
+		if (randomSong.playOrSkipCount > meanPlayOrSkipCount + 0.5) continue;
+		if (Math.random() < randomSong.skipOdds) {
+			newSongList = newSongList.map((song) =>
+				song.filename === randomSong.filename ? updateSongSkipOdds(song, "auto-skip") : song
+			);
+			continue;
+		}
+		return { randomSong, newSongList };
+	}
 };
 
 // must be called inside setAppWithUpdate
@@ -38,6 +48,7 @@ export const updateSongSkipOdds = (song: Song, updateType: OddsUpdateType) => ({
 			? Math.max(0, song.skipOdds - 0.1)
 			: updateType === "skip"
 			? Math.min(1, song.skipOdds + 0.2)
-			: Math.max(0, song.skipOdds - 0.08 + song.skipOdds * 0.05),
+			: // auto-skip
+			  Math.max(0, song.skipOdds - 0.08 + song.skipOdds * 0.05),
 	playOrSkipCount: song.playOrSkipCount + 1,
 });
