@@ -1,14 +1,13 @@
 import type { InputHTMLAttributes } from "react";
-import { useState } from "react";
 
 export type InputBottomLineProps = Omit<InputHTMLAttributes<HTMLInputElement>, "value" | "onChange" | "max"> & {
 	className?: string;
 	max?: number;
+	value?: string;
+	setValue?: (value: string) => void;
 };
 
-export const InputBottomLine = ({ className = "", max, type = "text", ...props }: InputBottomLineProps) => {
-	const [value, setValue] = useState("");
-
+export const InputBottomLine = ({ className = "", max, type = "text", value, setValue, ...props }: InputBottomLineProps) => {
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		let val = e.target.value.replace(/[^0-9]/g, "");
 		if (max !== undefined && val) {
@@ -16,7 +15,7 @@ export const InputBottomLine = ({ className = "", max, type = "text", ...props }
 				val = String(max);
 			}
 		}
-		setValue(val);
+		setValue?.(val);
 	};
 
 	return (

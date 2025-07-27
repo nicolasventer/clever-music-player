@@ -1,5 +1,5 @@
 import { actions } from "@/actions/actions";
-import { displayArtistAlbum } from "@/components/componentUtil";
+import { displayArtistAlbum, displayTitle } from "@/components/componentUtil";
 import { Button, SearchInput, Title } from "@/components/ui";
 import { currentAudio, type AppState, type Song } from "@/globalState";
 import { Horizontal, Vertical } from "@/utils/ComponentToolbox";
@@ -39,7 +39,7 @@ const PlaylistSongs = ({
 				{filteredSongList.map((song, index) => (
 					<tr key={song.filename}>
 						<td>
-							<Title order={5} text={`🎶 ${song.title}`} />
+							<Title order={5} text={displayTitle(song)} />
 							<Title order={6} text={displayArtistAlbum(song)} />
 						</td>
 						<td>

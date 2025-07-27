@@ -46,7 +46,8 @@ export const appStore = store({
 	},
 	dangerZone: {
 		threshold: 0.75,
-		isShowBelowEnabled: false,
+		bShowAboveModal: false,
+		bShowDeleteModal: false,
 	},
 	folder: {
 		folderName: "",

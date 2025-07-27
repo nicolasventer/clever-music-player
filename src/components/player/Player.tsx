@@ -22,7 +22,7 @@ export const Player = ({ player }: { player: AppState["player"] }) => (
 		<Vertical width={300} className="player-controls">
 			<Horizontal justifyContent="space-between" className="time-display">
 				<div>{formatTime(player.currentSong.currentTime)}</div>
-				<div>{formatTime(currentAudio.duration ?? 0)}</div>
+				<div>{formatTime(isNaN(currentAudio.duration) ? 0 : currentAudio.duration)}</div>
 			</Horizontal>
 			<div className="progress-container">
 				<div

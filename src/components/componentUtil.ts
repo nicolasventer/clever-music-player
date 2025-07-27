@@ -6,8 +6,10 @@ export const formatTime = (time: number) => {
 	return `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
 };
 
+export const displayTitle = (song: Song) => `🎶 ${song.title}`;
+
 export const displayArtistAlbum = (song: Song | null) => {
 	if (!song?.artist) return "👤 No artist selected";
-	if (!song.album) return `👤 ${song.artist}`;
+	if (!song.album.trim().length) return `👤 ${song.artist}`;
 	return `👤 ${song.artist} • 💿 ${song.album}`;
 };

@@ -1,6 +1,8 @@
 import { actions } from "@/actions/actions";
 import { NoMusicModal } from "@/components/app/NoMusicModal";
+import { AboveThresholdModal } from "@/components/dangerZone/AboveThresholdModal";
 import { DangerZone } from "@/components/dangerZone/DangerZone";
+import { DeleteConfirmationModal } from "@/components/dangerZone/DeleteConfirmationModal";
 import { Dashboard } from "@/components/dashboard/Dashboard";
 import { Player } from "@/components/player/Player";
 import { Playlist } from "@/components/playlist/Playlist";
@@ -32,8 +34,13 @@ export const App = () => {
 	const sortedSongList = useMemo(() => app.folder.songList.sort((a, b) => b.skipOdds - a.skipOdds), [app.folder.songList]);
 
 	const meanSkipOdds = useMemo(
-		() => sortedSongList.reduce((acc, song) => acc + song.skipOdds, 0) / sortedSongList.length,
+		() => sortedSongList.reduce((acc, song) => acc + song.skipOdds, 0) / Math.max(sortedSongList.length, 1),
 		[sortedSongList]
+	);
+
+	const aboveThresholdSongList = useMemo(
+		() => app.folder.songList.filter((song) => song.skipOdds > app.dangerZone.threshold),
+		[app.folder.songList, app.dangerZone.threshold]
 	);
 
 	return (
@@ -51,7 +58,9 @@ export const App = () => {
 					/>
 				)}
 				{app.currentTab === "Dashboard" && <Dashboard sortedSongList={sortedSongList} meanSkipOdds={meanSkipOdds} />}
-				{app.currentTab === "Danger Zone" && <DangerZone />}
+				{app.currentTab === "Danger Zone" && (
+					<DangerZone dangerZone={app.dangerZone} aboveThresholdSongList={aboveThresholdSongList} />
+				)}
 				<Horizontal gap={4}>
 					<Tab
 						isActive={app.currentTab === "Player"}
@@ -80,6 +89,18 @@ export const App = () => {
 				</Horizontal>
 			</Vertical>
 			<NoMusicModal isOpen={app.bShowNoFolderModal} onClose={actions.app.noFolderModal.close} />
+			<AboveThresholdModal
+				isOpen={app.dangerZone.bShowAboveModal}
+				onClose={actions.dangerZone.aboveModal.close}
+				songs={aboveThresholdSongList}
+				threshold={app.dangerZone.threshold}
+			/>
+			<DeleteConfirmationModal
+				isOpen={app.dangerZone.bShowDeleteModal}
+				onClose={actions.dangerZone.deleteModal.close}
+				songs={aboveThresholdSongList}
+				threshold={app.dangerZone.threshold}
+			/>
 			<PWABadge />
 		</FullViewport>
 	);
