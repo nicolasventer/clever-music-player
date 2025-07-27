@@ -1,4 +1,5 @@
-import { getRandomSong, playAudio, playSong } from "@/actions/songUtil";
+import { writeFolderInfo } from "@/actions/folderInfoUtil";
+import { getRandomSong, playAudio, playSong, updateSongSkipOdds } from "@/actions/songUtil";
 import type { Song } from "@/globalState";
 import { appStore, currentAudio, setAppWithUpdate } from "@/globalState";
 
@@ -20,23 +21,27 @@ const pressPlayFn = (song: Song | null, currentTime: number) => () => {
 		else pauseSong();
 	} else {
 		if (song) {
-			setAppWithUpdate((app) => {
-				playSong(app, song);
-			});
+			setAppWithUpdate((app) => playSong(app, song));
 			playAudio(song, currentTime);
 		}
 	}
 };
 
 const nextSong = () => {
-	// TODO: update skipOdds of current song
-	const randomSong = getRandomSong(appStore.value.songList);
-	setAppWithUpdate((app) => playSong(app, randomSong));
+	const randomSong = getRandomSong(appStore.value.folder.songList);
+	setAppWithUpdate((app) => {
+		playSong(app, randomSong);
+		if (!app.player.currentSong.isConsideredAsPlayed) {
+			app.folder.songList = app.folder.songList.map((song) =>
+				song.filename === app.player.currentSong.song?.filename ? updateSongSkipOdds(song, "skip") : song
+			);
+		}
+	});
+	writeFolderInfo();
 	playAudio(randomSong, 0);
 };
 
 const previousSong = () => {
-	// TODO: update skipOdds of current song
 	if (currentAudio.currentTime > 10) {
 		currentAudio.currentTime = 0;
 		return;
@@ -44,12 +49,11 @@ const previousSong = () => {
 	const rollbackSongList = appStore.value.player.rollbackSongList;
 	if (rollbackSongList.length === 1) return;
 	const previousSong = rollbackSongList[rollbackSongList.length - 2];
-	// TODO: fix rollbackSongList
-	console.log(`rollbackSongList.length: ${rollbackSongList.length}`);
 	setAppWithUpdate((app) => {
-		playSong(app, previousSong);
-		// app.player.rollbackSongList.length = rollbackSongList.length - 2;
+		app.player.rollbackSongList.length = rollbackSongList.length - 1;
+		playSong(app, previousSong, true);
 	});
+	writeFolderInfo();
 	playAudio(previousSong, 0);
 };
 

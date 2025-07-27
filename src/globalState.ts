@@ -1,4 +1,6 @@
 import { actions } from "@/actions/actions";
+import { writeFolderInfo } from "@/actions/folderInfoUtil";
+import { updateSongSkipOdds } from "@/actions/songUtil";
 import { cloneWithUpdate } from "@/utils/ISerializable";
 import type { TypeOfStore } from "@/utils/Store";
 import { store } from "@/utils/Store";
@@ -30,6 +32,7 @@ export const appStore = store({
 			song: null as Song | null,
 			currentTime: 0,
 			imgSrc: null as string | null,
+			isConsideredAsPlayed: false,
 		},
 		isPlaying: false,
 		isEndTimeAbsoluteDisplayed: false,
@@ -45,7 +48,10 @@ export const appStore = store({
 		threshold: 0.75,
 		isShowBelowEnabled: false,
 	},
-	songList: [] as Song[],
+	folder: {
+		folderName: "",
+		songList: [] as Song[],
+	},
 });
 
 export const useApp = () => appStore.use();
@@ -62,7 +68,19 @@ export const folder = {
 export const songFileMap = new Map<string, File>(); // filename -> songFileHandle
 
 export const currentAudio = new Audio();
-currentAudio.ontimeupdate = () => setAppWithUpdate((app) => (app.player.currentSong.currentTime = currentAudio.currentTime));
+currentAudio.ontimeupdate = () => {
+	let justBeenPlayed = false;
+	setAppWithUpdate((app) => {
+		app.player.currentSong.currentTime = currentAudio.currentTime;
+		if (app.player.currentSong.isConsideredAsPlayed || app.player.currentSong.currentTime < 60) return;
+		app.player.currentSong.isConsideredAsPlayed = true;
+		justBeenPlayed = true;
+		app.folder.songList = app.folder.songList.map((song) =>
+			song.filename === app.player.currentSong.song?.filename ? updateSongSkipOdds(song, "play") : song
+		);
+	});
+	if (justBeenPlayed) writeFolderInfo();
+};
 currentAudio.onended = () => actions.player.song.next();
 currentAudio.onplaying = () => setAppWithUpdate((app) => (app.player.isPlaying = true));
 currentAudio.onpause = () => setAppWithUpdate((app) => (app.player.isPlaying = false));

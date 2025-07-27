@@ -8,13 +8,14 @@ export const getRandomSong = (songList: Song[]) => {
 };
 
 // must be called inside setAppWithUpdate
-export const playSong = (app: AppState, song: Song) => {
+export const playSong = (app: AppState, song: Song, bBack: boolean = false) => {
 	app.player.currentSong.song = song;
+	app.player.currentSong.isConsideredAsPlayed = false;
 	if (app.player.currentSong.imgSrc) URL.revokeObjectURL(app.player.currentSong.imgSrc);
 	const blob = song.picture ? new Blob([new Uint8Array(song.picture.data)], { type: song.picture.type }) : null;
 	app.player.currentSong.imgSrc = blob ? URL.createObjectURL(blob) : null;
-	app.player.rollbackSongList.push({ ...song });
-	if (app.player.rollbackSongList.length > 10) app.player.rollbackSongList.shift();
+	if (bBack) app.folder.songList = app.folder.songList.map((s) => (s.filename === song.filename ? song : s));
+	else app.player.rollbackSongList.push({ ...song });
 };
 
 // must be called outside setAppWithUpdate
@@ -27,3 +28,16 @@ export const playAudio = (song: Song, currentTime: number) => {
 	currentAudio.play();
 	currentAudio.currentTime = currentTime;
 };
+
+export type OddsUpdateType = "play" | "skip" | "auto-skip";
+
+export const updateSongSkipOdds = (song: Song, updateType: OddsUpdateType) => ({
+	...song,
+	skipOdds:
+		updateType === "play"
+			? Math.max(0, song.skipOdds - 0.1)
+			: updateType === "skip"
+			? Math.min(1, song.skipOdds + 0.2)
+			: Math.max(0, song.skipOdds - 0.08 + song.skipOdds * 0.05),
+	playOrSkipCount: song.playOrSkipCount + 1,
+});

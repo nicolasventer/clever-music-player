@@ -1,9 +1,13 @@
+import { actions } from "@/actions/actions";
 import { Button, SearchInput, Title } from "@/components/ui";
+import type { Song } from "@/globalState";
 import { Horizontal, Vertical } from "@/utils/ComponentToolbox";
 import { BarChart3, Minus, Music, Plus } from "lucide-react";
 
-export const Dashboard = () => (
-	<Vertical alignItems="center" flexGrow className="container">
+const displayOdds = (skipOdds: number) => (skipOdds * 100).toFixed(1);
+
+export const Dashboard = ({ sortedSongList, meanSkipOdds }: { sortedSongList: Song[]; meanSkipOdds: number }) => (
+	<Vertical alignItems="center" flexGrow className="container" overflowAuto>
 		<Vertical widthFull>
 			<Title order={3} text="Skip odds" icon={<BarChart3 size={24} />} />
 			<table>
@@ -18,51 +22,44 @@ export const Dashboard = () => (
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td>
-							<Title order={5} text="🎶 Bohemian Rhapsody" />
-							<Title order={6} text="👤 Queen • A Night at the Opera" />
-						</td>
-						<td>
-							<Horizontal justifyContent="center" gap={8}>
-								<Button icon={<Minus size={16} />} variant="filled" isCompact />
-								<div className="odds-text">13.5 %</div>
-								<Button icon={<Plus size={16} />} variant="filled" isCompact />
-							</Horizontal>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<Title order={5} text="🎵 Another One Bites the Dust" />
-							<Title order={6} text="👤 Queen • The Game" />
-						</td>
-						<td>
-							<Horizontal justifyContent="center" gap={8}>
-								<Button icon={<Minus size={16} />} variant="filled" isCompact />
-								<div className="odds-text">11 %</div>
-								<Button icon={<Plus size={16} />} variant="filled" isCompact />
-							</Horizontal>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<Title order={5} text="🎸 Back in Black" />
-							<Title order={6} text="👤 AC/DC • Back in Black" />
-						</td>
-						<td>
-							<Horizontal justifyContent="center" gap={8}>
-								<Button icon={<Minus size={16} />} variant="filled" isCompact />
-								<div className="odds-text">10 %</div>
-								<Button icon={<Plus size={16} />} variant="filled" isCompact />
-							</Horizontal>
-						</td>
-					</tr>
+					{sortedSongList.length === 0 && (
+						<tr>
+							<td colSpan={2}>
+								<Title order={5} text="No songs found" />
+							</td>
+						</tr>
+					)}
+					{sortedSongList.map((song, index) => (
+						<tr key={song.filename}>
+							<td>
+								<Title order={5} text={`🎶 ${song.title}`} />
+								<Title order={6} text={`👤 ${song.artist} • ${song.album}`} />
+							</td>
+							<td>
+								<Horizontal justifyContent="center" gap={8}>
+									<Button
+										icon={<Minus size={16} />}
+										variant="filled"
+										isCompact
+										onClick={actions.dashboard.skipOdds.decreaseFn(index)}
+									/>
+									<div className="odds-text">{displayOdds(song.skipOdds)} %</div>
+									<Button
+										icon={<Plus size={16} />}
+										variant="filled"
+										isCompact
+										onClick={actions.dashboard.skipOdds.increaseFn(index)}
+									/>
+								</Horizontal>
+							</td>
+						</tr>
+					))}
 				</tbody>
 				<tfoot>
 					<tr>
 						<th className="table-footer">📊 Mean score</th>
 						<th className="table-footer" style={{ textAlign: "right" }}>
-							11.5 %
+							{displayOdds(meanSkipOdds)} %
 						</th>
 					</tr>
 				</tfoot>

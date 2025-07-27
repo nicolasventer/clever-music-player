@@ -7,12 +7,12 @@ import { Ban, FolderOpen, Music, Pause, Play, RefreshCw } from "lucide-react";
 
 const PlaylistSongs = ({
 	songFilter,
-	songList,
+	filteredSongList,
 	currentSong,
 	isPlaying,
 }: {
 	songFilter: string;
-	songList: AppState["songList"];
+	filteredSongList: Song[];
 	currentSong: Song | null;
 	isPlaying: boolean;
 }) => (
@@ -29,14 +29,14 @@ const PlaylistSongs = ({
 				</tr>
 			</thead>
 			<tbody>
-				{songList.length === 0 && (
+				{filteredSongList.length === 0 && (
 					<tr>
 						<td colSpan={2}>
 							<Title order={5} text="No songs found" />
 						</td>
 					</tr>
 				)}
-				{songList.map((song, index) => (
+				{filteredSongList.map((song, index) => (
 					<tr key={song.filename}>
 						<td>
 							<Title order={5} text={`🎶 ${song.title}`} />
@@ -76,7 +76,7 @@ const PlaylistSongs = ({
 			<tfoot>
 				<tr>
 					<th colSpan={2} className="table-footer">
-						📊 Total: {songList.length} songs, 2h35
+						📊 Total: {filteredSongList.length} songs, 2h35
 					</th>
 				</tr>
 			</tfoot>
@@ -86,12 +86,12 @@ const PlaylistSongs = ({
 
 export const Playlist = ({
 	playlist,
-	songList,
+	filteredSongList,
 	currentSong,
 	isPlaying,
 }: {
 	playlist: AppState["playlist"];
-	songList: AppState["songList"];
+	filteredSongList: Song[];
 	currentSong: Song | null;
 	isPlaying: boolean;
 }) => (
@@ -100,6 +100,11 @@ export const Playlist = ({
 			<Button icon={<RefreshCw size={16} />} text="Refresh" variant="light" onClick={actions.playlist.folder.refresh} />
 			<Button icon={<FolderOpen size={16} />} text="Open Folder" variant="filled" onClick={actions.playlist.folder.handleOpen} />
 		</Horizontal>
-		<PlaylistSongs songFilter={playlist.songFilter} songList={songList} currentSong={currentSong} isPlaying={isPlaying} />
+		<PlaylistSongs
+			songFilter={playlist.songFilter}
+			filteredSongList={filteredSongList}
+			currentSong={currentSong}
+			isPlaying={isPlaying}
+		/>
 	</Vertical>
 );

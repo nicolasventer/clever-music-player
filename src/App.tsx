@@ -17,16 +17,23 @@ export const App = () => {
 	const os = useOs();
 
 	useEffect(() => {
-		if (app.songList.length === 0 && !app.bShowNoFolderModal) actions.app.noFolderModal.open();
+		if (app.folder.songList.length === 0 && !app.bShowNoFolderModal) actions.app.noFolderModal.open();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	const filteredSongList = useMemo(
 		() =>
-			app.songList.filter(({ title, artist, album }) =>
+			app.folder.songList.filter(({ title, artist, album }) =>
 				[title, artist, album].some((x) => x.toLowerCase().includes(app.playlist.songFilter.toLowerCase()))
 			),
-		[app.playlist.songFilter, app.songList]
+		[app.playlist.songFilter, app.folder.songList]
+	);
+
+	const sortedSongList = useMemo(() => app.folder.songList.sort((a, b) => b.skipOdds - a.skipOdds), [app.folder.songList]);
+
+	const meanSkipOdds = useMemo(
+		() => sortedSongList.reduce((acc, song) => acc + song.skipOdds, 0) / sortedSongList.length,
+		[sortedSongList]
 	);
 
 	return (
@@ -38,12 +45,12 @@ export const App = () => {
 				{app.currentTab === "Playlist" && (
 					<Playlist
 						playlist={app.playlist}
-						songList={filteredSongList}
+						filteredSongList={filteredSongList}
 						currentSong={app.player.currentSong.song}
 						isPlaying={app.player.isPlaying}
 					/>
 				)}
-				{app.currentTab === "Dashboard" && <Dashboard />}
+				{app.currentTab === "Dashboard" && <Dashboard sortedSongList={sortedSongList} meanSkipOdds={meanSkipOdds} />}
 				{app.currentTab === "Danger Zone" && <DangerZone />}
 				<Horizontal gap={4}>
 					<Tab
