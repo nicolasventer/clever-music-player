@@ -1,6 +1,6 @@
 import { actions } from "@/actions/actions";
-import { writeFolderInfo } from "@/actions/folderInfoUtil";
-import { updateSongSkipOdds } from "@/actions/songUtil";
+import { writeFolderInfo } from "@/actions/utils/folderInfoUtil";
+import { updateSongSkipOdds } from "@/actions/utils/songUtil";
 import { cloneWithUpdate } from "@/utils/ISerializable";
 import type { TypeOfStore } from "@/utils/Store";
 import { store } from "@/utils/Store";
@@ -69,6 +69,7 @@ export const appStore = store({
 		bShowResetModal: false,
 	},
 	folder: {
+		isLoading: false,
 		folderName: "",
 		songList: [] as Song[],
 	},

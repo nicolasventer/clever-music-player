@@ -1,20 +1,23 @@
 import { actions } from "@/actions/actions";
 import { displayArtistAlbum, displayTitle } from "@/components/componentUtil";
 import { Button, SearchInput, Title } from "@/components/ui";
-import { currentAudio, type AppState, type Song } from "@/globalState";
+import type { AppState, Song } from "@/globalState";
+import { currentAudio } from "@/globalState";
 import { Horizontal, Vertical } from "@/utils/ComponentToolbox";
-import { Ban, FolderOpen, Music, Pause, Play, RefreshCw } from "lucide-react";
+import { Ban, FolderOpen, Loader2, Music, Pause, Play, RefreshCw } from "lucide-react";
 
 const PlaylistSongs = ({
 	songFilter,
 	filteredSongList,
 	currentSong,
 	isPlaying,
+	isLoading,
 }: {
 	songFilter: string;
 	filteredSongList: Song[];
 	currentSong: Song | null;
 	isPlaying: boolean;
+	isLoading: boolean;
 }) => (
 	<Vertical widthFull>
 		<table>
@@ -32,41 +35,71 @@ const PlaylistSongs = ({
 				{filteredSongList.length === 0 && (
 					<tr>
 						<td colSpan={2}>
-							<Title order={5} text="No songs found" />
+							{isLoading ? (
+								<div className="loading-slide-in">
+									<Horizontal justifyContent="center" gap={8}>
+										<div className="loading-pulse">
+											<Loader2 size={16} className="animate-spin" />
+										</div>
+										<Title order={5} text="Loading songs..." />
+									</Horizontal>
+								</div>
+							) : (
+								<Title order={5} text="No songs found" />
+							)}
 						</td>
 					</tr>
 				)}
-				{filteredSongList.map((song, index) => (
-					<tr key={song.filename}>
-						<td>
-							<Title order={5} text={displayTitle(song)} />
-							<Title order={6} text={displayArtistAlbum(song)} />
-						</td>
-						<td>
-							<Horizontal gap={16} justifyContent="flex-end">
-								{isPlaying && currentSong?.filename === song.filename ? (
-									<Button icon={<Pause size={14} />} variant="filled" onClick={actions.player.song.pause} />
-								) : (
-									<Button
-										icon={<Play size={14} />}
-										variant="filled"
-										onClick={actions.player.song.playFn(
-											song,
-											currentSong?.filename === song.filename ? currentAudio.currentTime : 0
-										)}
+				{isLoading && filteredSongList.length === 0
+					? // Loading skeleton rows
+					  Array.from({ length: 3 }).map((_, index) => (
+							<tr key={`skeleton-${index}`}>
+								<td>
+									<div
+										className="loading-skeleton"
+										style={{ height: "20px", width: "60%", borderRadius: "4px", marginBottom: "4px" }}
 									/>
-								)}
+									<div className="loading-skeleton" style={{ height: "16px", width: "40%", borderRadius: "4px" }} />
+								</td>
+								<td>
+									<Horizontal gap={16} justifyContent="flex-end">
+										<div className="loading-skeleton" style={{ height: "32px", width: "32px", borderRadius: "50%" }} />
+										<div className="loading-skeleton" style={{ height: "32px", width: "32px", borderRadius: "50%" }} />
+									</Horizontal>
+								</td>
+							</tr>
+					  ))
+					: filteredSongList.map((song, index) => (
+							<tr key={song.filename} className="loading-fade-in">
+								<td>
+									<Title order={5} text={displayTitle(song)} />
+									<Title order={6} text={displayArtistAlbum(song)} />
+								</td>
+								<td>
+									<Horizontal gap={16} justifyContent="flex-end">
+										{isPlaying && currentSong?.filename === song.filename ? (
+											<Button icon={<Pause size={14} />} variant="filled" onClick={actions.player.song.pause} />
+										) : (
+											<Button
+												icon={<Play size={14} />}
+												variant="filled"
+												onClick={actions.player.song.playFn(
+													song,
+													currentSong?.filename === song.filename ? currentAudio.currentTime : 0
+												)}
+											/>
+										)}
 
-								<Button
-									icon={<Ban size={14} />}
-									variant="filled"
-									color="danger"
-									onClick={actions.playlist.song.ban.toggleFn(index)}
-								/>
-							</Horizontal>
-						</td>
-					</tr>
-				))}
+										<Button
+											icon={<Ban size={14} />}
+											variant="filled"
+											color="danger"
+											onClick={actions.playlist.song.ban.toggleFn(index)}
+										/>
+									</Horizontal>
+								</td>
+							</tr>
+					  ))}
 				{/* <tr>
 					<th className="table-header-alphabet" colSpan={2}>
 						A
@@ -89,22 +122,39 @@ export const Playlist = ({
 	filteredSongList,
 	currentSong,
 	isPlaying,
+	isLoading,
 }: {
 	playlist: AppState["playlist"];
 	filteredSongList: Song[];
 	currentSong: Song | null;
 	isPlaying: boolean;
+	isLoading: boolean;
 }) => (
 	<Vertical alignItems="center" flexGrow className="container" overflowAuto>
 		<Horizontal justifyContent="space-between" gap={16} widthFull marginTop={12}>
-			<Button icon={<RefreshCw size={16} />} text="Refresh" variant="light" onClick={actions.playlist.folder.refresh} />
-			<Button icon={<FolderOpen size={16} />} text="Open Folder" variant="filled" onClick={actions.playlist.folder.handleOpen} />
+			<Button
+				icon={isLoading ? <Loader2 size={16} className="animate-spin" /> : <RefreshCw size={16} />}
+				text="Refresh"
+				variant="light"
+				onClick={actions.playlist.folder.refresh}
+				disabled={isLoading}
+				className={isLoading ? "loading-pulse" : ""}
+			/>
+			<Button
+				icon={isLoading ? <Loader2 size={16} className="animate-spin" /> : <FolderOpen size={16} />}
+				text="Open Folder"
+				variant="filled"
+				onClick={actions.playlist.folder.handleOpen}
+				disabled={isLoading}
+				className={isLoading ? "loading-pulse" : ""}
+			/>
 		</Horizontal>
 		<PlaylistSongs
 			songFilter={playlist.songFilter}
 			filteredSongList={filteredSongList}
 			currentSong={currentSong}
 			isPlaying={isPlaying}
+			isLoading={isLoading}
 		/>
 	</Vertical>
 );

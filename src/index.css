@@ -722,6 +722,121 @@ button:disabled {
 	}
 }
 
+/* Loading animations */
+@keyframes fade-in {
+	from {
+		opacity: 0;
+		transform: translateY(10px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes fade-out {
+	from {
+		opacity: 1;
+		transform: translateY(0);
+	}
+	to {
+		opacity: 0;
+		transform: translateY(-10px);
+	}
+}
+
+@keyframes pulse {
+	0%,
+	100% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.5;
+	}
+}
+
+@keyframes bounce {
+	0%,
+	20%,
+	53%,
+	80%,
+	100% {
+		transform: translate3d(0, 0, 0);
+	}
+	40%,
+	43% {
+		transform: translate3d(0, -8px, 0);
+	}
+	70% {
+		transform: translate3d(0, -4px, 0);
+	}
+	90% {
+		transform: translate3d(0, -2px, 0);
+	}
+}
+
+@keyframes slide-in-up {
+	from {
+		transform: translateY(20px);
+		opacity: 0;
+	}
+	to {
+		transform: translateY(0);
+		opacity: 1;
+	}
+}
+
+/* Loading state classes */
+.loading-fade-in {
+	animation: fade-in 0.3s ease-out;
+}
+
+.loading-fade-out {
+	animation: fade-out 0.3s ease-out;
+}
+
+.loading-pulse {
+	animation: pulse 2s ease-in-out infinite;
+}
+
+.loading-bounce {
+	animation: bounce 1s ease-in-out infinite;
+}
+
+.loading-slide-in {
+	animation: slide-in-up 0.4s ease-out;
+}
+
+/* Enhanced spinner animation */
+.animate-spin {
+	animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+/* Loading skeleton animation */
+.loading-skeleton {
+	background: linear-gradient(90deg, rgba(255, 255, 255, 0.1) 25%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.1) 75%);
+	background-size: 200% 100%;
+	animation: skeleton-loading 1.5s infinite;
+}
+
+@keyframes skeleton-loading {
+	0% {
+		background-position: 200% 0;
+	}
+	100% {
+		background-position: -200% 0;
+	}
+}
+
 .slider-input:disabled {
 	opacity: 0.5;
 	cursor: not-allowed;

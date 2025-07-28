@@ -1,6 +1,6 @@
-import { writeFolderInfo } from "@/actions/folderInfoUtil";
-import { getRandomSong, playAudio, playSong } from "@/actions/songUtil";
 import { getFilesRecursively, getFolderInfo, getFolderInfoFile, isMusicFile } from "@/actions/utils/fileUtil";
+import { writeFolderInfo } from "@/actions/utils/folderInfoUtil";
+import { getRandomSong, playAudio, playSong } from "@/actions/utils/songUtil";
 import type { Folder, Song } from "@/globalState";
 import { folder, setAppWithUpdate, songFileMap } from "@/globalState";
 import randomName from "@scaleway/random-name";
@@ -13,6 +13,7 @@ const toggleSongIsBannedFn = (index: number) => () =>
 
 const openFolder = async (dirHandle: FileSystemDirectoryHandle) => {
 	try {
+		setAppWithUpdate((app) => (app.folder.isLoading = true));
 		songFileMap.clear();
 
 		const folderInfoHandle = await getFolderInfoFile(dirHandle);
@@ -56,7 +57,7 @@ const openFolder = async (dirHandle: FileSystemDirectoryHandle) => {
 		const { randomSong, newSongList } = getRandomSong(newFolderInfo.songList);
 		setAppWithUpdate((app) => {
 			app.bShowNoFolderModal = false;
-			app.folder = newFolderInfo;
+			app.folder = { ...newFolderInfo, isLoading: false };
 			if (newSongList !== app.folder.songList) app.folder.songList = newSongList;
 			playSong(app, randomSong);
 		});
@@ -64,6 +65,8 @@ const openFolder = async (dirHandle: FileSystemDirectoryHandle) => {
 		writeFolderInfo();
 	} catch (e) {
 		console.error(e);
+	} finally {
+		setAppWithUpdate((app) => (app.folder.isLoading = false));
 	}
 };
 

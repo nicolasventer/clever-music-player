@@ -1,4 +1,4 @@
-import { writeFolderInfo } from "@/actions/folderInfoUtil";
+import { writeFolderInfo } from "@/actions/utils/folderInfoUtil";
 import { setAppWithUpdate } from "@/globalState";
 
 const updateSongFilter = (filter: string) => setAppWithUpdate((app) => (app.dashboard.songFilter = filter));

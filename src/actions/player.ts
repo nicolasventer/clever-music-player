@@ -1,5 +1,5 @@
-import { writeFolderInfo } from "@/actions/folderInfoUtil";
-import { getRandomSong, playAudio, playSong, updateSongSkipOdds } from "@/actions/songUtil";
+import { writeFolderInfo } from "@/actions/utils/folderInfoUtil";
+import { getRandomSong, playAudio, playSong, updateSongSkipOdds } from "@/actions/utils/songUtil";
 import type { Song } from "@/globalState";
 import { appStore, currentAudio, setAppWithUpdate } from "@/globalState";
 

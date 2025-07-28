@@ -28,7 +28,7 @@ export const App = () => {
 	useEffect(() => localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(localStorageState)), [localStorageState]);
 
 	useEffect(() => {
-		if (app.folder.songList.length === 0 && !app.bShowNoFolderModal) actions.app.noFolderModal.open();
+		if (app.folder.songList.length === 0 && !app.bShowNoFolderModal && !app.folder.isLoading) actions.app.noFolderModal.open();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
@@ -64,6 +64,7 @@ export const App = () => {
 						filteredSongList={filteredSongList}
 						currentSong={app.player.currentSong.song}
 						isPlaying={app.player.isPlaying}
+						isLoading={app.folder.isLoading}
 					/>
 				)}
 				{app.currentTab === "Dashboard" && <Dashboard sortedSongList={sortedSongList} meanSkipOdds={meanSkipOdds} />}
@@ -97,7 +98,7 @@ export const App = () => {
 					/>
 				</Horizontal>
 			</Vertical>
-			<NoMusicModal isOpen={app.bShowNoFolderModal} onClose={actions.app.noFolderModal.close} />
+			<NoMusicModal isOpen={app.bShowNoFolderModal} onClose={actions.app.noFolderModal.close} isLoading={app.folder.isLoading} />
 			<AboveThresholdModal
 				isOpen={app.dangerZone.bShowAboveModal}
 				onClose={actions.dangerZone.aboveModal.close}

@@ -1,4 +1,4 @@
-import { writeFolderInfo } from "@/actions/folderInfoUtil";
+import { writeFolderInfo } from "@/actions/utils/folderInfoUtil";
 import type { Song } from "@/globalState";
 import { currentAudio, folder, setAppWithUpdate } from "@/globalState";
 
