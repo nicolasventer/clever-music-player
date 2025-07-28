@@ -1,10 +1,10 @@
 import { actions } from "@/actions/actions";
 import { displayArtistAlbum, formatTime } from "@/components/componentUtil";
-import { Button, Title } from "@/components/ui";
+import { Button, Slider, Title } from "@/components/ui";
 import type { AppState } from "@/globalState";
 import { currentAudio } from "@/globalState";
 import { Horizontal, Vertical } from "@/utils/ComponentToolbox";
-import { Pause, Play, SkipBack, SkipForward } from "lucide-react";
+import { Pause, Play, SkipBack, SkipForward, Volume2 } from "lucide-react";
 
 export const Player = ({ player }: { player: AppState["player"] }) => (
 	<Vertical alignItems="center" flexGrow>
@@ -24,12 +24,18 @@ export const Player = ({ player }: { player: AppState["player"] }) => (
 				<div>{formatTime(player.currentSong.currentTime)}</div>
 				<div>{formatTime(isNaN(currentAudio.duration) ? 0 : currentAudio.duration)}</div>
 			</Horizontal>
-			<div className="progress-container">
-				<div
-					className="progress-bar"
-					style={{ width: `${(player.currentSong.currentTime / (currentAudio.duration ?? 0)) * 100}%` }}
-				></div>
+			<div style={{ margin: "5px 0" }}>
+				<Slider
+					value={isNaN(currentAudio.duration) ? 0 : (player.currentSong.currentTime / currentAudio.duration) * 100}
+					step={0.05}
+					onChange={actions.player.currentTime.update}
+					thick
+				/>
 			</div>
+			<Horizontal justifyContent="center" style={{ gap: "16px", marginTop: "16px" }}>
+				<Volume2 size={16} />
+				<Slider value={player.volume} onChange={actions.player.volume.update} />
+			</Horizontal>
 			<Horizontal justifyContent="center" style={{ gap: "16px", marginTop: "24px" }}>
 				<Button
 					icon={<SkipBack size={20} />}

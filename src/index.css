@@ -384,44 +384,6 @@ tfoot th {
 	color: #cbd5e1;
 }
 
-/* Progress bar for player */
-.progress-container {
-	width: 100%;
-	background: rgba(255, 255, 255, 0.1);
-	border-radius: 4px;
-	height: 8px;
-	margin: 16px 0;
-	overflow: hidden;
-}
-
-.progress-bar {
-	height: 100%;
-	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-	border-radius: 4px;
-	transition: width 0.3s ease;
-	position: relative;
-}
-
-.progress-bar::after {
-	content: "";
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-	animation: shimmer 3s infinite;
-}
-
-@keyframes shimmer {
-	0% {
-		transform: translateX(-100%);
-	}
-	100% {
-		transform: translateX(200%);
-	}
-}
-
 .container {
 	width: 100%;
 	max-width: 600px;
@@ -654,6 +616,161 @@ button:disabled {
 .odds-text {
 	width: 50px;
 	text-align: center;
+}
+
+/* Slider component styles */
+.slider-container {
+	position: relative;
+	width: 100%;
+	margin-top: -6px;
+}
+
+.slider-input {
+	-webkit-appearance: none;
+	appearance: none;
+	width: 100%;
+	height: 6px;
+	background: rgba(255, 255, 255, 0.1);
+	border-radius: 3px;
+	outline: none;
+	position: relative;
+	z-index: 2;
+	cursor: pointer;
+}
+
+.slider-input::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	appearance: none;
+	width: 16px;
+	height: 16px;
+	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	border-radius: 50%;
+	cursor: pointer;
+	box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+	border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.slider-input::-webkit-slider-thumb:hover {
+	transform: scale(1.1);
+	box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
+
+.slider-input::-webkit-slider-thumb:active {
+	transform: scale(1.05);
+}
+
+.slider-input::-moz-range-thumb {
+	width: 16px;
+	height: 16px;
+	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	border-radius: 50%;
+	cursor: pointer;
+	box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+	border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.slider-input::-moz-range-thumb:hover {
+	transform: scale(1.1);
+	box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
+
+.slider-input::-moz-range-track {
+	height: 6px;
+	background: rgba(255, 255, 255, 0.1);
+	border-radius: 3px;
+	border: none;
+}
+
+.slider-track {
+	position: absolute;
+	top: 50%;
+	left: 0;
+	right: 0;
+	height: 6px;
+	background: rgba(255, 255, 255, 0.1);
+	border-radius: 3px;
+	transform: translateY(-50%);
+	z-index: 1;
+	margin-top: 3px;
+}
+
+.slider-fill {
+	height: 100%;
+	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	border-radius: 3px;
+	position: relative;
+	overflow: hidden;
+}
+
+.slider-fill::after {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+	animation: slider-shimmer 2s infinite;
+}
+
+@keyframes slider-shimmer {
+	0% {
+		transform: translateX(-100%);
+	}
+	100% {
+		transform: translateX(200%);
+	}
+}
+
+.slider-input:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+.slider-input:disabled::-webkit-slider-thumb {
+	cursor: not-allowed;
+	transform: none;
+}
+
+.slider-input:disabled::-moz-range-thumb {
+	cursor: not-allowed;
+	transform: none;
+}
+
+/* Focus states for accessibility */
+.slider-input:focus {
+	outline: none;
+}
+
+.slider-input:focus::-webkit-slider-thumb {
+	box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3), 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.slider-input:focus::-moz-range-thumb {
+	box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3), 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+/* Thick slider variant */
+.slider-input-thick {
+	height: 8px;
+}
+
+.slider-input-thick::-webkit-slider-thumb {
+	width: 20px;
+	height: 20px;
+}
+
+.slider-input-thick::-moz-range-thumb {
+	width: 20px;
+	height: 20px;
+}
+
+.slider-track-thick {
+	height: 8px;
+}
+
+.slider-fill-thick {
+	border-radius: 5px;
 }
 
 /* Responsive .title-1 at the end for override */

@@ -57,7 +57,20 @@ const previousSong = () => {
 	playAudio(previousSong, 0);
 };
 
+const updateVolume = (volume: number) => {
+	setAppWithUpdate((app) => (app.player.volume = volume));
+	currentAudio.volume = volume / 100;
+};
+
+const updateCurrentTime = (percentage: number) => {
+	const newTime = (percentage * (currentAudio.duration ?? 0)) / 100;
+	setAppWithUpdate((app) => (app.player.currentSong.currentTime = newTime));
+	currentAudio.currentTime = newTime;
+};
+
 export const player = {
 	song: { pressPlayFn: pressPlayFn, playFn: playSongFn, pause: pauseSong, next: nextSong, previous: previousSong },
 	isEndTimeAbsoluteDisplayed: { toggle: toggleIsEndTimeAbsoluteDisplayed },
+	volume: { update: updateVolume },
+	currentTime: { update: updateCurrentTime },
 };

@@ -19,7 +19,8 @@ export const App = () => {
 	const os = useOs();
 
 	const threshold = app.dangerZone.threshold;
-	localStorageStateStore.useEffect((setLocalStorageState) => setLocalStorageState({ threshold }), [threshold]);
+	const volume = app.player.volume;
+	localStorageStateStore.useEffect((setLocalStorageState) => setLocalStorageState({ threshold, volume }), [threshold, volume]);
 
 	// save the local storage state to the local storage
 	const localStorageState = localStorageStateStore.use();
