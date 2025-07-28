@@ -2,7 +2,7 @@ import { actions } from "@/actions/actions";
 import { Button, Card, InputBottomLine, Title } from "@/components/ui";
 import type { AppState, Song } from "@/globalState";
 import { Horizontal, Vertical } from "@/utils/ComponentToolbox";
-import { AlertTriangle, Eye, FolderOpen, RotateCcw, Target, Trash2 } from "lucide-react";
+import { AlertTriangle, Eye, RotateCcw, Target, Trash2 } from "lucide-react";
 
 export const DangerZone = ({
 	dangerZone,
@@ -55,22 +55,14 @@ export const DangerZone = ({
 			</Card>
 			<Card>
 				<Title order={3} text="Reset Options" icon={<RotateCcw size={20} />} color="danger" />
-				<Vertical className="danger-zone-options">
-					<Button
-						text="Reset all skip counts"
-						icon={<RotateCcw size={18} />}
-						variant="filled"
-						color="danger"
-						className="btn-full-width"
-					/>
-					<Button
-						text="Reset skip count for a folder"
-						icon={<FolderOpen size={18} />}
-						variant="light"
-						color="warning"
-						className="btn-full-width"
-					/>
-				</Vertical>
+				<Button
+					text="Reset all"
+					icon={<RotateCcw size={18} />}
+					variant="filled"
+					color="danger"
+					className="btn-full-width"
+					onClick={actions.dangerZone.resetModal.open}
+				/>
 			</Card>
 			<Card>
 				<Title order={3} text="Warning" icon={<AlertTriangle size={20} />} color="danger" />

@@ -12,6 +12,10 @@ const openDeleteModal = () => setAppWithUpdate((app) => (app.dangerZone.bShowDel
 
 const closeDeleteModal = () => setAppWithUpdate((app) => (app.dangerZone.bShowDeleteModal = false));
 
+const openResetModal = () => setAppWithUpdate((app) => (app.dangerZone.bShowResetModal = true));
+
+const closeResetModal = () => setAppWithUpdate((app) => (app.dangerZone.bShowResetModal = false));
+
 const deleteSongsFn = (songs: Song[]) => () => {
 	songs.forEach((song) => folder.folderHandle?.removeEntry(song.filename));
 	setAppWithUpdate((app) => {
@@ -27,9 +31,21 @@ const deleteSongsFn = (songs: Song[]) => () => {
 	writeFolderInfo();
 };
 
+const resetAll = () => {
+	setAppWithUpdate((app) =>
+		app.folder.songList.forEach((song) => {
+			song.playOrSkipCount = 0;
+			song.skipOdds = 0;
+		})
+	);
+	writeFolderInfo();
+};
+
 export const dangerZone = {
 	threshold: { update: updateThreshold },
 	aboveModal: { open: openAboveModal, close: closeAboveModal },
 	deleteModal: { open: openDeleteModal, close: closeDeleteModal },
+	resetModal: { open: openResetModal, close: closeResetModal },
 	songs: { deleteFn: deleteSongsFn },
+	resetAll: resetAll,
 };

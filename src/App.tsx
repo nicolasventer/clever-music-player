@@ -3,6 +3,7 @@ import { NoMusicModal } from "@/components/app/NoMusicModal";
 import { AboveThresholdModal } from "@/components/dangerZone/AboveThresholdModal";
 import { DangerZone } from "@/components/dangerZone/DangerZone";
 import { DeleteConfirmationModal } from "@/components/dangerZone/DeleteConfirmationModal";
+import { ResetConfirmationModal } from "@/components/dangerZone/ResetConfirmationModal";
 import { Dashboard } from "@/components/dashboard/Dashboard";
 import { Player } from "@/components/player/Player";
 import { Playlist } from "@/components/playlist/Playlist";
@@ -109,6 +110,7 @@ export const App = () => {
 				songs={aboveThresholdSongList}
 				threshold={app.dangerZone.threshold}
 			/>
+			<ResetConfirmationModal isOpen={app.dangerZone.bShowResetModal} onClose={actions.dangerZone.resetModal.close} />
 			<PWABadge />
 		</FullViewport>
 	);

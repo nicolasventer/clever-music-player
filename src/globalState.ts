@@ -66,6 +66,7 @@ export const appStore = store({
 		threshold: localStorageState.threshold,
 		bShowAboveModal: false,
 		bShowDeleteModal: false,
+		bShowResetModal: false,
 	},
 	folder: {
 		folderName: "",
