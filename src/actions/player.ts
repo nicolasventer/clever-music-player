@@ -62,6 +62,23 @@ const updateVolume = (volume: number) => {
 	currentAudio.volume = volume / 100;
 };
 
+const incrementVolume = () => {
+	let newVolume = 0;
+	setAppWithUpdate((app) => (app.player.volume = newVolume = Math.min(100, app.player.volume + 10)));
+	currentAudio.volume = newVolume / 100;
+};
+
+const decrementVolume = () => {
+	let newVolume = 0;
+	setAppWithUpdate((app) => (app.player.volume = newVolume = Math.max(0, app.player.volume - 10)));
+	currentAudio.volume = newVolume / 100;
+};
+
+const toggleIsMuted = () => {
+	setAppWithUpdate((app) => (app.player.isMuted = !app.player.isMuted));
+	currentAudio.muted = !currentAudio.muted;
+};
+
 const updateCurrentTime = (percentage: number) => {
 	const newTime = (percentage * (currentAudio.duration ?? 0)) / 100;
 	setAppWithUpdate((app) => (app.player.currentSong.currentTime = newTime));
@@ -71,6 +88,7 @@ const updateCurrentTime = (percentage: number) => {
 export const player = {
 	song: { pressPlayFn: pressPlayFn, playFn: playSongFn, pause: pauseSong, next: nextSong, previous: previousSong },
 	isEndTimeAbsoluteDisplayed: { toggle: toggleIsEndTimeAbsoluteDisplayed },
-	volume: { update: updateVolume },
+	volume: { update: updateVolume, increment: incrementVolume, decrement: decrementVolume },
+	isMuted: { toggle: toggleIsMuted },
 	currentTime: { update: updateCurrentTime },
 };

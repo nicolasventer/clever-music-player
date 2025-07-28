@@ -29,6 +29,7 @@ export const LOCAL_STORAGE_KEY = "cleverMusicPlayer_globalState" as const;
 export type LocalStorageState = {
 	threshold: number;
 	volume: number;
+	isMuted: boolean;
 };
 export const loadLocalStorageState = (): LocalStorageState => {
 	const storedLocalStorageState = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY) ?? "{}") as Partial<LocalStorageState>;
@@ -36,6 +37,7 @@ export const loadLocalStorageState = (): LocalStorageState => {
 	return {
 		threshold: storedLocalStorageState.threshold ?? 0.75,
 		volume: storedLocalStorageState.volume ?? 1,
+		isMuted: storedLocalStorageState.isMuted ?? false,
 	};
 };
 const localStorageState = loadLocalStorageState();
@@ -55,6 +57,7 @@ export const appStore = store({
 		isEndTimeAbsoluteDisplayed: false,
 		rollbackSongList: [] as Song[], // storing the song to apply when rollback, max length is 10
 		volume: localStorageState.volume,
+		isMuted: localStorageState.isMuted,
 	},
 	playlist: {
 		songFilter: "",
@@ -90,6 +93,7 @@ export const songFileMap = new Map<string, File>(); // filename -> songFileHandl
 
 export const currentAudio = new Audio();
 currentAudio.volume = localStorageState.volume / 100;
+currentAudio.muted = localStorageState.isMuted;
 currentAudio.ontimeupdate = () => {
 	let justBeenPlayed = false;
 	setAppWithUpdate((app) => {
