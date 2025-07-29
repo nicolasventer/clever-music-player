@@ -28,7 +28,13 @@ export const Player = ({ player }: { player: AppState["player"] }) => {
 			<Vertical width={300} className="player-controls">
 				<Horizontal justifyContent="space-between" className="time-display">
 					<div>{formatTime(player.currentSong.currentTime)}</div>
-					<div>{formatTime(isNaN(currentAudio.duration) ? 0 : currentAudio.duration)}</div>
+					<div onClick={actions.player.isEndTimeAbsoluteDisplayed.toggle}>
+						{isNaN(currentAudio.duration)
+							? formatTime(0)
+							: player.isEndTimeAbsoluteDisplayed
+							? formatTime(currentAudio.duration)
+							: `-${formatTime(currentAudio.duration - player.currentSong.currentTime)}`}
+					</div>
 				</Horizontal>
 				<div style={{ margin: "5px 0" }}>
 					<Slider
