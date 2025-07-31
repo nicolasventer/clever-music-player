@@ -1,14 +1,16 @@
-import { AlertTriangle, Edit, Music, Pause, Play, Search, SkipBack, SkipForward, Trash2 } from "lucide-react";
+import { AlertTriangle, Edit, Music, Pause, Play, Search, Settings, SkipBack, SkipForward, Trash2, Volume2 } from "lucide-react";
 import React, { useState } from "react";
-import { Button, Card, SearchInput, Slider, Tab, Title } from "./index";
+import { Button, Card, InputBottomLine, Modal, SearchInput, Slider, Tab, Title } from "./index";
 
 export const ComponentDemo: React.FC = () => {
 	const [activeTab, setActiveTab] = useState("player");
 	const [sliderValue, setSliderValue] = useState(35);
 	const [searchValue, setSearchValue] = useState("");
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [inputValue, setInputValue] = useState("");
 
 	return (
-		<div style={{ padding: "24px", maxWidth: "800px", margin: "0 auto" }}>
+		<div style={{ padding: "24px", maxWidth: "1000px", margin: "0 auto", gap: "12px", display: "flex", flexDirection: "column" }}>
 			<Title order={1} text="UI Components Demo" icon={<Music size={32} />} />
 
 			{/* Tabs Demo */}
@@ -17,19 +19,35 @@ export const ComponentDemo: React.FC = () => {
 				<div style={{ display: "flex", gap: "8px", marginBottom: "24px" }}>
 					<Tab
 						isActive={activeTab === "player"}
-						tabCount={3}
+						tabCount={4}
 						text="Player"
 						icon={<Music size={16} />}
 						onClick={() => setActiveTab("player")}
 					/>
 					<Tab
 						isActive={activeTab === "playlist"}
-						tabCount={3}
+						tabCount={4}
 						text="Playlist"
 						icon={<Play size={16} />}
 						onClick={() => setActiveTab("playlist")}
 					/>
-					<Tab isActive={activeTab === "settings"} tabCount={3} text="Settings" onClick={() => setActiveTab("settings")} />
+					<Tab
+						isActive={activeTab === "settings"}
+						tabCount={4}
+						text="Settings"
+						icon={<Settings size={16} />}
+						onClick={() => setActiveTab("settings")}
+					/>
+					<Tab
+						isActive={activeTab === "volume"}
+						tabCount={4}
+						text="Volume"
+						icon={<Volume2 size={16} />}
+						onClick={() => setActiveTab("volume")}
+					/>
+				</div>
+				<div style={{ padding: "16px", backgroundColor: "#1e293b", borderRadius: "8px", marginTop: "16px" }}>
+					<Title order={4} text={`Active Tab: ${activeTab}`} color="theme" />
 				</div>
 			</Card>
 
@@ -43,6 +61,13 @@ export const ComponentDemo: React.FC = () => {
 					<Button text="Delete" icon={<Trash2 size={16} />} variant="filled" color="danger" />
 					<Button icon={<SkipBack size={16} />} variant="filled" isCompact />
 					<Button icon={<SkipForward size={16} />} variant="light" isCompact />
+					<Button
+						text="Open Modal"
+						icon={<Settings size={16} />}
+						variant="filled"
+						color="theme"
+						onClick={() => setIsModalOpen(true)}
+					/>
 				</div>
 			</Card>
 
@@ -61,6 +86,31 @@ export const ComponentDemo: React.FC = () => {
 				<div style={{ marginBottom: "24px" }}>
 					<SearchInput value={searchValue} onChange={setSearchValue} placeholder="Search songs..." />
 					<div style={{ marginTop: "8px", fontSize: "14px", color: "#cbd5e1" }}>Search value: "{searchValue}"</div>
+				</div>
+			</Card>
+
+			{/* Input Bottom Line Demo */}
+			<Card>
+				<Title order={3} text="Input Bottom Line" />
+				<div style={{ marginBottom: "24px" }}>
+					<div style={{ marginBottom: "16px" }}>
+						<InputBottomLine
+							value={inputValue}
+							setValue={setInputValue}
+							placeholder="Enter text here..."
+							style={{ width: "100%", padding: "8px 0", fontSize: "16px" }}
+						/>
+					</div>
+					<div style={{ marginBottom: "16px" }}>
+						<InputBottomLine
+							value=""
+							setValue={() => {}}
+							placeholder="Numeric input (max 100)"
+							max={100}
+							style={{ width: "100%", padding: "8px 0", fontSize: "16px" }}
+						/>
+					</div>
+					<div style={{ fontSize: "14px", color: "#cbd5e1" }}>Input value: "{inputValue}"</div>
 				</div>
 			</Card>
 
@@ -91,6 +141,24 @@ export const ComponentDemo: React.FC = () => {
 					</Card>
 				</div>
 			</Card>
+
+			{/* Modal Demo */}
+			<Modal
+				isOpen={isModalOpen}
+				onClose={() => setIsModalOpen(false)}
+				title="Settings Modal"
+				icon={<Settings size={20} />}
+				closeOnClickOutside={true}
+			>
+				<div style={{ marginBottom: "16px" }}>
+					<Title order={4} text="Modal Content" />
+					<p>This is a modal dialog that can be closed by clicking outside or the X button.</p>
+				</div>
+				<div style={{ display: "flex", gap: "12px", justifyContent: "flex-end" }}>
+					<Button text="Cancel" variant="light" onClick={() => setIsModalOpen(false)} />
+					<Button text="Save" variant="filled" color="theme" onClick={() => setIsModalOpen(false)} />
+				</div>
+			</Modal>
 		</div>
 	);
 };
