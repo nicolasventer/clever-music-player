@@ -1,23 +1,59 @@
-import type { EBorder } from "@/components/ui/eborder";
-import { getBorderRadiusStyle } from "@/components/ui/eborder";
-import type { ReactNode } from "react";
+import type { TypedOmit } from "@/components/typedOmit";
+import type { ButtonProps } from "@/components/ui/Button";
+import { Button } from "@/components/ui/Button";
 
-export type TabProps = {
+export type BaseTabProps = {
+	// Core props
 	isActive: boolean;
 	tabCount: number;
-	text?: string;
-	icon?: ReactNode;
-	onClick?: () => void;
-	borderRadius?: EBorder[];
+
+	// Layout props
+	orientation?: "horizontal" | "vertical";
 };
 
-export const Tab = ({ isActive, tabCount, text, icon, onClick, borderRadius }: TabProps) => (
-	<button
-		className={`tab ${isActive ? "active" : ""}`}
-		onClick={onClick}
-		style={{ width: `${100 / tabCount}%`, ...getBorderRadiusStyle(borderRadius ?? [], "8px") }}
-	>
-		{icon && <span className="tab-icon">{icon}</span>}
-		<span className="tab-text">{text}</span>
-	</button>
-);
+export type TabProps = TypedOmit<ButtonProps, "variant" | "noShadow"> & BaseTabProps;
+
+export const Tab = ({
+	// Core props
+	isActive,
+	tabCount,
+
+	// Layout props
+	orientation = "horizontal",
+
+	// Styling props
+	borderRadius = [],
+	color = "theme",
+	shadow,
+
+	// HTML attributes
+	style,
+	...buttonProps
+}: TabProps) =>
+	isActive ? (
+		<Button
+			variant="filled"
+			color={color}
+			borderRadius={borderRadius}
+			noShadow={!shadow}
+			{...buttonProps}
+			style={{
+				width: orientation === "horizontal" ? `${100 / tabCount}%` : "auto",
+				height: orientation === "vertical" ? `${100 / tabCount}%` : "auto",
+				...style,
+			}}
+		/>
+	) : (
+		<Button
+			variant="light"
+			color={color}
+			borderRadius={borderRadius}
+			shadow={shadow}
+			{...buttonProps}
+			style={{
+				width: orientation === "horizontal" ? `${100 / tabCount}%` : "auto",
+				height: orientation === "vertical" ? `${100 / tabCount}%` : "auto",
+				...style,
+			}}
+		/>
+	);

@@ -1,59 +1,113 @@
-import type { ReactNode } from "react";
+import type { HTMLAttributes, ReactNode } from "react";
 
-export type TitleProps = {
+export type BaseTitleProps = {
+	// Core props
 	order: 1 | 2 | 3 | 4 | 5 | 6;
-	text?: string;
+
+	// Content props
+	children?: ReactNode;
 	icon?: ReactNode;
-	color?: "theme" | "danger" | "warning";
-	className?: string;
+
+	// Styling props
+	color?: "white" | "theme" | "danger" | "warning" | "success";
 	noMargin?: boolean;
+
+	// HTML attributes
+	iconProps?: HTMLAttributes<HTMLSpanElement>;
+	textProps?: HTMLAttributes<HTMLSpanElement>;
 };
 
-export const Title = ({ order, text, icon, color = "theme", className = "", noMargin = false }: TitleProps) => {
+export type TitleProps = HTMLAttributes<HTMLHeadingElement> & BaseTitleProps;
+
+export const Title = ({
+	// Core props
+	order,
+
+	// Content props
+	children,
+	icon,
+
+	// Styling props
+	color = "white",
+	noMargin = false,
+
+	// HTML attributes
+	className,
+	iconProps,
+	textProps,
+	...headingProps
+}: TitleProps) => {
 	const getTitleClasses = () => {
 		const baseClasses = [`title-${order}`];
 
-		if (color === "danger") {
-			baseClasses.push("title-danger");
-		} else if (color === "warning") {
-			baseClasses.push("title-warning");
-		}
+		baseClasses.push(`title-${color}`);
 
-		if (icon) {
-			baseClasses.push("icon-with-text");
-		}
+		if (icon) baseClasses.push("icon-with-text");
 
-		if (noMargin) {
-			baseClasses.push("no-margin");
-		}
+		if (noMargin) baseClasses.push("no-margin");
 
-		return [...baseClasses, className].filter(Boolean).join(" ");
+		if (className) baseClasses.push(className);
+
+		return baseClasses.join(" ");
 	};
 
 	const renderTitle = () => {
 		const content = (
 			<>
-				{icon && <span className="title-icon">{icon}</span>}
-				{text && <span className="title-text">{text}</span>}
+				{icon && (
+					<span className="title-icon" {...iconProps}>
+						{icon}
+					</span>
+				)}
+				{children && (
+					<span className="title-text" {...textProps}>
+						{children}
+					</span>
+				)}
 			</>
 		);
 
-		switch (order) {
-			case 1:
-				return <h1 className={getTitleClasses()}>{content}</h1>;
-			case 2:
-				return <h2 className={getTitleClasses()}>{content}</h2>;
-			case 3:
-				return <h3 className={getTitleClasses()}>{content}</h3>;
-			case 4:
-				return <h4 className={getTitleClasses()}>{content}</h4>;
-			case 5:
-				return <h5 className={getTitleClasses()}>{content}</h5>;
-			case 6:
-				return <h6 className={getTitleClasses()}>{content}</h6>;
-			default:
-				return <h1 className={getTitleClasses()}>{content}</h1>;
-		}
+		if (order === 1)
+			return (
+				<h1 className={getTitleClasses()} {...headingProps}>
+					{content}
+				</h1>
+			);
+		if (order === 2)
+			return (
+				<h2 className={getTitleClasses()} {...headingProps}>
+					{content}
+				</h2>
+			);
+		if (order === 3)
+			return (
+				<h3 className={getTitleClasses()} {...headingProps}>
+					{content}
+				</h3>
+			);
+		if (order === 4)
+			return (
+				<h4 className={getTitleClasses()} {...headingProps}>
+					{content}
+				</h4>
+			);
+		if (order === 5)
+			return (
+				<h5 className={getTitleClasses()} {...headingProps}>
+					{content}
+				</h5>
+			);
+		if (order === 6)
+			return (
+				<h6 className={getTitleClasses()} {...headingProps}>
+					{content}
+				</h6>
+			);
+		return (
+			<h1 className={getTitleClasses()} {...headingProps}>
+				{content}
+			</h1>
+		);
 	};
 
 	return renderTitle();

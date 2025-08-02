@@ -1,29 +1,50 @@
-import type { ChangeEvent } from "react";
+import type { TypedOmit } from "@/components/typedOmit";
+import type { ChangeEvent, InputHTMLAttributes } from "react";
+import { useState } from "react";
 
-export type SliderProps = {
-	value: number;
-	onChange?: (newValue: number) => void;
+export type BaseSliderProps = {
+	// Value/State props
+	value?: number;
+	setValue?: (value: number) => void;
+	initialValue?: number;
+
+	// Range props
 	min?: number;
 	max?: number;
 	step?: number;
-	className?: string;
-	disabled?: boolean;
+
+	// Styling props
 	thick?: boolean;
 };
 
+export type SliderProps = TypedOmit<InputHTMLAttributes<HTMLInputElement>, "type" | "value" | "min" | "max" | "step"> &
+	BaseSliderProps;
+
 export const Slider = ({
+	// Value/State props
 	value,
-	onChange,
+	setValue,
+	initialValue,
+
+	// Range props
 	min = 0,
 	max = 100,
 	step = 1,
+
+	// Styling props
+	thick,
+
+	// HTML attributes
+	onChange,
 	className = "",
-	disabled = false,
-	thick = false,
+	...inputProps
 }: SliderProps) => {
-	const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-		const newValue = parseFloat(event.target.value);
-		onChange?.(newValue);
+	const [privateValue, setPrivateValue] = useState(value ?? initialValue ?? 0);
+	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+		onChange?.(e);
+		const newValue = parseFloat(e.target.value);
+		setValue?.(newValue);
+		setPrivateValue(newValue);
 	};
 
 	return (
@@ -33,15 +54,15 @@ export const Slider = ({
 				min={min}
 				max={max}
 				step={step}
-				value={value}
+				value={value ?? privateValue}
 				onChange={handleChange}
-				disabled={disabled}
 				className={`slider-input ${thick ? "slider-input-thick" : ""}`}
+				{...inputProps}
 			/>
 			<div className={`slider-track ${thick ? "slider-track-thick" : ""}`}>
 				<div
 					className={`slider-fill ${thick ? "slider-fill-thick" : ""}`}
-					style={{ width: `${((value - min) / (max - min)) * 100}%` }}
+					style={{ width: `${(((value ?? privateValue) - min) / (max - min)) * 100}%` }}
 				/>
 			</div>
 		</div>
