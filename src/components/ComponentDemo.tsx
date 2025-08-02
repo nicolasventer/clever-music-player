@@ -265,6 +265,46 @@ export const ComponentDemo = () => {
 							<Button borderRadius={["bottom-left", "bottom-right"]}>Bottom Corners Only</Button>
 						</Horizontal>
 					</div>
+
+					{/* Loading State */}
+					<div>
+						<Text size="medium" color="theme">
+							Loading State
+						</Text>
+						<Vertical gap={8} marginTop={8}>
+							<Horizontal gap={8}>
+								<Button
+									isLoading={isLoading}
+									onClick={() => {
+										setIsLoading(true);
+										setTimeout(() => setIsLoading(false), 2000);
+									}}
+								>
+									{isLoading ? "Loading..." : "Click to Load"}
+								</Button>
+								<Button
+									variant="light"
+									isLoading={isLoading}
+									onClick={() => {
+										setIsLoading(true);
+										setTimeout(() => setIsLoading(false), 2000);
+									}}
+								>
+									{isLoading ? "Processing..." : "Light Loading"}
+								</Button>
+								<Button
+									color="success"
+									isLoading={isLoading}
+									onClick={() => {
+										setIsLoading(true);
+										setTimeout(() => setIsLoading(false), 2000);
+									}}
+								>
+									{isLoading ? "Saving..." : "Save Data"}
+								</Button>
+							</Horizontal>
+						</Vertical>
+					</div>
 				</Vertical>
 			</Card>
 
