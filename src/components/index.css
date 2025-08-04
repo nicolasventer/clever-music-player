@@ -682,6 +682,10 @@ body {
 	border-radius: inherit;
 }
 
+button > .loading-overlay {
+	backdrop-filter: blur(3px);
+}
+
 .position-relative {
 	position: relative;
 }

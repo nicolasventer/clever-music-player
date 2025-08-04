@@ -37,6 +37,7 @@ export type BaseButtonProps = (LightButtonProps | FilledButtonProps) & {
 	shadow?: boolean;
 	noShadow?: boolean;
 	isLoading?: boolean;
+	display?: "icon" | "children" | "both";
 };
 
 export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & BaseButtonProps;
@@ -62,6 +63,7 @@ export const Button = ({
 	noShadow,
 	disabled,
 	isLoading,
+	display = "both",
 
 	// HTML attributes
 	className,
@@ -107,8 +109,8 @@ export const Button = ({
 
 	return (
 		<button className={getButtonClasses()} disabled={isLoading || disabled} {...buttonProps}>
-			{icon && <span className="btn-icon">{icon}</span>}
-			{children && <span className="btn-text">{children}</span>}
+			{(display === "icon" || display === "both") && icon && <span className="btn-icon">{icon}</span>}
+			{(display === "children" || display === "both") && children && <span className="btn-text">{children}</span>}
 			<LoadingOverlay isVisible={isLoading} />
 		</button>
 	);

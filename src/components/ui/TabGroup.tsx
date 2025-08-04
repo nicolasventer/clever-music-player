@@ -79,6 +79,10 @@ export const TabGroup = <T extends string>({
 	alignItems,
 	justifyContent,
 
+	// Behavior props
+	isLoading,
+	display = "both",
+
 	// HTML attributes
 	className,
 	...divProps
@@ -124,6 +128,8 @@ export const TabGroup = <T extends string>({
 						borderRadius={borderRadius}
 						borderRadiusSize={index === 0 || index === items.length - 1 ? borderRadiusSize : "none"}
 						borderRadiusFilter={getBorderRadiusFilter(orientation, index, items.length)}
+						isLoading={isLoading}
+						display={display}
 					>
 						{item.children ?? item.value}
 					</Tab>
