@@ -9,13 +9,16 @@ import { Player } from "@/components/player/Player";
 import { Playlist } from "@/components/playlist/Playlist";
 import { Tab, Title } from "@/components/ui";
 import { LOCAL_STORAGE_KEY, localStorageStateStore, useApp } from "@/globalState";
-import PWABadge from "@/PWABadge";
 import { FullViewport, Horizontal, Vertical, WriteToolboxClasses } from "@/utils/ComponentToolbox";
 import { useOs } from "@/utils/useOs";
 import { AlertTriangle, BarChart3, ListMusic, Music } from "lucide-react";
 import { useEffect, useMemo } from "react";
+import { useRegisterSW } from "virtual:pwa-register/react";
 
 export const App = () => {
+	const { updateServiceWorker, needRefresh } = useRegisterSW({ immediate: true });
+	useEffect(() => void (needRefresh && updateServiceWorker(true)), [needRefresh, updateServiceWorker]);
+
 	const app = useApp();
 	const os = useOs();
 
@@ -116,7 +119,6 @@ export const App = () => {
 				threshold={app.dangerZone.threshold}
 			/>
 			<ResetConfirmationModal isOpen={app.dangerZone.bShowResetModal} onClose={actions.dangerZone.resetModal.close} />
-			<PWABadge />
 		</FullViewport>
 	);
 };

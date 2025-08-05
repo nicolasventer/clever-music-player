@@ -7,27 +7,32 @@ export const useKeyboardShortcuts = () => {
 		const handleKeyDown = (event: KeyboardEvent) => {
 			if (event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement) return;
 
-			event.preventDefault();
 			switch (event.key.toLowerCase()) {
 				case " ":
+					event.preventDefault();
 					actions.player.song.pressPlayFn(
 						appStore.value.player.currentSong.song,
 						appStore.value.player.currentSong.currentTime
 					)();
 					break;
 				case "m":
+					event.preventDefault();
 					actions.player.isMuted.toggle();
 					break;
 				case "n":
+					event.preventDefault();
 					actions.player.song.next();
 					break;
 				case "p":
+					event.preventDefault();
 					actions.player.song.previous();
 					break;
 				case "+":
+					event.preventDefault();
 					actions.player.volume.increment();
 					break;
 				case "-":
+					event.preventDefault();
 					actions.player.volume.decrement();
 					break;
 			}
