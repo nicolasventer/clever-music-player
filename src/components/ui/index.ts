@@ -1,5 +1,6 @@
 export { ComponentDemo } from "@/components/ComponentDemo";
 export { Button } from "@/components/ui/Button";
+export { ButtonBreadcrumbs } from "@/components/ui/ButtonBreadcrumbs";
 export { Card } from "@/components/ui/Card";
 export { CardButton } from "@/components/ui/CardButton";
 export * from "@/components/ui/Input";

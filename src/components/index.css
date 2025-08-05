@@ -1079,12 +1079,6 @@ button > .loading-overlay {
 	gap: 16px;
 }
 
-.file-browser-breadcrumb {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-}
-
 .file-browser-path-editor {
 	display: flex;
 	align-items: center;
@@ -1101,13 +1095,6 @@ button > .loading-overlay {
 .breadcrumb-item {
 	display: flex;
 	align-items: center;
-	gap: 6px;
-}
-
-.breadcrumb-navigation {
-	display: flex;
-	align-items: center;
-	flex-wrap: wrap;
 	gap: 6px;
 }
 
@@ -1151,4 +1138,38 @@ button > .loading-overlay {
 .hidden-count {
 	opacity: 0.7;
 	font-style: italic;
+}
+
+/* Button Breadcrumbs Component Styles */
+
+.button-breadcrumbs {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+}
+
+.breadcrumbs-navigation {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 6px;
+}
+
+.button-breadcrumbs-editor {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+}
+
+.breadcrumbs-input-container {
+	flex: 1;
+	margin-right: 8px;
+}
+
+.breadcrumbs-actions {
+	display: flex;
+	align-items: center;
+	gap: 8px;
 }

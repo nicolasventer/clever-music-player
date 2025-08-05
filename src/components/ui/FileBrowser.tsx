@@ -7,6 +7,7 @@ import { Title } from "@/components/ui/Title";
 import { File, Folder } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Button } from "./Button";
+import { ButtonBreadcrumbs } from "./ButtonBreadcrumbs";
 
 export type Entry = {
 	baseName: string;
@@ -38,23 +39,23 @@ export const FileBrowser = ({
 	const [searchQuery, setSearchQuery] = useState("");
 
 	// Split current directory into breadcrumb entries
-	const splittedCurrentDirectory: Entry[] = useMemo(() => {
+	const breadcrumbItems = useMemo(() => {
 		const parts = currentDirectory.split("/").filter(Boolean);
-		const breadcrumbs: Entry[] = [];
+		const items: { icon?: React.ReactNode; text: string; children?: React.ReactNode }[] = [];
 		let currentPath = "";
 
 		// Add root if not empty
 		if (currentDirectory.startsWith("/")) {
-			breadcrumbs.push({ baseName: "Root", path: "/", type: "DIRECTORY" });
+			items.push({ text: "Root", children: "Root" });
 			currentPath = "/";
 		}
 
 		for (const part of parts) {
 			currentPath = currentPath + (currentPath.endsWith("/") ? "" : "/") + part;
-			breadcrumbs.push({ baseName: part, path: currentPath, type: "DIRECTORY" });
+			items.push({ text: part, children: part });
 		}
 
-		return breadcrumbs;
+		return items;
 	}, [currentDirectory]);
 
 	// Separate folders and files
@@ -91,7 +92,17 @@ export const FileBrowser = ({
 		};
 	}, [entryList, entryFilter, searchQuery, maxFileToShowCount, maxFolderToShowCount]);
 
-	const handleNavigate = (path: string) => {
+	const handleBreadcrumbClick = (textArray: string[]) => {
+		// Reconstruct the path from the text array
+		let path = "";
+		if (textArray[0] === "Root") {
+			path = "/";
+			if (textArray.length > 1) {
+				path += textArray.slice(1).join("/");
+			}
+		} else {
+			path = textArray.join("/");
+		}
 		onNavigate?.(path);
 	};
 
@@ -120,7 +131,7 @@ export const FileBrowser = ({
 			<LoadingOverlay isVisible={isLoading} />
 
 			{/* Breadcrumb Navigation */}
-			<Card className="file-browser-breadcrumb" borderRadiusSize="small">
+			<Card borderRadiusSize="small">
 				{isEditingPath ? (
 					<div className="file-browser-path-editor">
 						<div>
@@ -142,21 +153,7 @@ export const FileBrowser = ({
 						</div>
 					</div>
 				) : (
-					<>
-						<div className="breadcrumb-navigation">
-							{splittedCurrentDirectory.map((entry, index) => (
-								<div key={entry.path} className="breadcrumb-item">
-									<Button size="small" onClick={() => handleNavigate(entry.path)}>
-										{entry.baseName}
-									</Button>
-									{index < splittedCurrentDirectory.length - 1 && <Text className="breadcrumb-separator">/</Text>}
-								</div>
-							))}
-						</div>
-						<Button variant="light" size="small" onClick={handleEditPath}>
-							Edit
-						</Button>
-					</>
+					<ButtonBreadcrumbs items={breadcrumbItems} separator="/" onClick={handleBreadcrumbClick} editable={true} />
 				)}
 			</Card>
 
@@ -174,7 +171,7 @@ export const FileBrowser = ({
 						<div className="file-browser-items">
 							{folders.map((folder) => (
 								<div key={folder.path} className="file-browser-item">
-									<Button icon={<Folder size={16} />} onClick={() => handleNavigate(folder.path)}>
+									<Button icon={<Folder size={16} />} onClick={() => onNavigate?.(folder.path)}>
 										{folder.baseName}
 									</Button>
 								</div>
