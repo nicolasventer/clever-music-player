@@ -72,6 +72,8 @@ export const App = () => {
 						currentSong={app.player.currentSong.song}
 						isPlaying={app.player.isPlaying}
 						isLoading={app.folder.isLoading}
+						loadedCount={app.folder.loadedCount}
+						totalToLoadCount={app.folder.totalToLoadCount}
 					/>
 				)}
 				{app.currentTab === "Dashboard" && <Dashboard sortedSongList={sortedSongList} meanSkipOdds={meanSkipOdds} />}
@@ -105,7 +107,13 @@ export const App = () => {
 					/>
 				</Horizontal>
 			</Vertical>
-			<NoMusicModal isOpen={app.bShowNoFolderModal} onClose={actions.app.noFolderModal.close} isLoading={app.folder.isLoading} />
+			<NoMusicModal
+				isOpen={app.bShowNoFolderModal}
+				onClose={actions.app.noFolderModal.close}
+				isLoading={app.folder.isLoading}
+				loadedCount={app.folder.loadedCount}
+				totalToLoadCount={app.folder.totalToLoadCount}
+			/>
 			<AboveThresholdModal
 				isOpen={app.dangerZone.bShowAboveModal}
 				onClose={actions.dangerZone.aboveModal.close}

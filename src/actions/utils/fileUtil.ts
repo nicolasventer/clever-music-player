@@ -6,11 +6,12 @@ export const isMusicFile = (fileName: string) => MUSIC_EXTENSIONS.some((ext) => 
 
 export async function* getFilesRecursively(
 	dirHandle: FileSystemDirectoryHandle,
-	filter: (fileName: string) => boolean
+	filter: (fileName: string) => boolean,
+	bRecursive: boolean
 ): AsyncGenerator<FileSystemFileHandle, void, unknown> {
 	for await (const entry of dirHandle.values()) {
 		if (entry.kind === "file" && isMusicFile(entry.name)) yield entry;
-		else if (entry.kind === "directory") yield* getFilesRecursively(entry, filter);
+		else if (entry.kind === "directory" && bRecursive) yield* getFilesRecursively(entry, filter, bRecursive);
 	}
 }
 

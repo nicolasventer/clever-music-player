@@ -12,12 +12,16 @@ const PlaylistSongs = ({
 	currentSong,
 	isPlaying,
 	isLoading,
+	loadedCount,
+	totalToLoadCount,
 }: {
 	songFilter: string;
 	filteredSongList: Song[];
 	currentSong: Song | null;
 	isPlaying: boolean;
 	isLoading: boolean;
+	loadedCount: number;
+	totalToLoadCount: number;
 }) => (
 	<Vertical widthFull>
 		<table>
@@ -37,12 +41,41 @@ const PlaylistSongs = ({
 						<td colSpan={2}>
 							{isLoading ? (
 								<div className="loading-slide-in">
-									<Horizontal justifyContent="center" gap={8}>
-										<div className="loading-pulse">
-											<Loader2 size={16} className="animate-spin" />
-										</div>
-										<Title order={5} text="Loading songs..." />
-									</Horizontal>
+									<Vertical gap={8} alignItems="center">
+										<Horizontal justifyContent="center" gap={8}>
+											<div className="loading-pulse">
+												<Loader2 size={16} className="animate-spin" />
+											</div>
+											<Title order={5} text="Loading songs..." />
+										</Horizontal>
+										{totalToLoadCount > 0 && (
+											<div style={{ width: "100%", maxWidth: "300px" }}>
+												<p style={{ color: "rgba(255, 255, 255, 0.6)", margin: 0, fontSize: "12px", textAlign: "center" }}>
+													Loaded {loadedCount} of {totalToLoadCount} files
+												</p>
+												<div
+													style={{
+														width: "100%",
+														height: "3px",
+														backgroundColor: "rgba(255, 255, 255, 0.1)",
+														borderRadius: "2px",
+														marginTop: "4px",
+														overflow: "hidden",
+													}}
+												>
+													<div
+														style={{
+															width: `${totalToLoadCount > 0 ? (loadedCount / totalToLoadCount) * 100 : 0}%`,
+															height: "100%",
+															backgroundColor: "rgba(255, 255, 255, 0.6)",
+															transition: "width 0.3s ease",
+															borderRadius: "2px",
+														}}
+													/>
+												</div>
+											</div>
+										)}
+									</Vertical>
 								</div>
 							) : (
 								<Title order={5} text="No songs found" />
@@ -124,12 +157,16 @@ export const Playlist = ({
 	currentSong,
 	isPlaying,
 	isLoading,
+	loadedCount = 0,
+	totalToLoadCount = 0,
 }: {
 	playlist: AppState["playlist"];
 	filteredSongList: Song[];
 	currentSong: Song | null;
 	isPlaying: boolean;
 	isLoading: boolean;
+	loadedCount?: number;
+	totalToLoadCount?: number;
 }) => (
 	<Vertical alignItems="center" flexGrow className="container" overflowAuto>
 		<Horizontal justifyContent="space-between" gap={16} widthFull marginTop={12}>
@@ -156,6 +193,8 @@ export const Playlist = ({
 			currentSong={currentSong}
 			isPlaying={isPlaying}
 			isLoading={isLoading}
+			loadedCount={loadedCount}
+			totalToLoadCount={totalToLoadCount}
 		/>
 	</Vertical>
 );

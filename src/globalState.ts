@@ -13,7 +13,8 @@ export type Song = {
 	title: string;
 	album: string;
 	artist: string;
-	picture: { data: number[]; type: string } | null;
+	songSrc: string; // URL.createObjectURL(songFile)
+	pictureSrc: string | null; // URL.createObjectURL(picture)
 	skipOdds: number;
 	playOrSkipCount: number;
 	isBanned: boolean; // if true, automatically skipped, increase playOrSkipCount but no change in skipOdds
@@ -73,6 +74,8 @@ export const appStore = store({
 	},
 	folder: {
 		isLoading: false,
+		loadedCount: 0,
+		totalToLoadCount: 0,
 		folderName: "",
 		songList: [] as Song[],
 	},
@@ -88,8 +91,6 @@ export const folder = {
 	folderHandle: null as FileSystemDirectoryHandle | null,
 	folderInfoHandle: null as FileSystemFileHandle | null,
 };
-
-export const songFileMap = new Map<string, File>(); // filename -> songFileHandle
 
 export const currentAudio = new Audio();
 currentAudio.volume = localStorageState.volume / 100;
