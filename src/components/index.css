@@ -589,7 +589,7 @@ body {
 	position: relative;
 	background: var(--color-bg-overlay);
 	border: 1px solid var(--color-border-light);
-	padding: 24px;
+	padding: 16px;
 	box-shadow: 0 8px 32px var(--color-shadow-medium);
 	--border-radius-small: 8px;
 	--border-radius-medium: 24px;
@@ -1069,4 +1069,86 @@ button > .loading-overlay {
 	margin: 0;
 	text-align: center;
 	opacity: 0.8;
+}
+
+/* File Browser Component Styles */
+
+.file-browser {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.file-browser-breadcrumb {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.file-browser-path-editor {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+}
+
+.file-browser-path-actions {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.breadcrumb-item {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.breadcrumb-navigation {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 6px;
+}
+
+.breadcrumb-separator {
+	color: rgba(255, 255, 255, 0.5);
+	font-weight: 500;
+	padding: 0 0 2px 0;
+}
+
+.file-browser-content {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+.file-browser-section-title {
+	padding-bottom: 8px;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.file-browser-items {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.file-browser-item {
+	display: flex;
+	align-items: center;
+}
+
+.file-browser-empty {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 40px;
+	color: rgba(255, 255, 255, 0.5);
+	font-style: italic;
+}
+
+.hidden-count {
+	opacity: 0.7;
+	font-style: italic;
 }

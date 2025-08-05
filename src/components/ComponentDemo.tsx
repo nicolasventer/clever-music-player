@@ -1,4 +1,5 @@
 import "@/components/index.css";
+import { FileBrowserDemo } from "@/components/ui/FileBrowserDemo";
 import {
 	asTabItems,
 	Button,
@@ -1083,6 +1084,9 @@ export const ComponentDemo = () => {
 					</Text>
 				</Vertical>
 			</Card>
+
+			{/* File Browser Demo */}
+			<FileBrowserDemo />
 
 			{/* Interactive Demo */}
 			<Card className="demo-section">
