@@ -1,6 +1,9 @@
 export { Button } from "./Button";
 export { Card } from "./Card";
 export { ComponentDemo } from "./ComponentDemo";
+export { FileBrowser } from "./FileBrowser";
+export type { Entry } from "./FileBrowser";
+export { FileBrowserDemo } from "./FileBrowserDemo";
 export * from "./InputBottomLine";
 export { Modal } from "./Modal";
 export { SearchInput } from "./SearchInput";
