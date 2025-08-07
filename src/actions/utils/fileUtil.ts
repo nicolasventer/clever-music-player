@@ -15,7 +15,7 @@ export async function* getFilesRecursively(
 	}
 }
 
-const FOLDER_INFO_FILE_NAME = ".folderInfo.json";
+export const FOLDER_INFO_FILE_NAME = ".folderInfo.json";
 
 export const getFolderInfoFile = (dirHandle: FileSystemDirectoryHandle) =>
 	dirHandle.getFileHandle(FOLDER_INFO_FILE_NAME, { create: true });

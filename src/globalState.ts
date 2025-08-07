@@ -34,7 +34,6 @@ export type LocalStorageState = {
 };
 export const loadLocalStorageState = (): LocalStorageState => {
 	const storedLocalStorageState = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY) ?? "{}") as Partial<LocalStorageState>;
-
 	return {
 		threshold: storedLocalStorageState.threshold ?? 0.75,
 		volume: storedLocalStorageState.volume ?? 1,
@@ -56,7 +55,7 @@ export const appStore = store({
 		},
 		isPlaying: false,
 		isEndTimeAbsoluteDisplayed: false,
-		rollbackSongList: [] as Song[], // storing the song to apply when rollback, max length is 10
+		rollbackSongList: [] as Song[], // storing the song to apply when rollback
 		volume: localStorageState.volume,
 		isMuted: localStorageState.isMuted,
 	},

@@ -18,6 +18,6 @@ export const writeFolderInfo = async () => {
 	if (!folder.folderInfoHandle) return;
 	const writable = await folder.folderInfoHandle.createWritable();
 	const folderInfo = folderToFolderInfo(appStore.value.folder);
-	writable.write(JSON.stringify(folderInfo));
+	await writable.write(JSON.stringify(folderInfo));
 	writable.close();
 };

@@ -15,7 +15,7 @@
 		"@scaleway/random-name": "5.1.2",
 		"clsx": "2.1.1",
 		"lucide-react": "0.536.0",
-		"mp3tag.js": "3.14.1",
+		"music-metadata": "11.7.3",
 		"react": "19.1.1",
 		"react-dom": "19.1.1",
 		"react-hot-toast": "2.5.2"

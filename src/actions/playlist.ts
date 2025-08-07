@@ -4,7 +4,7 @@ import { getRandomSong, playAudio, playSong } from "@/actions/utils/songUtil";
 import type { Folder, Song } from "@/globalState";
 import { appStore, folder, setAppWithUpdate } from "@/globalState";
 import randomName from "@scaleway/random-name";
-import Mp3Tag from "mp3tag.js";
+import { parseBuffer } from "music-metadata";
 
 const updateSongFilter = (filter: string) => setAppWithUpdate((app) => (app.playlist.songFilter = filter));
 
@@ -36,21 +36,25 @@ const openFolder = async (dirHandle: FileSystemDirectoryHandle, bRecursive: bool
 			musicFiles.map(async (fileHandle) => {
 				const file = await fileHandle.getFile();
 				const arrayBuffer = await file.arrayBuffer();
-				const mp3tag = new Mp3Tag(arrayBuffer);
-				mp3tag.read();
-				const apic = mp3tag.tags.v2?.APIC;
+				const metadata = await parseBuffer(new Uint8Array(arrayBuffer));
+
+				const filename = fileHandle.name;
+				const song = fileMap.get(filename);
 
 				newFolderInfo.songList.push({
-					title: mp3tag.tags.title,
-					album: mp3tag.tags.album,
-					artist: mp3tag.tags.artist.replace(/\\\\/g, "; "),
-					filename: fileHandle.name,
+					title: metadata.common.title ?? "",
+					album: metadata.common.album ?? "",
+					artist: metadata.common.artist?.replace(/\\\\/g, "; ") ?? "",
+					filename,
 					songSrc: URL.createObjectURL(file),
-					pictureSrc:
-						apic && apic[0] ? URL.createObjectURL(new Blob([new Uint8Array(apic[0].data)], { type: apic[0].format })) : null,
-					skipOdds: fileMap.get(fileHandle.name)?.skipOdds ?? 0,
-					playOrSkipCount: fileMap.get(fileHandle.name)?.playOrSkipCount ?? 0,
-					isBanned: fileMap.get(fileHandle.name)?.isBanned ?? false,
+					pictureSrc: metadata.common.picture?.[0]
+						? URL.createObjectURL(
+								new Blob([new Uint8Array(metadata.common.picture[0].data)], { type: metadata.common.picture[0].format })
+						  )
+						: null,
+					skipOdds: song?.skipOdds ?? 0,
+					playOrSkipCount: song?.playOrSkipCount ?? 0,
+					isBanned: song?.isBanned ?? false,
 				});
 				setAppWithUpdate((app) => (app.folder.loadedCount = newFolderInfo.songList.length));
 			})
@@ -58,7 +62,11 @@ const openFolder = async (dirHandle: FileSystemDirectoryHandle, bRecursive: bool
 
 		folder.folderHandle = dirHandle;
 		folder.folderInfoHandle = folderInfoHandle;
-		// TODO: take care of songList.length === 0
+
+		if (newFolderInfo.songList.length === 0) {
+			setAppWithUpdate((app) => (app.bShowNoFolderModal = true));
+			return;
+		}
 		const { randomSong, newSongList } = getRandomSong(newFolderInfo.songList);
 		setAppWithUpdate((app) => {
 			app.bShowNoFolderModal = false;

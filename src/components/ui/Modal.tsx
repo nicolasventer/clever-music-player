@@ -11,9 +11,11 @@ export type ModalProps = {
 	children: ReactNode;
 	icon?: ReactNode;
 	closeOnClickOutside?: boolean;
+	style?: React.CSSProperties;
+	className?: string;
 };
 
-export const Modal = ({ isOpen, onClose, title, children, icon, closeOnClickOutside }: ModalProps) => {
+export const Modal = ({ isOpen, onClose, title, children, icon, closeOnClickOutside, style, className = "" }: ModalProps) => {
 	const ref = useClickOutside(() => closeOnClickOutside && onClose());
 
 	return (
@@ -31,7 +33,11 @@ export const Modal = ({ isOpen, onClose, title, children, icon, closeOnClickOuts
 					}}
 					justifyContent="center"
 				>
-					<div ref={ref} className="modal-card" style={{ maxWidth: "500px", width: "90%", position: "relative" }}>
+					<div
+						ref={ref}
+						className={`modal-card ${className}`.trim()}
+						style={{ maxWidth: "500px", width: "90%", position: "relative", ...style }}
+					>
 						<Card className="modal-card-inner">
 							<Horizontal justifyContent="space-between" alignItems="center" className="modal-header">
 								<Title order={3} text={title} icon={icon} noMargin />
