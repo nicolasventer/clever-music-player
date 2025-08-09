@@ -1,6 +1,7 @@
+import type { NewCurrentSong } from "@/appUtils";
 import { displayArtistAlbum, displayTitle } from "@/components/componentUtil";
 import { Button, SearchInput, Title } from "@/components/ui";
-import type { AppState, Song } from "@/globalState";
+import type { Song } from "@/globalState";
 import { TodoFn } from "@/utils/clientUtils";
 import { Horizontal, Vertical } from "@/utils/ComponentToolbox";
 import { Ban, FolderOpen, Music, Pause, Play, RefreshCw } from "lucide-react";
@@ -11,13 +12,10 @@ type Playlist = {
 		value: string;
 		update: React.Dispatch<React.SetStateAction<string>>;
 	};
-	filteredSongList: {
-		value: Song[];
-		isLoading: boolean;
-	};
-	currentSong: AppState["player"]["currentSong"] & {
-		isPlaying: boolean;
-	};
+	filteredSongList: Song[];
+	currentSong: NewCurrentSong;
+	isSongPlaying: boolean;
+	isFolderLoading: boolean;
 };
 
 const PlaylistSongs = ({ playlist }: { playlist: Playlist }) => (
@@ -40,18 +38,14 @@ const PlaylistSongs = ({ playlist }: { playlist: Playlist }) => (
 				</tr>
 			</thead>
 			<tbody>
-				{playlist.filteredSongList.value.length === 0 && (
+				{playlist.filteredSongList.length === 0 && (
 					<tr>
 						<td colSpan={2}>
-							{playlist.filteredSongList.isLoading ? (
-								<Title order={5}>Loading songs...</Title>
-							) : (
-								<Title order={5}>No songs found</Title>
-							)}
+							{playlist.isFolderLoading ? <Title order={5}>Loading songs...</Title> : <Title order={5}>No songs found</Title>}
 						</td>
 					</tr>
 				)}
-				{playlist.filteredSongList.isLoading && playlist.filteredSongList.value.length === 0
+				{playlist.isFolderLoading && playlist.filteredSongList.length === 0
 					? // Loading skeleton rows
 					  Array.from({ length: 3 }).map((_, index) => (
 							// eslint-disable-next-line react/no-array-index-key
@@ -71,7 +65,7 @@ const PlaylistSongs = ({ playlist }: { playlist: Playlist }) => (
 								</td>
 							</tr>
 					  ))
-					: playlist.filteredSongList.value.map((song, index) => (
+					: playlist.filteredSongList.map((song, index) => (
 							<tr key={song.filename} className="loading-fade-in">
 								<td>
 									<Title order={5}>{displayTitle(song)}</Title>
@@ -79,7 +73,7 @@ const PlaylistSongs = ({ playlist }: { playlist: Playlist }) => (
 								</td>
 								<td>
 									<Horizontal gap={16} justifyContent="flex-end">
-										{playlist.currentSong.isPlaying && playlist.currentSong.song?.filename === song.filename ? (
+										{playlist.isSongPlaying && playlist.currentSong.song?.filename === song.filename ? (
 											<Button icon={<Pause size={14} />} variant="filled" onClick={TodoFn("pause song")} />
 										) : (
 											<Button
@@ -112,7 +106,7 @@ const PlaylistSongs = ({ playlist }: { playlist: Playlist }) => (
 			<tfoot>
 				<tr>
 					<th colSpan={2} className="table-footer">
-						📊 Total: {playlist.filteredSongList.value.length} songs, 2h35
+						📊 Total: {playlist.filteredSongList.length} songs, 2h35
 					</th>
 				</tr>
 			</tfoot>
@@ -127,7 +121,7 @@ const PlaylistDisplay = ({ playlist }: { playlist: Playlist }) => (
 				icon={<RefreshCw size={16} />}
 				variant="light"
 				onClick={TodoFn("refresh song list")}
-				isLoading={playlist.filteredSongList.isLoading}
+				isLoading={playlist.isFolderLoading}
 			>
 				Refresh
 			</Button>
@@ -135,7 +129,7 @@ const PlaylistDisplay = ({ playlist }: { playlist: Playlist }) => (
 				icon={<FolderOpen size={16} />}
 				variant="filled"
 				onClick={TodoFn("open folder")}
-				isLoading={playlist.filteredSongList.isLoading}
+				isLoading={playlist.isFolderLoading}
 			>
 				Open Folder
 			</Button>
@@ -145,24 +139,26 @@ const PlaylistDisplay = ({ playlist }: { playlist: Playlist }) => (
 );
 
 export type PlaylistProps = {
-	songList: { value: Song[]; isLoading: boolean };
-	currentSong: AppState["player"]["currentSong"] & { isPlaying: boolean };
+	currentSong: NewCurrentSong;
+	songList: Song[];
+	isSongPlaying: boolean;
+	isFolderLoading: boolean;
 };
 
-export const Playlist = ({ songList, currentSong }: PlaylistProps) => {
+export const Playlist = ({ songList, ...playlistProps }: PlaylistProps) => {
 	const [songFilter, setSongFilter] = useState("");
 	const filteredSongList = useMemo(
-		() => songList.value.filter((song) => song.title.toLowerCase().includes(songFilter.toLowerCase())),
+		() => songList.filter((song) => song.title.toLowerCase().includes(songFilter.toLowerCase())),
 		[songFilter, songList]
 	);
 
 	const playlist = useMemo(
 		() => ({
+			...playlistProps,
 			songFilter: { value: songFilter, update: setSongFilter },
-			filteredSongList: { value: filteredSongList, isLoading: songList.isLoading },
-			currentSong,
+			filteredSongList,
 		}),
-		[currentSong, filteredSongList, songFilter, songList.isLoading]
+		[filteredSongList, playlistProps, songFilter]
 	);
 
 	return <PlaylistDisplay playlist={playlist} />;

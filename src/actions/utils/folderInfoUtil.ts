@@ -1,5 +1,5 @@
 import type { Folder, Song } from "@/globalState";
-import { appStore, folder } from "@/globalState";
+import { folder } from "@/globalState";
 
 type SongInfo = Pick<Song, "filename" | "skipOdds" | "playOrSkipCount" | "isBanned">;
 type FolderInfo = Pick<Folder, "folderName"> & { songList: SongInfo[] };
@@ -14,10 +14,10 @@ const folderToFolderInfo = (folder: Folder): FolderInfo => ({
 	})),
 });
 
-export const writeFolderInfo = async () => {
+export const writeFolderInfo = async (folder_: Folder) => {
 	if (!folder.folderInfoHandle) return;
 	const writable = await folder.folderInfoHandle.createWritable();
-	const folderInfo = folderToFolderInfo(appStore.folder);
+	const folderInfo = folderToFolderInfo(folder_);
 	writable.write(JSON.stringify(folderInfo));
 	writable.close();
 };

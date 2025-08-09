@@ -114,11 +114,10 @@ const DangerZoneDisplay = ({ dangerZone }: { dangerZone: DangerZone }) => (
 );
 
 export type DangerZoneProps = {
-	threshold: { value: number; update: (value: number) => void };
 	songList: Song[];
 };
 
-export const DangerZone = ({ threshold, songList }: DangerZoneProps) => {
+export const DangerZone = ({ songList }: DangerZoneProps) => {
 	const [isShowAboveModalOpen, setIsShowAboveModalOpen] = useState(false);
 	const openShowAboveModal = () => setIsShowAboveModalOpen(true);
 	const closeShowAboveModal = () => setIsShowAboveModalOpen(false);
@@ -131,13 +130,11 @@ export const DangerZone = ({ threshold, songList }: DangerZoneProps) => {
 	const openShowResetModal = () => setIsShowResetModalOpen(true);
 	const closeShowResetModal = () => setIsShowResetModalOpen(false);
 
-	const [thresholdStr, setThresholdStr] = useState(() => Math.round(threshold.value * 100).toString());
-	const updateThresholdNum = useCallback((value: number) => threshold.update(value / 100), [threshold]);
+	const [thresholdNum, setThresholdNum] = useState(0.5);
+	const [thresholdStr, setThresholdStr] = useState(() => Math.round(thresholdNum * 100).toString());
+	const updateThresholdNum = useCallback((value: number) => setThresholdNum(value / 100), []);
 
-	const aboveThresholdSongList = useMemo(
-		() => songList.filter((song) => song.skipOdds > threshold.value),
-		[songList, threshold.value]
-	);
+	const aboveThresholdSongList = useMemo(() => songList.filter((song) => song.skipOdds > thresholdNum), [songList, thresholdNum]);
 
 	const dangerZone = useMemo(
 		() => ({
@@ -147,7 +144,7 @@ export const DangerZone = ({ threshold, songList }: DangerZoneProps) => {
 			aboveThresholdSongList,
 			threshold: {
 				str: { value: thresholdStr, update: setThresholdStr },
-				num: { value: threshold.value, update: updateThresholdNum },
+				num: { value: thresholdNum, update: updateThresholdNum },
 			},
 		}),
 		[
@@ -155,7 +152,7 @@ export const DangerZone = ({ threshold, songList }: DangerZoneProps) => {
 			isShowAboveModalOpen,
 			isShowDeleteModalOpen,
 			isShowResetModalOpen,
-			threshold.value,
+			thresholdNum,
 			thresholdStr,
 			updateThresholdNum,
 		]

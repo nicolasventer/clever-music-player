@@ -1,7 +1,3 @@
-import { actions } from "@/actions/actions";
-import { writeFolderInfo } from "@/actions/utils/folderInfoUtil";
-import { updateSongSkipOdds } from "@/actions/utils/songUtil";
-
 export const APP_TABS = ["Player", "Playlist", "Dashboard", "Danger Zone"] as const;
 export type AppTab = (typeof APP_TABS)[number];
 
@@ -89,21 +85,3 @@ export const folder = {
 export const songFileMap = new Map<string, File>(); // filename -> songFileHandle
 
 export const currentAudio = new Audio();
-currentAudio.volume = localStorageState.volume / 100;
-currentAudio.muted = localStorageState.isMuted;
-currentAudio.ontimeupdate = () => {
-	let justBeenPlayed = false;
-	setAppWithUpdate((app) => {
-		app.player.currentSong.currentTime = currentAudio.currentTime;
-		if (app.player.currentSong.isConsideredAsPlayed || app.player.currentSong.currentTime < 60) return;
-		app.player.currentSong.isConsideredAsPlayed = true;
-		justBeenPlayed = true;
-		app.folder.songList = app.folder.songList.map((song) =>
-			song.filename === app.player.currentSong.song?.filename ? updateSongSkipOdds(song, "play") : song
-		);
-	});
-	if (justBeenPlayed) writeFolderInfo();
-};
-currentAudio.onended = () => actions.player.song.next();
-currentAudio.onplaying = () => setAppWithUpdate((app) => (app.player.isPlaying = true));
-currentAudio.onpause = () => setAppWithUpdate((app) => (app.player.isPlaying = false));

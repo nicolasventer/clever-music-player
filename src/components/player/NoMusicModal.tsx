@@ -1,5 +1,4 @@
 import { Button, Modal } from "@/components/ui";
-import { TodoFn } from "@/utils/clientUtils";
 import { Horizontal, Vertical } from "@/utils/ComponentToolbox";
 import { FolderOpen, Loader2, Music } from "lucide-react";
 
@@ -7,15 +6,27 @@ export type NoMusicModalProps = {
 	isOpen: boolean;
 	onClose: () => void;
 	isLoading: boolean;
+	openFolder: () => void;
+	totalToLoadCount: number;
+	totalLoadedCount: number;
 };
 
-export const NoMusicModal = ({ isOpen, onClose, isLoading }: NoMusicModalProps) => (
+export const NoMusicModal = ({
+	isOpen,
+	onClose,
+	isLoading,
+	openFolder,
+	totalToLoadCount,
+	totalLoadedCount,
+}: NoMusicModalProps) => (
 	<Modal isOpen={isOpen} onClose={onClose} title="No Music Found" icon={<Music size={20} />} closeOnClickOutside>
 		<Vertical gap={16}>
 			{isLoading ? (
 				<div className="loading-fade-in">
 					<p style={{ color: "rgba(255, 255, 255, 0.8)", margin: 0 }}>
 						Loading music folder... Please wait while we scan your music files.
+						<br />
+						{totalLoadedCount} / {totalToLoadCount}
 					</p>
 					<Horizontal justifyContent="center" style={{ marginTop: "16px" }}>
 						<div className="loading-bounce">
@@ -29,7 +40,7 @@ export const NoMusicModal = ({ isOpen, onClose, isLoading }: NoMusicModalProps) 
 						It looks like you haven't added any music folders yet. To get started, add a folder containing your music files.
 					</p>
 					<Horizontal gap={12} justifyContent="center">
-						<Button icon={<FolderOpen size={16} />} variant="filled" onClick={TodoFn("open folder")}>
+						<Button icon={<FolderOpen size={16} />} variant="filled" onClick={openFolder}>
 							Open Music Folder
 						</Button>
 						<Button variant="light" onClick={onClose}>
