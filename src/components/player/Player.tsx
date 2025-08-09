@@ -1,7 +1,8 @@
 import { displayArtistAlbum, formatTime } from "@/components/componentUtil";
 import { KeyboardShortcuts } from "@/components/player/KeyboardShortcuts";
+import { NoMusicModal } from "@/components/player/NoMusicModal";
 import { Button, Slider, Text, Title } from "@/components/ui";
-import type { AppState, Song } from "@/globalState";
+import type { AppState } from "@/globalState";
 import { currentAudio } from "@/globalState";
 import { TodoFn } from "@/utils/clientUtils";
 import { Horizontal, Vertical } from "@/utils/ComponentToolbox";
@@ -22,14 +23,11 @@ type Player = {
 		value: boolean;
 		toggle: () => void;
 	};
-	currentSong: {
-		song: Song | null;
-		currentTime: number;
-		imgSrc: string | null;
-		isConsideredAsPlayed: boolean;
-	} & {
-		rollbackSongListLength: number;
-		isPlaying: boolean;
+	currentSong: PlayerProps["currentSong"];
+	isNoMusicModalOpen: {
+		value: boolean;
+		open: () => void;
+		close: () => void;
 	};
 };
 
@@ -93,11 +91,16 @@ const PlayerDisplay = ({ player }: { player: Player }) => (
 			</Horizontal>
 		</Vertical>
 		<KeyboardShortcuts />
+		<NoMusicModal
+			isOpen={player.isNoMusicModalOpen.value}
+			onClose={player.isNoMusicModalOpen.close}
+			isLoading={player.currentSong.isLoading}
+		/>
 	</Vertical>
 );
 
 export type PlayerProps = {
-	currentSong: AppState["player"]["currentSong"] & { rollbackSongListLength: number; isPlaying: boolean };
+	currentSong: AppState["player"]["currentSong"] & { rollbackSongListLength: number; isPlaying: boolean; isLoading: boolean };
 };
 
 export const Player = ({ currentSong }: PlayerProps) => {
@@ -117,14 +120,19 @@ export const Player = ({ currentSong }: PlayerProps) => {
 	const [isMuted, setIsMuted] = useState(false);
 	const toggleIsMuted = () => setIsMuted((prev) => (currentAudio.muted = !prev));
 
+	const [isNoMusicModalOpen, setIsNoMusicModalOpen] = useState(true);
+	const openNoMusicModal = () => setIsNoMusicModalOpen(true);
+	const closeNoMusicModal = () => setIsNoMusicModalOpen(false);
+
 	const player = useMemo(
 		() => ({
 			isEndTimeAbsoluteDisplayed: { value: isEndTimeAbsoluteDisplayed, toggle: toggleIsEndTimeAbsoluteDisplayed },
 			volume: { value: volume, update: updateVolume },
 			isMuted: { value: isMuted, toggle: toggleIsMuted },
 			currentSong,
+			isNoMusicModalOpen: { value: isNoMusicModalOpen, open: openNoMusicModal, close: closeNoMusicModal },
 		}),
-		[currentSong, isEndTimeAbsoluteDisplayed, isMuted, volume]
+		[currentSong, isEndTimeAbsoluteDisplayed, isMuted, isNoMusicModalOpen, volume]
 	);
 
 	return <PlayerDisplay player={player} />;

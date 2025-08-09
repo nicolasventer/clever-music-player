@@ -1,8 +1,11 @@
+import { DangerZone, DangerZoneProps } from "@/components/dangerZone/DangerZone";
+import { Dashboard } from "@/components/dashboard/Dashboard";
 import type { PlayerProps } from "@/components/player/Player";
 import { Player } from "@/components/player/Player";
 import type { PlaylistProps } from "@/components/playlist/Playlist";
 import { Playlist } from "@/components/playlist/Playlist";
 import { TabGroup, Title } from "@/components/ui";
+import { TodoFn } from "@/utils/clientUtils";
 import { FullViewport, Horizontal, Vertical, WriteToolboxClasses } from "@/utils/ComponentToolbox";
 import { useViewportSize } from "@/utils/useViewportSize";
 import { AlertTriangle, BarChart3, ListMusic, Music } from "lucide-react";
@@ -20,6 +23,7 @@ type App = {
 	currentSong: PlayerProps["currentSong"];
 	songList: PlaylistProps["songList"];
 	isAboveMd: boolean;
+	threshold: DangerZoneProps["threshold"];
 };
 
 const AppDisplay = ({ app }: { app: App }) => (
@@ -33,10 +37,8 @@ const AppDisplay = ({ app }: { app: App }) => (
 				</Horizontal>
 				{app.currentTab.value === "Player" && <Player currentSong={app.currentSong} />}
 				{app.currentTab.value === "Playlist" && <Playlist songList={app.songList} currentSong={app.currentSong} />}
-				{/* {app.currentTab.value === "Dashboard" && <Dashboard sortedSongList={sortedSongList} meanSkipOdds={meanSkipOdds} />} */}
-				{/* {app.currentTab.value === "Danger Zone" && (
-					<DangerZone dangerZone={app.dangerZone} aboveThresholdSongList={aboveThresholdSongList} />
-				)} */}
+				{app.currentTab.value === "Dashboard" && <Dashboard songList={app.songList.value} />}
+				{app.currentTab.value === "Danger Zone" && <DangerZone threshold={app.threshold} songList={app.songList.value} />}
 			</Vertical>
 			<TabGroup
 				items={[
@@ -72,6 +74,7 @@ export const App = () => {
 			isConsideredAsPlayed: false,
 			rollbackSongListLength: 0,
 			isPlaying: false,
+			isLoading: false,
 		}),
 		[]
 	);
@@ -84,14 +87,20 @@ export const App = () => {
 		[]
 	);
 
+	const threshold: DangerZoneProps["threshold"] = useMemo(
+		() => ({ value: 0.5, update: (_value: number) => TodoFn("update threshold") }),
+		[]
+	);
+
 	const app = useMemo(
 		() => ({
 			currentTab: { value: currentTab, setValue: setCurrentTab },
 			currentSong,
 			songList,
 			isAboveMd,
+			threshold,
 		}),
-		[currentTab, currentSong, isAboveMd, songList]
+		[currentTab, currentSong, isAboveMd, songList, threshold]
 	);
 
 	return <AppDisplay app={app} />;

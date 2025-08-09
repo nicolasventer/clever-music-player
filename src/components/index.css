@@ -329,50 +329,6 @@ body {
 	transform: none;
 }
 
-/* TAB COMPONENT STYLES */
-
-/* Base Tab Styles */
-.tab {
-	background: var(--color-bg-overlay-light);
-	border: none;
-	color: var(--color-text-primary);
-	padding: 12px 16px;
-	font-size: 14px;
-	font-weight: 500;
-	cursor: pointer;
-	transition: all 0.3s ease;
-	backdrop-filter: blur(10px);
-	border-bottom: 2px solid transparent;
-	position: relative;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
-.tab:hover {
-	background: var(--color-bg-overlay-heavy);
-	transform: translateY(-2px);
-}
-
-.tab:active {
-	transform: translateY(0);
-}
-
-.tab.active {
-	background: var(--gradient-primary);
-	border-bottom: 2px solid var(--color-primary);
-	box-shadow: 0 4px 15px var(--color-primary-shadow);
-}
-
-.tab-icon {
-	display: flex;
-	align-items: center;
-}
-
-.tab-text {
-	margin-left: 6px;
-}
-
 /* Tab Group Styles */
 .tab-group {
 	display: flex;
@@ -396,6 +352,47 @@ body {
 	height: 100%;
 }
 
+/* Tables */
+table {
+	width: 100%;
+	border-collapse: collapse;
+	background: rgba(255, 255, 255, 0.05);
+	border-radius: 12px;
+	overflow: hidden;
+	backdrop-filter: blur(8px);
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	margin-top: 16px;
+}
+
+thead {
+	background: rgba(102, 126, 234, 0.2);
+}
+
+th {
+	padding: 16px;
+	text-align: left;
+	font-weight: 600;
+	color: #e2e8f0;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+	align-items: center;
+}
+
+td {
+	padding: 12px 16px;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+	transition: background-color 0.3s ease;
+}
+
+tbody tr:hover {
+	background: rgba(255, 255, 255, 0.05);
+}
+
+tfoot th {
+	background: rgba(255, 255, 255, 0.05);
+	font-weight: 500;
+	color: #cbd5e1;
+}
+
 /* INPUT COMPONENT STYLES */
 
 /* Search Input Styles */
@@ -410,7 +407,7 @@ body {
 	padding: 12px 16px;
 	color: white;
 	font-size: 14px;
-	backdrop-filter: blur(10px);
+	backdrop-filter: blur(8px);
 	transition: all 0.3s ease;
 	width: 100%;
 	padding-left: 36px;
@@ -454,7 +451,7 @@ body {
 	color: var(--color-text-muted);
 	cursor: pointer;
 	transition: all 0.3s ease;
-	backdrop-filter: blur(10px);
+	backdrop-filter: blur(8px);
 }
 
 .input-clear-btn:hover {
@@ -626,11 +623,13 @@ body {
 	justify-content: center;
 	align-items: center;
 	pointer-events: none;
+	background: rgba(0, 0, 0, 0.8);
+	backdrop-filter: blur(8px);
 }
 
 .modal-card {
 	background: var(--color-bg-overlay);
-	backdrop-filter: blur(10px);
+	backdrop-filter: blur(8px);
 	border-radius: 16px;
 	border: 1px solid var(--color-border-light);
 	box-shadow: 0 8px 32px var(--color-shadow-heavy);
@@ -1010,7 +1009,7 @@ button > .loading-overlay {
 	transition: all 0.3s ease;
 	border: 2px solid transparent;
 	background: var(--color-bg-overlay-light);
-	backdrop-filter: blur(10px);
+	backdrop-filter: blur(8px);
 }
 
 .card-button:hover {

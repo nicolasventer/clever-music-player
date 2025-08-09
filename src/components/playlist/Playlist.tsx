@@ -121,7 +121,7 @@ const PlaylistSongs = ({ playlist }: { playlist: Playlist }) => (
 );
 
 const PlaylistDisplay = ({ playlist }: { playlist: Playlist }) => (
-	<Vertical heightFull alignItems="center">
+	<Vertical heightFull widthFull alignItems="center" margin="auto" padding="0 24px" style={{ maxWidth: 800 }}>
 		<Horizontal justifyContent="space-between" gap={16} widthFull marginTop={12}>
 			<Button
 				icon={<RefreshCw size={16} />}
