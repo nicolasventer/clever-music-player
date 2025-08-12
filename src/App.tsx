@@ -11,7 +11,6 @@ import { Playlist } from "@/components/playlist/Playlist";
 import { Tab, Title } from "@/components/ui";
 import { LOCAL_STORAGE_KEY, localStorageStateStore, useApp } from "@/globalState";
 import { FullViewport, Horizontal, Vertical, WriteToolboxClasses } from "@/utils/ComponentToolbox";
-import { useOs } from "@/utils/useOs";
 import { AlertTriangle, BarChart3, ListMusic, Music } from "lucide-react";
 import { useEffect, useMemo } from "react";
 import { useRegisterSW } from "virtual:pwa-register/react";
@@ -21,7 +20,6 @@ export const App = () => {
 	useEffect(() => void (needRefresh && updateServiceWorker(true)), [needRefresh, updateServiceWorker]);
 
 	const app = useApp();
-	const os = useOs();
 
 	const threshold = app.dangerZone.threshold;
 	const volume = app.player.volume;
@@ -64,7 +62,7 @@ export const App = () => {
 	return (
 		<FullViewport>
 			<WriteToolboxClasses />
-			<Vertical heightFull className={os === "android" || os === "ios" ? "mobile" : "not-mobile"} paddingTop={16}>
+			<Vertical heightFull paddingTop={16}>
 				<Title order={1} text="🎵 Clever Music Player" className="margin-bottom-16" />
 				{app.currentTab === "Player" && <Player player={app.player} />}
 				{app.currentTab === "Playlist" && (
