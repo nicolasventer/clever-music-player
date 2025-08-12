@@ -38,7 +38,7 @@ export const loadLocalStorageState = (): LocalStorageState => {
 	const storedLocalStorageState = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY) ?? "{}") as Partial<LocalStorageState>;
 	return {
 		threshold: storedLocalStorageState.threshold ?? 0.75,
-		volume: storedLocalStorageState.volume ?? 1,
+		volume: storedLocalStorageState.volume ?? 50,
 		isMuted: storedLocalStorageState.isMuted ?? false,
 		currentDirectory: storedLocalStorageState.currentDirectory ?? window.__dirname ?? "C:/",
 	};

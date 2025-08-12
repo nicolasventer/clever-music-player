@@ -1,12 +1,10 @@
 {
-	"name": "clever-music-player",
-	"private": true,
-	"version": "0.0.0",
+	"name": "clever-music-player-client",
 	"type": "module",
 	"scripts": {
 		"dev": "vite",
 		"build": "tsc -b && vite build",
-		"deploy": "rm -rf docs && cp -R dist docs",
+		"deploy": "rm -rf ../docs && cp -R dist ../docs",
 		"buildDeploy": "bun run build && bun run deploy",
 		"lint": "eslint .",
 		"preview": "vite preview"
