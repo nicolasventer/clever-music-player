@@ -1,6 +1,7 @@
 import { actions } from "@/actions/actions";
 import { writeFolderInfo } from "@/actions/utils/folderInfoUtil";
 import { updateSongSkipOdds } from "@/actions/utils/songUtil";
+import type { Entry } from "@/components/ui";
 import { cloneWithUpdate } from "@/utils/ISerializable";
 import type { TypeOfStore } from "@/utils/Store";
 import { store } from "@/utils/Store";
@@ -31,6 +32,7 @@ export type LocalStorageState = {
 	threshold: number;
 	volume: number;
 	isMuted: boolean;
+	currentDirectory: string;
 };
 export const loadLocalStorageState = (): LocalStorageState => {
 	const storedLocalStorageState = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY) ?? "{}") as Partial<LocalStorageState>;
@@ -38,6 +40,7 @@ export const loadLocalStorageState = (): LocalStorageState => {
 		threshold: storedLocalStorageState.threshold ?? 0.75,
 		volume: storedLocalStorageState.volume ?? 1,
 		isMuted: storedLocalStorageState.isMuted ?? false,
+		currentDirectory: storedLocalStorageState.currentDirectory ?? window.__dirname ?? "C:/",
 	};
 };
 const localStorageState = loadLocalStorageState();
@@ -45,6 +48,7 @@ export const localStorageStateStore = store(localStorageState);
 
 export const appStore = store({
 	bShowNoFolderModal: false,
+	bShowAddMusicFolderModal: false,
 	currentTab: "Player" as AppTab,
 	player: {
 		currentSong: {
@@ -77,6 +81,11 @@ export const appStore = store({
 		totalToLoadCount: 0,
 		folderName: "",
 		songList: [] as Song[],
+	},
+	browser: {
+		isLoading: false,
+		entryList: [] as Entry[],
+		currentDirectory: localStorageState.currentDirectory,
 	},
 });
 

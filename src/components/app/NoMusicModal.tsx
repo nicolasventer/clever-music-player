@@ -1,7 +1,7 @@
 import { actions } from "@/actions/actions";
 import { Button, Modal } from "@/components/ui";
 import { Horizontal, Vertical } from "@/utils/ComponentToolbox";
-import { FolderOpen, Loader2, Music } from "lucide-react";
+import { FolderOpen, Loader2, Music, Zap } from "lucide-react";
 
 export type NoMusicModalProps = {
 	isOpen: boolean;
@@ -9,10 +9,18 @@ export type NoMusicModalProps = {
 	isLoading: boolean;
 	loadedCount: number;
 	totalToLoadCount: number;
+	currentDirectory: string;
 };
 
-export const NoMusicModal = ({ isOpen, onClose, isLoading, loadedCount = 0, totalToLoadCount = 0 }: NoMusicModalProps) => (
-	<Modal isOpen={isOpen} onClose={onClose} title="No Music Found" icon={<Music size={20} />} closeOnClickOutside>
+export const NoMusicModal = ({
+	isOpen,
+	onClose,
+	isLoading,
+	loadedCount,
+	totalToLoadCount,
+	currentDirectory,
+}: NoMusicModalProps) => (
+	<Modal isOpen={isOpen} onClose={onClose} title="No Music Found" icon={<Music size={20} />} closeOnClickOutside={!isLoading}>
 		<Vertical gap={16}>
 			{isLoading ? (
 				<div className="loading-fade-in">
@@ -57,12 +65,36 @@ export const NoMusicModal = ({ isOpen, onClose, isLoading, loadedCount = 0, tota
 					<p style={{ color: "rgba(255, 255, 255, 0.8)", margin: 0 }}>
 						It looks like you haven't added any music folders yet. To get started, add a folder containing your music files.
 					</p>
-					<Horizontal gap={12} justifyContent="center">
+					<Horizontal gap={12} justifyContent="center" alignItems="flex-start" marginTop={12}>
+						{window.fs !== undefined && (
+							<Vertical gap={8}>
+								<Button
+									text={`Quick Add`}
+									icon={<Zap size={16} />}
+									variant="filled"
+									onClick={actions.browser.folder.selectFn(currentDirectory)}
+								/>
+								<div
+									style={{
+										color: "rgba(255, 255, 255, 0.6)",
+										fontSize: "12px",
+										fontStyle: "italic",
+										textAlign: "center",
+										maxWidth: "180px",
+										overflow: "hidden",
+										textOverflow: "ellipsis",
+										whiteSpace: "nowrap",
+									}}
+								>
+									{currentDirectory}
+								</div>
+							</Vertical>
+						)}
 						<Button
 							text="Add Music Folder"
 							icon={<FolderOpen size={16} />}
 							variant="filled"
-							onClick={actions.playlist.folder.handleOpen}
+							onClick={actions.app.addMusicFolder}
 						/>
 						<Button text="Later" variant="light" onClick={onClose} />
 					</Horizontal>

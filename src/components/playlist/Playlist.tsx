@@ -182,7 +182,7 @@ export const Playlist = ({
 				icon={isLoading ? <Loader2 size={16} className="animate-spin" /> : <FolderOpen size={16} />}
 				text="Open Folder"
 				variant="filled"
-				onClick={actions.playlist.folder.handleOpen}
+				onClick={actions.app.addMusicFolder}
 				disabled={isLoading}
 				className={isLoading ? "loading-pulse" : ""}
 			/>

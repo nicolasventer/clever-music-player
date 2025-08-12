@@ -1,4 +1,5 @@
 import { actions } from "@/actions/actions";
+import { AddMusicFolderModal } from "@/components/app/AddMusicFolderModal";
 import { NoMusicModal } from "@/components/app/NoMusicModal";
 import { AboveThresholdModal } from "@/components/dangerZone/AboveThresholdModal";
 import { DangerZone } from "@/components/dangerZone/DangerZone";
@@ -25,9 +26,10 @@ export const App = () => {
 	const threshold = app.dangerZone.threshold;
 	const volume = app.player.volume;
 	const isMuted = app.player.isMuted;
+	const currentDirectory = app.browser.currentDirectory;
 	localStorageStateStore.useEffect(
-		(setLocalStorageState) => setLocalStorageState({ threshold, volume, isMuted }),
-		[threshold, volume, isMuted]
+		(setLocalStorageState) => setLocalStorageState({ threshold, volume, isMuted, currentDirectory }),
+		[threshold, volume, isMuted, currentDirectory]
 	);
 
 	// save the local storage state to the local storage
@@ -113,7 +115,9 @@ export const App = () => {
 				isLoading={app.folder.isLoading}
 				loadedCount={app.folder.loadedCount}
 				totalToLoadCount={app.folder.totalToLoadCount}
+				currentDirectory={app.browser.currentDirectory}
 			/>
+			<AddMusicFolderModal bShowAddMusicFolderModal={app.bShowAddMusicFolderModal} browser={app.browser} />
 			<AboveThresholdModal
 				isOpen={app.dangerZone.bShowAboveModal}
 				onClose={actions.dangerZone.aboveModal.close}
