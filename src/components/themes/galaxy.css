@@ -1,0 +1,71 @@
+/* GALAXY THEME */
+
+:root {
+	/* Primary Colors */
+	--color-primary: rgb(139, 92, 246);
+	--color-primary-dark: rgb(124, 58, 237);
+	--color-primary-light: rgba(139, 92, 246, 0.3);
+	--color-primary-shadow: rgba(139, 92, 246, 0.4);
+	--color-primary-shadow-hover: rgba(139, 92, 246, 0.6);
+	--gradient-primary: linear-gradient(
+		135deg,
+		rgb(139, 92, 246) 0%,
+		rgb(99, 102, 241) 25%,
+		rgb(59, 130, 246) 50%,
+		rgb(16, 185, 129) 75%,
+		rgb(245, 158, 11) 100%
+	);
+	--gradient-bg: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #2a2a4a 100%);
+
+	/* Background Colors */
+	--color-bg-primary: #0a0a0f;
+	--color-bg-secondary: #1a1a2e;
+	--color-bg-tertiary: #2a2a4a;
+	--color-bg-overlay: rgba(139, 92, 246, 0.05);
+	--color-bg-overlay-light: rgba(139, 92, 246, 0.1);
+	--color-bg-overlay-medium: rgba(139, 92, 246, 0.15);
+	--color-bg-overlay-heavy: rgba(139, 92, 246, 0.2);
+
+	/* Text Colors */
+	--color-text-primary: #ffffff;
+	--color-text-secondary: #e0e7ff;
+	--color-text-tertiary: #c7d2fe;
+	--color-text-quaternary: #a5b4fc;
+	--color-text-muted: #818cf8;
+	--color-text-placeholder: rgba(139, 92, 246, 0.6);
+
+	/* Border Colors */
+	--color-primary-border: rgba(139, 92, 246, 0.3);
+	--color-border-light: rgba(139, 92, 246, 0.2);
+
+	/* Status Colors */
+	--color-success: rgb(16, 185, 129);
+	--color-success-bg: rgba(16, 185, 129, 0.2);
+	--color-success-border: rgba(16, 185, 129, 0.3);
+	--color-success-shadow: rgba(16, 185, 129, 0.4);
+
+	--color-warning: rgb(245, 158, 11);
+	--color-warning-bg: rgba(245, 158, 11, 0.2);
+	--color-warning-border: rgba(245, 158, 11, 0.3);
+	--color-warning-shadow: rgba(245, 158, 11, 0.4);
+
+	--color-danger: rgb(239, 68, 68);
+	--color-danger-bg: rgba(239, 68, 68, 0.2);
+	--color-danger-border: rgba(239, 68, 68, 0.3);
+	--color-danger-shadow: rgba(255, 107, 107, 0.4);
+
+	--color-error: rgb(229, 57, 53);
+
+	/* Shadow Colors */
+	--color-shadow-light: rgba(139, 92, 246, 0.3);
+	--color-shadow-medium: rgba(139, 92, 246, 0.5);
+	--color-shadow-heavy: rgba(139, 92, 246, 0.7);
+
+	/* Scrollbar Colors */
+	--color-scrollbar-track: rgba(139, 92, 246, 0.1);
+	--color-scrollbar-thumb: rgba(139, 92, 246, 0.3);
+	--color-scrollbar-thumb-hover: rgba(139, 92, 246, 0.5);
+
+	/* Border Radius Variables */
+	--border-radius-none: 0px;
+}

@@ -1,0 +1,31 @@
+/* THEME SELECTOR STYLES */
+
+.theme-preview-color {
+	width: 24px;
+	height: 24px;
+	border-radius: 6px;
+	border: 2px solid var(--color-border-light);
+}
+
+.theme-icon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	background: var(--color-bg-overlay-light);
+	color: var(--color-primary);
+	margin-bottom: 8px;
+}
+
+.theme-label {
+	margin: 0;
+	text-align: center;
+}
+
+.card-button .theme-description {
+	margin: 0;
+	text-align: center;
+	opacity: 0.8;
+}

@@ -1,0 +1,64 @@
+/* DEFAULT THEME */
+
+:root {
+	/* Primary Colors */
+	--color-primary: rgb(102, 126, 234);
+	--color-primary-dark: #764ba2;
+	--color-primary-light: rgba(102, 126, 234, 0.3);
+	--color-primary-shadow: rgba(102, 126, 234, 0.4);
+	--color-primary-shadow-hover: rgba(102, 126, 234, 0.6);
+	--gradient-primary: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+	--gradient-bg: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+
+	/* Background Colors */
+	--color-bg-primary: #1a1a2e;
+	--color-bg-secondary: #16213e;
+	--color-bg-tertiary: #0f3460;
+	--color-bg-overlay: rgba(255, 255, 255, 0.05);
+	--color-bg-overlay-light: rgba(255, 255, 255, 0.1);
+	--color-bg-overlay-medium: rgba(255, 255, 255, 0.15);
+	--color-bg-overlay-heavy: rgba(255, 255, 255, 0.2);
+
+	/* Text Colors */
+	--color-text-primary: #ffffff;
+	--color-text-secondary: #e2e8f0;
+	--color-text-tertiary: #f1f5f9;
+	--color-text-quaternary: #f8fafc;
+	--color-text-muted: #cbd5e1;
+	--color-text-placeholder: rgba(255, 255, 255, 0.6);
+
+	/* Border Colors */
+	--color-primary-border: rgba(255, 255, 255, 0.2);
+	--color-border-light: rgba(255, 255, 255, 0.1);
+
+	/* Status Colors */
+	--color-success: rgb(74, 222, 128);
+	--color-success-bg: rgba(74, 222, 128, 0.2);
+	--color-success-border: rgba(74, 222, 128, 0.3);
+	--color-success-shadow: rgba(74, 222, 128, 0.4);
+
+	--color-warning: rgb(251, 191, 36);
+	--color-warning-bg: rgba(251, 191, 36, 0.2);
+	--color-warning-border: rgba(251, 191, 36, 0.3);
+	--color-warning-shadow: rgba(251, 191, 36, 0.4);
+
+	--color-danger: rgb(239, 68, 68);
+	--color-danger-bg: rgba(239, 68, 68, 0.2);
+	--color-danger-border: rgba(239, 68, 68, 0.3);
+	--color-danger-shadow: rgba(255, 107, 107, 0.4);
+
+	--color-error: rgb(229, 57, 53);
+
+	/* Shadow Colors */
+	--color-shadow-light: rgba(255, 255, 255, 0.1);
+	--color-shadow-medium: rgba(0, 0, 0, 0.3);
+	--color-shadow-heavy: rgba(0, 0, 0, 0.3);
+
+	/* Scrollbar Colors */
+	--color-scrollbar-track: rgba(255, 255, 255, 0.1);
+	--color-scrollbar-thumb: rgba(255, 255, 255, 0.3);
+	--color-scrollbar-thumb-hover: rgba(255, 255, 255, 0.5);
+
+	/* Border Radius Variables */
+	--border-radius-none: 0px;
+}
