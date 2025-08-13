@@ -72,7 +72,7 @@ export const FileBrowser = ({ currentDirectory, isLoading, entryList, onNavigate
 
 	const handleSavePath = () => {
 		setIsEditingPath(false);
-		onNavigate?.(editingPath);
+		onNavigate?.(editingPath.replace(/\\/g, "/"));
 	};
 
 	const handleCancelEdit = () => {
