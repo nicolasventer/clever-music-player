@@ -13,12 +13,8 @@ import { LOCAL_STORAGE_KEY, localStorageStateStore, useApp } from "@/globalState
 import { FullViewport, Horizontal, Vertical, WriteToolboxClasses } from "@/utils/ComponentToolbox";
 import { AlertTriangle, BarChart3, ListMusic, Music } from "lucide-react";
 import { useEffect, useMemo } from "react";
-import { useRegisterSW } from "virtual:pwa-register/react";
 
 export const App = () => {
-	const { updateServiceWorker, needRefresh } = useRegisterSW({ immediate: true });
-	useEffect(() => void (needRefresh && updateServiceWorker(true)), [needRefresh, updateServiceWorker]);
-
 	const app = useApp();
 
 	const threshold = app.dangerZone.threshold;

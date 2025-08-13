@@ -1,0 +1,14 @@
+{
+	"name": "helloworld",
+	"main": "main.js",
+	"version": "1.0.0",
+	"window": {
+		"icon": "./favicon.svg",
+		"width": 1600,
+		"height": 900
+	},
+	"devDependencies": {
+		"@types/node": "24.2.0",
+		"@types/nw.js": "0.92.0"
+	}
+}

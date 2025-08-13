@@ -1,0 +1,48 @@
+{
+	"$schema": "./neutralino.config.schema.json",
+	"applicationId": "js.neutralino.zero",
+	"version": "1.0.0",
+	"defaultMode": "window",
+	"documentRoot": "/react-src/dist/",
+	"url": "/",
+	"enableServer": true,
+	"enableNativeAPI": true,
+	"nativeAllowList": [
+		"app.*",
+		"filesystem.readDirectory",
+		"filesystem.getAbsolutePath",
+		"filesystem.readBinaryFile",
+		"filesystem.writeFile",
+		"storage.getData",
+		"storage.setData"
+	],
+	"globalVariables": {
+		"TEST": "Test Value"
+	},
+	"modes": {
+		"window": {
+			"title": "myapp",
+			"width": 1200,
+			"height": 800,
+			"minWidth": 400,
+			"minHeight": 200,
+			"icon": "/react-src/public/favicon.svg",
+			"enableInspector": true
+		}
+	},
+	"cli": {
+		"binaryName": "myapp",
+		"resourcesPath": "/react-src/dist/",
+		"extensionsPath": "/extensions/",
+		"binaryVersion": "6.2.0",
+		"clientVersion": "6.2.0",
+		"frontendLibrary": {
+			"patchFile": "/react-src/index.html",
+			"devUrl": "http://localhost:5173",
+			"projectPath": "/react-src/",
+			"initCommand": "bun install",
+			"devCommand": "bun run dev",
+			"buildCommand": "bun run build"
+		}
+	}
+}
