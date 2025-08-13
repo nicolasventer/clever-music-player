@@ -18,7 +18,7 @@ const folderToFolderInfo = (folder: Folder): FolderInfo => ({
 
 export const writeFolderInfo = async () => {
 	if (window.fs !== undefined) {
-		window.fs.writeFileSync(
+		await window.writeFileSyncText(
 			path.join(appStore.value.browser.currentDirectory, FOLDER_INFO_FILE_NAME),
 			JSON.stringify(folderToFolderInfo(appStore.value.folder))
 		);

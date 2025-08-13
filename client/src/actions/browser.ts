@@ -4,22 +4,31 @@ import { getRandomSong, playAudio, playSong } from "@/actions/utils/songUtil";
 import type { Entry } from "@/components/ui";
 import type { Folder, Song } from "@/globalState";
 import { appStore, folder, setAppWithUpdate } from "@/globalState";
-import type fs from "fs";
 import { parseBuffer } from "music-metadata";
 import path from "path-browserify-esm";
 
+type FileEntry = {
+	name: string;
+	isDirectory: boolean;
+};
+
 declare global {
 	interface Window {
-		fs: typeof fs;
+		__dirname: string;
+		readdirSync: (path: string) => Promise<FileEntry[]>;
+		readFileSyncText: (path: string) => Promise<string>;
+		readFileSyncBinary: (path: string) => Promise<string>; // base64
+		writeFileSyncText: (path: string, data: string) => Promise<void>;
+		fs: () => Promise<void>;
 	}
 }
 
-const updateCurrentDirectory = (currentDirectory: string) => {
+const updateCurrentDirectory = async (currentDirectory: string) => {
 	try {
 		setAppWithUpdate((prev) => (prev.browser.isLoading = true));
-		const data = window.fs.readdirSync(currentDirectory, { withFileTypes: true });
+		const data = await window.readdirSync(currentDirectory);
 		const entryList: Entry[] = data
-			.filter((item) => item.isDirectory() || isMusicFile(item.name))
+			.filter((item) => item.isDirectory || isMusicFile(item.name))
 			.map((item) => ({
 				baseName: item.name,
 				path: path.join(currentDirectory, item.name),
@@ -35,14 +44,23 @@ const updateCurrentDirectory = (currentDirectory: string) => {
 	}
 };
 
-const nativeGetFolderInfo = (selectedFolder: string) => {
+const nativeGetFolderInfo = async (selectedFolder: string) => {
 	try {
-		const folderInfoFileContent = window.fs.readFileSync(path.join(selectedFolder, FOLDER_INFO_FILE_NAME), "utf-8");
+		const folderInfoFileContent = await window.readFileSyncText(path.join(selectedFolder, FOLDER_INFO_FILE_NAME));
 		return JSON.parse(folderInfoFileContent) as Folder;
 	} catch {
 		return null;
 	}
 };
+
+function base64ToArrayBuffer(base64: string) {
+	const binaryString = atob(base64);
+	const bytes = new Uint8Array(binaryString.length);
+	for (let i = 0; i < binaryString.length; i++) {
+		bytes[i] = binaryString.charCodeAt(i);
+	}
+	return bytes.buffer;
+}
 
 const selectFolderFn = (selectedFolder: string) => async () => {
 	try {
@@ -62,15 +80,16 @@ const selectFolderFn = (selectedFolder: string) => async () => {
 
 		const newFolderInfo: Folder = { folderName: folderInfo?.folderName ?? selectedFolder, songList: [] };
 
-		const data = window.fs.readdirSync(selectedFolder, { withFileTypes: true });
-		const musicFiles = data.filter((item) => item.isFile() && isMusicFile(item.name));
+		const data = await window.readdirSync(selectedFolder);
+		const musicFiles = data.filter((item) => !item.isDirectory && isMusicFile(item.name));
 		setAppWithUpdate((app) => (app.folder.totalToLoadCount = musicFiles.length));
 
+		console.time("read music files");
 		await Promise.all(
 			musicFiles.map(async (item) => {
-				const fileContent = window.fs.readFileSync(path.join(selectedFolder, item.name));
-				const file = new Uint8Array(fileContent);
-				const metadata = await parseBuffer(fileContent);
+				const fileContent = await window.readFileSyncBinary(path.join(selectedFolder, item.name));
+				const file = new Uint8Array(base64ToArrayBuffer(fileContent));
+				const metadata = await parseBuffer(file);
 
 				const filename = path.join(selectedFolder, item.name);
 				const song = fileMap.get(filename);
@@ -93,6 +112,7 @@ const selectFolderFn = (selectedFolder: string) => async () => {
 				setAppWithUpdate((app) => (app.folder.loadedCount = newFolderInfo.songList.length));
 			})
 		);
+		console.timeEnd("read music files");
 
 		folder.folderHandle = null;
 		folder.folderInfoHandle = null;

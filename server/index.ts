@@ -1,4 +1,5 @@
 import { argv } from "bun";
+import fs, { readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { SizeHint, Webview } from "webview-bun";
 import { B_PROD } from "./env";
 
@@ -55,6 +56,31 @@ webview.bind("send-message", (message) => {
 	console.log(message);
 	return `Server received: ${message}`;
 });
+
+type FileEntry = {
+	name: string;
+	isDirectory: boolean;
+};
+
+webview.bind("readdirSync", (path: string): FileEntry[] =>
+	readdirSync(path, { withFileTypes: true }).map((entry) => ({ name: entry.name, isDirectory: entry.isDirectory() }))
+);
+// webview.bind("readFileSyncText", (path: string): Promise<string> => file(path).text());
+webview.bind("readFileSyncText", (path: string): string => readFileSync(path, "utf-8"));
+// webview.bind("readFileSyncBinary", (path: string): Promise<Uint8Array> => file(path).bytes());
+webview.bind("readFileSyncBinary", (path: string): string => readFileSync(path).toBase64());
+// webview.bind("writeFileSyncText", (path: string, data: string): Promise<number> => file(path).write(data));
+webview.bind("writeFileSyncText", (path: string, data: string): void => writeFileSync(path, data));
+
+webview.bind("fs", () => "bound");
+// ({
+// 	readdirSync,
+// 	readFileSyncText: (path: string): Promise<string> => file(path).text(),
+// 	readFileSyncBinary: (path: string): Promise<Uint8Array> => file(path).bytes(),
+// 	writeFileSyncText: (path: string, data: string): Promise<number> => file(path).write(data),
+// }));
+
+webview.bind("fs", () => fs);
 
 webview.navigate(B_PROD ? `http://localhost:${port}/` : "http://localhost:5173/clever-music-player");
 
