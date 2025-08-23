@@ -1,6 +1,6 @@
 # Common Prop Categories
 
-This document outlines the standardized prop categories used across all UI components in the clever-music-player codebase. These categories ensure consistency and maintainability across the component library.
+This document outlines the standardized prop categories used across all UI components in the codebase. These categories ensure consistency and maintainability across the component library.
 
 ## Prop Category Overview
 

@@ -101,7 +101,7 @@ export const ThemeSelector = () => {
 				Choose Your Theme
 			</Title>
 			<Text size="md" color="theme">
-				Select a theme to customize your music player experience
+				Select a theme to customize your experience
 			</Text>
 			<Horizontal gap={16} widthFull overflowAuto padding={16}>
 				{themeOptions.map((option) => (

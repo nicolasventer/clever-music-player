@@ -6,7 +6,7 @@ import autoMemo from "./auto-memo";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-	base: "/clever-music-player",
+	base: "./",
 	plugins: [
 		autoMemo(),
 		react(),
