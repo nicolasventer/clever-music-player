@@ -1,4 +1,3 @@
-import "@/components/ThemeSelector.css";
 import { Button } from "@/components/_ui/Button";
 import { Card } from "@/components/_ui/Card";
 import { CardButton } from "@/components/_ui/CardButton";
@@ -7,6 +6,7 @@ import { Title } from "@/components/_ui/Title";
 import { useTheme, type Theme } from "@/components/_ui/useTheme";
 import { Horizontal, Vertical } from "@/utils/ComponentToolbox";
 import { Droplets, Leaf, Palette, Satellite, Sparkles, Sun, Sunset, TreePine, Zap } from "lucide-react";
+import styles from "./ThemeSelector.module.css";
 
 const themeOptions: Array<{
 	value: Theme;
@@ -114,15 +114,15 @@ export const ThemeSelector = () => {
 						<Vertical gap={12} alignItems="center">
 							<Horizontal gap={4}>
 								{option.previewColors.map((color) => (
-									<div key={color} className="theme-preview-color" style={{ backgroundColor: color }} />
+									<div key={color} className={styles["theme-preview-color"]} style={{ backgroundColor: color }} />
 								))}
 							</Horizontal>
 							<Vertical gap={4} alignItems="center">
-								<div className="theme-icon">{option.icon}</div>
-								<Title order={5} className="theme-label">
+								<div className={styles["theme-icon"]}>{option.icon}</div>
+								<Title order={5} className={styles["theme-label"]}>
 									{option.label}
 								</Title>
-								<Text size="sm" className="theme-description">
+								<Text size="sm" className={styles["theme-description"]}>
 									{option.description}
 								</Text>
 							</Vertical>
