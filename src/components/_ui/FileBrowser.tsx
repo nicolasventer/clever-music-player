@@ -1,9 +1,10 @@
-import { Card } from "@/components/ui/Card";
-import { Input } from "@/components/ui/Input";
-import { LoadingOverlay } from "@/components/ui/LoadingOverlay";
-import { SearchInput } from "@/components/ui/SearchInput";
-import { Text } from "@/components/ui/Text";
-import { Title } from "@/components/ui/Title";
+import type { CardProps } from "@/components/_ui/Card";
+import { Card } from "@/components/_ui/Card";
+import { Input } from "@/components/_ui/Input";
+import { LoadingOverlay } from "@/components/_ui/LoadingOverlay";
+import { SearchInput } from "@/components/_ui/SearchInput";
+import { Text } from "@/components/_ui/Text";
+import { Title } from "@/components/_ui/Title";
 import { File, Folder } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Button } from "./Button";
@@ -23,6 +24,13 @@ export type FileBrowserProps = {
 	entryFilter?: (entry: Entry) => boolean;
 	maxFileToShowCount?: number;
 	maxFolderToShowCount?: number;
+	props?: {
+		main?: CardProps;
+		content?: {
+			style?: React.CSSProperties;
+			className?: string;
+		};
+	};
 };
 
 export const FileBrowser = ({
@@ -33,6 +41,7 @@ export const FileBrowser = ({
 	entryFilter,
 	maxFileToShowCount,
 	maxFolderToShowCount,
+	props,
 }: FileBrowserProps) => {
 	const [isEditingPath, setIsEditingPath] = useState(false);
 	const [editingPath, setEditingPath] = useState(currentDirectory);
@@ -106,11 +115,6 @@ export const FileBrowser = ({
 		onNavigate?.(path);
 	};
 
-	const handleEditPath = () => {
-		setIsEditingPath(true);
-		setEditingPath(currentDirectory);
-	};
-
 	const handleSavePath = () => {
 		setIsEditingPath(false);
 		onNavigate?.(editingPath);
@@ -127,11 +131,11 @@ export const FileBrowser = ({
 	};
 
 	return (
-		<Card className="file-browser">
+		<Card {...props?.main} className={`file-browser ${props?.main?.className}`}>
 			<LoadingOverlay isVisible={isLoading} />
 
 			{/* Breadcrumb Navigation */}
-			<Card borderRadiusSize="small">
+			<Card borderRadiusSize="sm">
 				{isEditingPath ? (
 					<div className="file-browser-path-editor">
 						<div>
@@ -144,10 +148,10 @@ export const FileBrowser = ({
 							/>
 						</div>
 						<div className="file-browser-path-actions">
-							<Button variant="light" size="small" onClick={handleSavePath} color="success">
+							<Button variant="light" size="sm" onClick={handleSavePath} color="success">
 								Save
 							</Button>
-							<Button variant="light" size="small" onClick={handleCancelEdit} color="danger">
+							<Button variant="light" size="sm" onClick={handleCancelEdit} color="danger">
 								Cancel
 							</Button>
 						</div>
@@ -161,10 +165,10 @@ export const FileBrowser = ({
 			<SearchInput value={searchQuery} setValue={setSearchQuery} placeholder="Search files and folders..." clearable />
 
 			{/* Content Area */}
-			<div className="file-browser-content">
+			<div className={`file-browser-content ${props?.content?.className}`} style={props?.content?.style}>
 				{/* Folders */}
 				{folders.length > 0 && (
-					<Card borderRadiusSize="small">
+					<Card borderRadiusSize="sm">
 						<Title order={4} className="file-browser-section-title">
 							Folders
 						</Title>
@@ -178,7 +182,7 @@ export const FileBrowser = ({
 							))}
 							{hiddenFoldersCount > 0 && (
 								<div className="file-browser-item">
-									<Text size="small" color="theme" className="hidden-count">
+									<Text size="sm" color="theme" className="hidden-count">
 										+{hiddenFoldersCount} more folders
 									</Text>
 								</div>
@@ -189,21 +193,21 @@ export const FileBrowser = ({
 
 				{/* Files */}
 				{files.length > 0 && (
-					<Card borderRadiusSize="small">
+					<Card borderRadiusSize="sm">
 						<Title order={3} className="file-browser-section-title">
 							Files
 						</Title>
 						<div className="file-browser-items">
 							{files.map((file) => (
 								<div key={file.path} className="file-browser-item">
-									<Text icon={<File size={16} />} size="small">
+									<Text icon={<File size={16} />} size="sm">
 										{file.baseName}
 									</Text>
 								</div>
 							))}
 							{hiddenFilesCount > 0 && (
 								<div className="file-browser-item">
-									<Text size="small" className="hidden-count">
+									<Text size="sm" className="hidden-count">
 										+{hiddenFilesCount} more files
 									</Text>
 								</div>
@@ -215,7 +219,7 @@ export const FileBrowser = ({
 				{/* Empty State */}
 				{folders.length === 0 && files.length === 0 && (
 					<div className="file-browser-empty">
-						<Text size="small">No files or folders found</Text>
+						<Text size="sm">No files or folders found</Text>
 					</div>
 				)}
 			</div>

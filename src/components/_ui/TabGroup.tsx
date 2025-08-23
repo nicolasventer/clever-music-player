@@ -1,6 +1,6 @@
-import type { TypedOmit } from "@/components/typedOmit";
-import type { TabProps } from "@/components/ui/Tab";
-import { Tab } from "@/components/ui/Tab";
+import type { TabProps } from "@/components/_ui/Tab";
+import { Tab } from "@/components/_ui/Tab";
+import type { TypedOmit } from "@/components/_ui/typedOmit";
 import type { ButtonHTMLAttributes, HTMLAttributes, ReactNode } from "react";
 import { useState } from "react";
 
@@ -66,9 +66,9 @@ export const TabGroup = <T extends string>({
 
 	// Styling props
 	shadow = true,
-	size = "medium",
+	size = "md",
 	color = "theme",
-	borderRadiusSize = "large",
+	borderRadiusSize = "lg",
 	borderRadius = ["all"],
 
 	// Layout props

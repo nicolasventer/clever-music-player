@@ -1,6 +1,8 @@
-import type { TypedOmit } from "@/components/typedOmit";
-import type { CardProps } from "@/components/ui/Card";
-import { Button, Card, Title } from "@/components/ui/index";
+import { Button } from "@/components/_ui/Button";
+import type { CardProps } from "@/components/_ui/Card";
+import { Card } from "@/components/_ui/Card";
+import { Title } from "@/components/_ui/Title";
+import type { TypedOmit } from "@/components/_ui/typedOmit";
 import { X } from "lucide-react";
 import type { HTMLAttributes, ReactNode } from "react";
 import { useEffect, useRef } from "react";

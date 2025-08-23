@@ -1,8 +1,12 @@
-import { Button, Card, CardButton, Text, Title } from "@/components/ui";
-import { useTheme, type Theme } from "@/components/useTheme";
-import "@/ThemeSelector.css";
+import "@/components/ThemeSelector.css";
+import { Button } from "@/components/_ui/Button";
+import { Card } from "@/components/_ui/Card";
+import { CardButton } from "@/components/_ui/CardButton";
+import { Text } from "@/components/_ui/Text";
+import { Title } from "@/components/_ui/Title";
+import { useTheme, type Theme } from "@/components/_ui/useTheme";
 import { Horizontal, Vertical } from "@/utils/ComponentToolbox";
-import { Droplets, Palette, Sparkles, Stars, Sun, Sunset, TreePine, Zap } from "lucide-react";
+import { Droplets, Leaf, Palette, Satellite, Sparkles, Sun, Sunset, TreePine, Zap } from "lucide-react";
 
 const themeOptions: Array<{
 	value: Theme;
@@ -47,6 +51,13 @@ const themeOptions: Array<{
 		previewColors: ["rgb(34, 197, 94)", "rgb(22, 163, 74)", "#0f1419", "#1a1f2e"],
 	},
 	{
+		value: "autumn",
+		label: "Autumn",
+		description: "Warm orange and brown theme",
+		icon: <Leaf size={20} />,
+		previewColors: ["rgb(255, 140, 0)", "#d2691e", "#2d1810", "#3d2817"],
+	},
+	{
 		value: "light",
 		label: "Light",
 		description: "Clean light theme",
@@ -64,8 +75,15 @@ const themeOptions: Array<{
 		value: "galaxy",
 		label: "Galaxy",
 		description: "Deep space theme",
-		icon: <Stars size={20} />,
+		icon: <Satellite size={20} />,
 		previewColors: ["rgb(139, 92, 246)", "rgb(124, 58, 237)", "#0a0a0f", "#1a1a2e"],
+	},
+	{
+		value: "crimson",
+		label: "Crimson",
+		description: "Passionate red theme",
+		icon: <Zap size={20} />,
+		previewColors: ["rgb(220, 38, 38)", "rgb(153, 27, 27)", "#1a0a0a", "#2d1b1b"],
 	},
 ];
 
@@ -82,7 +100,7 @@ export const ThemeSelector = () => {
 			<Title order={3} icon={<Palette size={20} />}>
 				Choose Your Theme
 			</Title>
-			<Text size="medium" color="theme">
+			<Text size="md" color="theme">
 				Select a theme to customize your music player experience
 			</Text>
 			<Horizontal gap={16} widthFull overflowAuto padding={16}>
@@ -104,7 +122,7 @@ export const ThemeSelector = () => {
 								<Title order={5} className="theme-label">
 									{option.label}
 								</Title>
-								<Text size="small" className="theme-description">
+								<Text size="sm" className="theme-description">
 									{option.description}
 								</Text>
 							</Vertical>
@@ -113,7 +131,7 @@ export const ThemeSelector = () => {
 				))}
 			</Horizontal>
 			<Horizontal gap={8} marginTop={16} justifyContent="center">
-				<Button variant="light" size="small" onClick={() => handleThemeChange("default")} disabled={isLoading}>
+				<Button variant="light" size="sm" onClick={() => handleThemeChange("default")} disabled={isLoading}>
 					Reset to Default
 				</Button>
 			</Horizontal>

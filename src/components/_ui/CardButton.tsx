@@ -1,4 +1,4 @@
-import { LoadingOverlay } from "@/components/ui/LoadingOverlay";
+import { LoadingOverlay } from "@/components/_ui/LoadingOverlay";
 import type { CardProps } from "./Card";
 import { Card } from "./Card";
 

@@ -15,7 +15,6 @@
 		rgb(16, 185, 129) 75%,
 		rgb(245, 158, 11) 100%
 	);
-	--gradient-bg: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #2a2a4a 100%);
 
 	/* Background Colors */
 	--color-bg-primary: #0a0a0f;

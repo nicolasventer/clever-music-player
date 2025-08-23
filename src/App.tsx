@@ -1,4 +1,5 @@
-import { ComponentDemo } from "@/components/ui";
+import { ComponentDemo } from "@/components/ComponentDemo";
+import "@/components/_ui/index.css";
 import { FullViewport, Vertical, WriteToolboxClasses } from "@/utils/ComponentToolbox";
 
 export const App = () => (

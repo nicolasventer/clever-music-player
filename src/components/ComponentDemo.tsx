@@ -1,22 +1,24 @@
-import "@/components/index.css";
-import { FileBrowserDemo } from "@/components/ui/FileBrowserDemo";
-import {
-	asTabItems,
-	Button,
-	Card,
-	CardButton,
-	Input,
-	LoadingOverlay,
-	Modal,
-	SearchInput,
-	Slider,
-	Tab,
-	TabGroup,
-	Text,
-	Title,
-} from "@/components/ui/index";
-import { ThemeSelector } from "@/ThemeSelector";
-import { Horizontal, Vertical, WriteClasses } from "@/utils/ComponentToolbox";
+import { FileBrowserDemo } from "@/components/FileBrowserDemo";
+import { ThemeSelector } from "@/components/ThemeSelector";
+import { Button } from "@/components/_ui/Button";
+import { Card } from "@/components/_ui/Card";
+import { CardButton } from "@/components/_ui/CardButton";
+import { Carousel } from "@/components/_ui/Carousel";
+import { Divider } from "@/components/_ui/Divider";
+import { Input } from "@/components/_ui/Input";
+import { LoadingOverlay } from "@/components/_ui/LoadingOverlay";
+import { Modal } from "@/components/_ui/Modal";
+import { NativeSelect } from "@/components/_ui/NativeSelect";
+import { NodeCompare } from "@/components/_ui/NodeCompare";
+import { SearchInput } from "@/components/_ui/SearchInput";
+import { Slider } from "@/components/_ui/Slider";
+import { Switch } from "@/components/_ui/Switch";
+import { Tab } from "@/components/_ui/Tab";
+import { TabGroup, asTabItems } from "@/components/_ui/TabGroup";
+import { Tag } from "@/components/_ui/Tag";
+import { Text } from "@/components/_ui/Text";
+import { Title } from "@/components/_ui/Title";
+import { Horizontal, Vertical } from "@/utils/ComponentToolbox";
 import {
 	Download,
 	Heart,
@@ -30,49 +32,10 @@ import {
 	SkipBack,
 	SkipForward,
 	Text as TextIcon,
-	User,
 	Volume2,
 } from "lucide-react";
+import type { ReactNode } from "react";
 import { useState } from "react";
-
-// Write demo styles
-WriteClasses("component-demo", {
-	".demo-section": {
-		marginBottom: "2rem",
-		padding: "1rem",
-		borderRadius: "8px",
-		backgroundColor: "rgba(255, 255, 255, 0.05)",
-	},
-	".demo-grid": {
-		display: "grid",
-		gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-		gap: "1rem",
-		marginTop: "1rem",
-	},
-	".demo-item": {
-		padding: "1rem",
-		borderRadius: "8px",
-		backgroundColor: "rgba(255, 255, 255, 0.02)",
-		border: "1px solid rgba(255, 255, 255, 0.1)",
-	},
-	".demo-label": {
-		fontSize: "0.875rem",
-		color: "rgba(255, 255, 255, 0.6)",
-		marginBottom: "0.5rem",
-		fontWeight: "500",
-	},
-	".tab-container": {
-		display: "flex",
-		gap: "0.25rem",
-		marginBottom: "1rem",
-	},
-	".vertical-tab-container": {
-		display: "flex",
-		flexDirection: "column",
-		gap: "0.25rem",
-		width: "200px",
-	},
-});
 
 export const ComponentDemo = () => {
 	const [modalOpen, setModalOpen] = useState(false);
@@ -85,6 +48,16 @@ export const ComponentDemo = () => {
 	const [verticalTabGroupValue, setVerticalTabGroupValue] = useState("library");
 	const [isLoading, setIsLoading] = useState(false);
 
+	// Switch demo state
+	const [controlledSwitch, setControlledSwitch] = useState(false);
+	const [themeSwitch, setThemeSwitch] = useState(true);
+	const [successSwitch, setSuccessSwitch] = useState(false);
+	const [warningSwitch, setWarningSwitch] = useState(false);
+	const [dangerSwitch, setDangerSwitch] = useState(false);
+
+	const [selectedTheme, setSelectedTheme] = useState("default");
+	const [selectedColor, setSelectedColor] = useState<"theme" | "white" | "danger" | "warning" | "success" | "">("theme");
+
 	return (
 		<Vertical gap={24} padding={24} widthFull heightFull overflowAuto>
 			<Title order={1} icon={<Music size={24} />}>
@@ -95,7 +68,7 @@ export const ComponentDemo = () => {
 			<ThemeSelector />
 
 			{/* Button Demo */}
-			<Card className="demo-section">
+			<Card>
 				<Title order={2} icon={<Play size={20} />}>
 					Button Component
 				</Title>
@@ -103,7 +76,7 @@ export const ComponentDemo = () => {
 				<Vertical gap={16}>
 					{/* Variants */}
 					<div>
-						<Text size="medium" color="theme">
+						<Text size="md" color="theme">
 							Variants
 						</Text>
 						<Horizontal gap={8} marginTop={8}>
@@ -114,23 +87,23 @@ export const ComponentDemo = () => {
 
 					{/* Sizes */}
 					<div>
-						<Text size="medium" color="theme">
+						<Text size="md" color="theme">
 							Sizes
 						</Text>
 						<Horizontal gap={8} marginTop={8} alignItems="center">
-							<Button size="small">Small</Button>
-							<Button size="medium">Medium</Button>
-							<Button size="large">Large</Button>
+							<Button size="sm">Small</Button>
+							<Button size="md">Medium</Button>
+							<Button size="lg">Large</Button>
 						</Horizontal>
 					</div>
 
 					{/* Colors */}
 					<div>
-						<Text size="medium" color="theme">
+						<Text size="md" color="theme">
 							Colors
 						</Text>
 						<Vertical gap={8} marginTop={8}>
-							<Text size="small" color="theme">
+							<Text size="sm" color="theme">
 								Filled Variant
 							</Text>
 							<Horizontal gap={8}>
@@ -139,7 +112,7 @@ export const ComponentDemo = () => {
 								<Button color="warning">Warning</Button>
 								<Button color="danger">Danger</Button>
 							</Horizontal>
-							<Text size="small" color="theme">
+							<Text size="sm" color="theme">
 								Light Variant
 							</Text>
 							<Horizontal gap={8}>
@@ -161,7 +134,7 @@ export const ComponentDemo = () => {
 
 					{/* With Icons */}
 					<div>
-						<Text size="medium" color="theme">
+						<Text size="md" color="theme">
 							With Icons
 						</Text>
 						<Horizontal gap={8} marginTop={8}>
@@ -180,13 +153,13 @@ export const ComponentDemo = () => {
 
 					{/* Circular Buttons */}
 					<div>
-						<Text size="medium" color="theme">
+						<Text size="md" color="theme">
 							Circular Buttons
 						</Text>
 						<Horizontal gap={8} marginTop={8} alignItems="center">
-							<Button circular size="small" icon={<Play size={12} />} />
-							<Button circular size="medium" icon={<Play size={16} />} />
-							<Button circular size="large" icon={<Play size={20} />} />
+							<Button circular size="sm" icon={<Play size={12} />} />
+							<Button circular size="md" icon={<Play size={16} />} />
+							<Button circular size="lg" icon={<Play size={20} />} />
 							<Button circular variant="light" icon={<Heart size={16} />} />
 							<Button circular color="success" icon={<Download size={16} />} />
 							<Button circular color="danger" icon={<Settings size={16} />} />
@@ -195,20 +168,20 @@ export const ComponentDemo = () => {
 
 					{/* Border Radius Sizes */}
 					<div>
-						<Text size="medium" color="theme">
+						<Text size="md" color="theme">
 							Border Radius Sizes
 						</Text>
 						<Horizontal gap={8} marginTop={8}>
 							<Button borderRadiusSize="none">No Radius</Button>
-							<Button borderRadiusSize="small">Small Radius</Button>
-							<Button borderRadiusSize="medium">Medium Radius</Button>
-							<Button borderRadiusSize="large">Large Radius</Button>
+							<Button borderRadiusSize="sm">Small Radius</Button>
+							<Button borderRadiusSize="md">Medium Radius</Button>
+							<Button borderRadiusSize="lg">Large Radius</Button>
 						</Horizontal>
 					</div>
 
 					{/* Full Width */}
 					<div>
-						<Text size="medium" color="theme">
+						<Text size="md" color="theme">
 							Full Width
 						</Text>
 						<Vertical marginTop={8}>
@@ -220,7 +193,7 @@ export const ComponentDemo = () => {
 
 					{/* Shadow Options */}
 					<div>
-						<Text size="medium" color="theme">
+						<Text size="md" color="theme">
 							Shadow Options
 						</Text>
 						<Horizontal gap={8} marginTop={8}>
@@ -235,7 +208,7 @@ export const ComponentDemo = () => {
 
 					{/* Disabled State */}
 					<div>
-						<Text size="medium" color="theme">
+						<Text size="md" color="theme">
 							Disabled State
 						</Text>
 						<Horizontal gap={8} marginTop={8}>
@@ -257,7 +230,7 @@ export const ComponentDemo = () => {
 
 					{/* Custom Border Radius */}
 					<div>
-						<Text size="medium" color="theme">
+						<Text size="md" color="theme">
 							Custom Border Radius
 						</Text>
 						<Horizontal gap={8} marginTop={8}>
@@ -269,7 +242,7 @@ export const ComponentDemo = () => {
 
 					{/* Loading State */}
 					<div>
-						<Text size="medium" color="theme">
+						<Text size="md" color="theme">
 							Loading State
 						</Text>
 						<Vertical gap={8} marginTop={8}>
@@ -310,7 +283,7 @@ export const ComponentDemo = () => {
 			</Card>
 
 			{/* Card Demo */}
-			<Card className="demo-section">
+			<Card>
 				<Title order={2} icon={<Settings size={20} />}>
 					Card Component
 				</Title>
@@ -321,26 +294,263 @@ export const ComponentDemo = () => {
 							<Text>No Border Radius</Text>
 						</Vertical>
 					</Card>
-					<Card borderRadiusSize="small">
+					<Card borderRadiusSize="sm">
 						<Vertical padding={16}>
 							<Text>Small Border Radius</Text>
 						</Vertical>
 					</Card>
-					<Card borderRadiusSize="medium">
+					<Card borderRadiusSize="md">
 						<Vertical padding={16}>
 							<Text>Medium Border Radius</Text>
 						</Vertical>
 					</Card>
-					<Card borderRadiusSize="large">
+					<Card borderRadiusSize="lg">
 						<Vertical padding={16}>
 							<Text>Large Border Radius</Text>
 						</Vertical>
 					</Card>
 				</Horizontal>
+
+				{/* Scrollable Examples */}
+				<div style={{ marginTop: "24px" }}>
+					<Text size="md" color="theme">
+						Scrollable Variants
+					</Text>
+					<Horizontal gap={16} marginTop={16}>
+						{/* Vertical Scrollable */}
+						<Card scrollable="y" style={{ height: "200px" }}>
+							<Vertical padding={16} gap={8}>
+								<Text>Vertical Scrollable</Text>
+								{Array.from({ length: 20 }, (_, i) => (
+									<Text key={i} size="sm">
+										Line {i + 1} - This is a long line of text to demonstrate vertical scrolling
+									</Text>
+								))}
+							</Vertical>
+						</Card>
+
+						{/* Horizontal Scrollable */}
+						<Card scrollable="x" style={{ width: "300px" }}>
+							<Horizontal padding={16} gap={8} style={{ minWidth: "600px" }}>
+								<Text>Horizontal Scrollable</Text>
+								{Array.from({ length: 10 }, (_, i) => (
+									<Card key={i} style={{ minWidth: "120px", padding: "8px" }}>
+										<Text size="sm">Item {i + 1}</Text>
+									</Card>
+								))}
+							</Horizontal>
+						</Card>
+
+						{/* Both Directions Scrollable */}
+						<Card scrollable="xy" style={{ height: "200px", width: "300px" }}>
+							<Vertical padding={16} gap={8} style={{ minWidth: "600px" }}>
+								<Text>Both Directions Scrollable</Text>
+								{Array.from({ length: 15 }, (_, i) => (
+									<Horizontal key={i} gap={8} style={{ minWidth: "600px" }}>
+										<Text size="sm">Row {i + 1}:</Text>
+										{Array.from({ length: 8 }, (_, j) => (
+											<Text key={j} size="sm">
+												Col {j + 1}
+											</Text>
+										))}
+									</Horizontal>
+								))}
+							</Vertical>
+						</Card>
+					</Horizontal>
+				</div>
+			</Card>
+
+			{/* Divider Demo */}
+			<Card>
+				<Title order={2} icon={<Settings size={20} />}>
+					Divider Component
+				</Title>
+
+				<Vertical gap={16}>
+					{/* Basic Divider */}
+					<div>
+						<Text size="md" color="theme">
+							Basic Divider
+						</Text>
+						<Vertical marginTop={8}>
+							<Divider />
+						</Vertical>
+					</div>
+
+					{/* With Text */}
+					<div>
+						<Text size="md" color="theme">
+							With Text
+						</Text>
+						<Vertical marginTop={8}>
+							<Divider>Or</Divider>
+						</Vertical>
+					</div>
+
+					{/* With Icon and Text */}
+					<div>
+						<Text size="md" color="theme">
+							With Icon and Text
+						</Text>
+						<Vertical marginTop={8}>
+							<Divider>
+								<Text icon={<Settings size={16} />}>Settings</Text>
+							</Divider>
+						</Vertical>
+					</div>
+
+					{/* Size Variants */}
+					<div>
+						<Text size="md" color="theme">
+							Size Variants
+						</Text>
+						<Vertical gap={8} marginTop={8}>
+							<Divider size="sm" />
+							<Divider size="md" />
+							<Divider size="lg" />
+						</Vertical>
+					</div>
+
+					{/* Color Variants */}
+					<div>
+						<Text size="md" color="theme">
+							Color Variants
+						</Text>
+						<Vertical gap={8} marginTop={8}>
+							<Divider color="theme" />
+							<Divider color="success" />
+							<Divider color="warning" />
+							<Divider color="danger" />
+						</Vertical>
+					</div>
+
+					{/* Content Position */}
+					<div>
+						<Text size="md" color="theme">
+							Content Position
+						</Text>
+						<Vertical gap={8} marginTop={8}>
+							<Divider contentPosition={0}>Left (0)</Divider>
+							<Divider contentPosition={0.1}>Left (0.1)</Divider>
+							<Divider contentPosition={0.2}>Left (0.2)</Divider>
+							<Divider contentPosition={0.5}>Center (0.5)</Divider>
+							<Divider contentPosition={0.8}>Right (0.8)</Divider>
+							<Divider contentPosition={0.9}>Right (0.9)</Divider>
+							<Divider contentPosition={1}>Right (1)</Divider>
+						</Vertical>
+					</div>
+
+					{/* Vertical Orientation */}
+					<div>
+						<Text size="md" color="theme">
+							Vertical Orientation
+						</Text>
+						<Horizontal gap={16} marginTop={8} alignItems="center" height={200}>
+							<Divider orientation="vertical" />
+							<Divider orientation="vertical">
+								<Text>Center</Text>
+							</Divider>
+							<Divider orientation="vertical" contentPosition={0.8}>
+								<Text>Bottom</Text>
+							</Divider>
+						</Horizontal>
+					</div>
+				</Vertical>
+			</Card>
+
+			{/* Tag Demo */}
+			<Card>
+				<Title order={2} icon={<TextIcon size={20} />}>
+					Tag Component
+				</Title>
+
+				<Vertical gap={16}>
+					{/* Static Tags (no onClick) */}
+					<div>
+						<Text size="md" color="theme">
+							Static Tags (No onClick)
+						</Text>
+						<Text size="sm" color="white">
+							Default cursor, no hover effects, no translation
+						</Text>
+						<Horizontal gap={8} marginTop={8}>
+							<Tag>React</Tag>
+							<Tag color="success">TypeScript</Tag>
+							<Tag color="warning">JavaScript</Tag>
+							<Tag color="danger">CSS</Tag>
+							<Tag variant="light">HTML</Tag>
+						</Horizontal>
+					</div>
+
+					{/* Interactive Tags (with onClick) */}
+					<div>
+						<Text size="md" color="theme">
+							Interactive Tags (With onClick)
+						</Text>
+						<Text size="sm" color="white">
+							Pointer cursor, hover effects, translation enabled
+						</Text>
+						<Horizontal gap={8} marginTop={8}>
+							<Tag onClick={() => alert("React tag clicked!")}>React</Tag>
+							<Tag color="success" onClick={() => alert("TypeScript tag clicked!")}>
+								TypeScript
+							</Tag>
+							<Tag color="warning" onClick={() => alert("JavaScript tag clicked!")}>
+								JavaScript
+							</Tag>
+							<Tag color="danger" onClick={() => alert("CSS tag clicked!")}>
+								CSS
+							</Tag>
+							<Tag variant="light" onClick={() => alert("HTML tag clicked!")}>
+								HTML
+							</Tag>
+						</Horizontal>
+					</div>
+
+					{/* Tag Variants */}
+					<div>
+						<Text size="md" color="theme">
+							Tag Variants
+						</Text>
+						<Horizontal gap={8} marginTop={8}>
+							<Tag variant="filled">Filled</Tag>
+							<Tag variant="light">Light</Tag>
+							<Tag variant="filled" color="success">
+								Success
+							</Tag>
+							<Tag variant="light" color="warning">
+								Warning
+							</Tag>
+							<Tag variant="filled" color="danger">
+								Danger
+							</Tag>
+						</Horizontal>
+					</div>
+
+					{/* Tag with Icons */}
+					<div>
+						<Text size="md" color="theme">
+							Tags with Icons
+						</Text>
+						<Horizontal gap={8} marginTop={8}>
+							<Tag icon={<Music size={12} />}>Music</Tag>
+							<Tag icon={<Heart size={12} />} color="success">
+								Favorites
+							</Tag>
+							<Tag icon={<Play size={12} />} color="warning">
+								Playing
+							</Tag>
+							<Tag icon={<Settings size={12} />} color="danger">
+								Settings
+							</Tag>
+						</Horizontal>
+					</div>
+				</Vertical>
 			</Card>
 
 			{/* CardButton Demo */}
-			<Card className="demo-section">
+			<Card>
 				<Title order={2} icon={<Heart size={20} />}>
 					CardButton Component
 				</Title>
@@ -348,7 +558,7 @@ export const ComponentDemo = () => {
 				<Vertical gap={16}>
 					{/* Basic CardButton */}
 					<div>
-						<Text size="medium" color="theme">
+						<Text size="md" color="theme">
 							Basic CardButton
 						</Text>
 						<Horizontal gap={16} marginTop={8}>
@@ -367,7 +577,7 @@ export const ComponentDemo = () => {
 
 					{/* CardButton with Different Border Radius */}
 					<div>
-						<Text size="medium" color="theme">
+						<Text size="md" color="theme">
 							Border Radius Variants
 						</Text>
 						<Horizontal gap={16} marginTop={8}>
@@ -376,17 +586,17 @@ export const ComponentDemo = () => {
 									<Text>No Radius</Text>
 								</Vertical>
 							</CardButton>
-							<CardButton borderRadiusSize="small">
+							<CardButton borderRadiusSize="sm">
 								<Vertical padding={16}>
 									<Text>Small Radius</Text>
 								</Vertical>
 							</CardButton>
-							<CardButton borderRadiusSize="medium">
+							<CardButton borderRadiusSize="md">
 								<Vertical padding={16}>
 									<Text>Medium Radius</Text>
 								</Vertical>
 							</CardButton>
-							<CardButton borderRadiusSize="large">
+							<CardButton borderRadiusSize="lg">
 								<Vertical padding={16}>
 									<Text>Large Radius</Text>
 								</Vertical>
@@ -396,7 +606,7 @@ export const ComponentDemo = () => {
 
 					{/* CardButton with Icons */}
 					<div>
-						<Text size="medium" color="theme">
+						<Text size="md" color="theme">
 							With Icons
 						</Text>
 						<Horizontal gap={16} marginTop={8}>
@@ -405,7 +615,7 @@ export const ComponentDemo = () => {
 									<Music size={20} />
 									<Vertical>
 										<Text>Music Library</Text>
-										<Text size="small" color="theme">
+										<Text size="sm" color="theme">
 											Browse your collection
 										</Text>
 									</Vertical>
@@ -416,7 +626,7 @@ export const ComponentDemo = () => {
 									<Heart size={20} />
 									<Vertical>
 										<Text>Favorites</Text>
-										<Text size="small" color="theme">
+										<Text size="sm" color="theme">
 											Your liked songs
 										</Text>
 									</Vertical>
@@ -427,7 +637,7 @@ export const ComponentDemo = () => {
 									<Settings size={20} />
 									<Vertical>
 										<Text>Settings</Text>
-										<Text size="small" color="theme">
+										<Text size="sm" color="theme">
 											Configure app
 										</Text>
 									</Vertical>
@@ -438,7 +648,7 @@ export const ComponentDemo = () => {
 
 					{/* Disabled State */}
 					<div>
-						<Text size="medium" color="theme">
+						<Text size="md" color="theme">
 							Disabled State
 						</Text>
 						<Horizontal gap={16} marginTop={8}>
@@ -457,7 +667,7 @@ export const ComponentDemo = () => {
 									<Settings size={20} />
 									<Vertical>
 										<Text>Disabled Settings</Text>
-										<Text size="small" color="theme">
+										<Text size="sm" color="theme">
 											Unavailable
 										</Text>
 									</Vertical>
@@ -469,75 +679,16 @@ export const ComponentDemo = () => {
 			</Card>
 
 			{/* Input Demo */}
-			<Card className="demo-section">
-				<Title order={2} icon={<User size={20} />}>
-					Input Component
-				</Title>
-
-				<Vertical gap={16}>
-					{/* Basic Input */}
-					<div>
-						<Text size="medium" color="theme">
-							Basic Input
-						</Text>
-						<Vertical marginTop={8}>
-							<Input value={inputValue} setValue={setInputValue} placeholder="Enter text..." />
-						</Vertical>
-					</div>
-
-					{/* Number Input */}
-					<div>
-						<Text size="medium" color="theme">
-							Number Input
-						</Text>
-						<Vertical marginTop={8}>
-							<Input
-								type="number"
-								value={numberValue.toString()}
-								setValue={(value) => setNumberValue(parseFloat(value) || 0)}
-								setNumberValue={setNumberValue}
-								min={0}
-								max={100}
-								placeholder="Enter number..."
-							/>
-						</Vertical>
-					</div>
-
-					{/* Clearable Input */}
-					<div>
-						<Text size="medium" color="theme">
-							Clearable Input
-						</Text>
-						<Vertical marginTop={8}>
-							<Input value={inputValue} setValue={setInputValue} clearable placeholder="Type and clear..." />
-						</Vertical>
-					</div>
-
-					{/* Colors */}
-					<div>
-						<Text size="medium" color="theme">
-							Colors
-						</Text>
-						<Vertical gap={8} marginTop={8}>
-							<Input color="theme" placeholder="Theme color" />
-							<Input color="white" placeholder="White color" />
-							<Input color="success" placeholder="Success color" />
-							<Input color="warning" placeholder="Warning color" />
-							<Input color="danger" placeholder="Danger color" />
-						</Vertical>
-					</div>
-				</Vertical>
-			</Card>
 
 			{/* SearchInput Demo */}
-			<Card className="demo-section">
+			<Card>
 				<Title order={2} icon={<Search size={20} />}>
 					SearchInput Component
 				</Title>
 
 				<Vertical gap={16}>
 					<div>
-						<Text size="medium" color="theme">
+						<Text size="md" color="theme">
 							Search Input
 						</Text>
 						<Vertical marginTop={8}>
@@ -547,7 +698,7 @@ export const ComponentDemo = () => {
 
 					{/* Color Variants */}
 					<div>
-						<Text size="medium" color="theme">
+						<Text size="md" color="theme">
 							Color Variants
 						</Text>
 						<Vertical gap={8} marginTop={8}>
@@ -562,26 +713,26 @@ export const ComponentDemo = () => {
 			</Card>
 
 			{/* Slider Demo */}
-			<Card className="demo-section">
+			<Card>
 				<Title order={2} icon={<Volume2 size={20} />}>
 					Slider Component
 				</Title>
 
 				<Vertical gap={16}>
 					<div>
-						<Text size="medium" color="theme">
+						<Text size="md" color="theme">
 							Volume Slider
 						</Text>
 						<Vertical marginTop={8}>
 							<Slider value={sliderValue} setValue={setSliderValue} min={0} max={100} />
 						</Vertical>
-						<Text size="small" color="theme">
+						<Text size="sm" color="theme">
 							Value: {sliderValue}
 						</Text>
 					</div>
 
 					<div>
-						<Text size="medium" color="theme">
+						<Text size="md" color="theme">
 							Thick Slider
 						</Text>
 						<Vertical marginTop={8}>
@@ -590,21 +741,109 @@ export const ComponentDemo = () => {
 					</div>
 
 					<div>
-						<Text size="medium" color="theme">
+						<Text size="md" color="theme">
 							Custom Range
 						</Text>
 						<Vertical marginTop={8}>
 							<Slider initialValue={50} min={0} max={200} step={10} />
 						</Vertical>
-						<Text size="small" color="theme">
+						<Text size="sm" color="theme">
 							Range: 0-200, Step: 10
 						</Text>
 					</div>
 				</Vertical>
 			</Card>
 
+			{/* Switch Demo */}
+			<Card>
+				<Title order={2} icon={<Settings size={20} />}>
+					Switch Component
+				</Title>
+
+				<Vertical gap={16}>
+					{/* Basic Usage */}
+					<div>
+						<Text size="md" color="theme">
+							Basic Usage
+						</Text>
+						<Horizontal gap={24} marginTop={8}>
+							<Switch label="Default Switch" />
+							<Switch label="Disabled Switch" disabled />
+							<Switch label="Checked by Default" defaultChecked />
+						</Horizontal>
+					</div>
+
+					{/* Controlled vs Uncontrolled */}
+					<div>
+						<Text size="md" color="theme">
+							Controlled vs Uncontrolled
+						</Text>
+						<Horizontal gap={24} marginTop={8}>
+							<Switch label="Controlled Switch" checked={controlledSwitch} onCheckedChange={setControlledSwitch} />
+							<Text size="sm" color="theme">
+								State: {controlledSwitch ? "ON" : "OFF"}
+							</Text>
+						</Horizontal>
+						<Horizontal gap={24} marginTop={8}>
+							<Switch label="Uncontrolled Switch" defaultChecked />
+							<Text size="sm" color="theme">
+								Uses internal state
+							</Text>
+						</Horizontal>
+					</div>
+
+					{/* Size Variants */}
+					<div>
+						<Text size="md" color="theme">
+							Size Variants
+						</Text>
+						<Horizontal gap={24} marginTop={8}>
+							<Switch label="Small" size="sm" defaultChecked />
+							<Switch label="Medium" size="md" defaultChecked />
+							<Switch label="Large" size="lg" defaultChecked />
+						</Horizontal>
+					</div>
+
+					{/* Color Themes */}
+					<div>
+						<Text size="md" color="theme">
+							Color Themes
+						</Text>
+						<Horizontal gap={24} marginTop={8}>
+							<Switch label="Theme Color" color="theme" checked={themeSwitch} onCheckedChange={setThemeSwitch} />
+							<Switch label="Success Color" color="success" checked={successSwitch} onCheckedChange={setSuccessSwitch} />
+							<Switch label="Warning Color" color="warning" checked={warningSwitch} onCheckedChange={setWarningSwitch} />
+							<Switch label="Danger Color" color="danger" checked={dangerSwitch} onCheckedChange={setDangerSwitch} />
+						</Horizontal>
+					</div>
+
+					{/* Label Positioning */}
+					<div>
+						<Text size="md" color="theme">
+							Label Positioning
+						</Text>
+						<Horizontal gap={24} marginTop={8}>
+							<Switch label="Label on Right" defaultChecked />
+							<Switch label="Label on Left" labelPosition="left" defaultChecked />
+						</Horizontal>
+					</div>
+
+					{/* Interactive Examples */}
+					<div>
+						<Text size="md" color="theme">
+							Interactive Examples
+						</Text>
+						<Horizontal gap={24} marginTop={8}>
+							<Switch label="Notifications" color="success" defaultChecked />
+							<Switch label="Dark Mode" color="theme" defaultChecked />
+							<Switch label="Auto-save" color="warning" defaultChecked />
+						</Horizontal>
+					</div>
+				</Vertical>
+			</Card>
+
 			{/* Tab Demo */}
-			<Card className="demo-section">
+			<Card>
 				<Title order={2} icon={<Home size={20} />}>
 					Tab Component
 				</Title>
@@ -612,7 +851,7 @@ export const ComponentDemo = () => {
 				<Vertical gap={16}>
 					{/* Horizontal Tabs */}
 					<div>
-						<Text size="medium" color="theme">
+						<Text size="md" color="theme">
 							Horizontal Tabs
 						</Text>
 						<div className="tab-container">
@@ -649,7 +888,7 @@ export const ComponentDemo = () => {
 
 					{/* Vertical Tabs */}
 					<div>
-						<Text size="medium" color="theme">
+						<Text size="md" color="theme">
 							Vertical Tabs
 						</Text>
 						<Horizontal gap={16}>
@@ -677,7 +916,7 @@ export const ComponentDemo = () => {
 			</Card>
 
 			{/* TabGroup Demo */}
-			<Card className="demo-section">
+			<Card>
 				<Title order={2} icon={<Home size={20} />}>
 					TabGroup Component
 				</Title>
@@ -685,7 +924,7 @@ export const ComponentDemo = () => {
 				<Vertical gap={16}>
 					{/* Basic Horizontal TabGroup */}
 					<div>
-						<Text size="medium" color="theme">
+						<Text size="md" color="theme">
 							Basic Horizontal TabGroup
 						</Text>
 						<Vertical marginTop={8}>
@@ -705,7 +944,7 @@ export const ComponentDemo = () => {
 
 					{/* TabGroup with Icons */}
 					<div>
-						<Text size="medium" color="theme">
+						<Text size="md" color="theme">
 							TabGroup with Icons
 						</Text>
 						<Vertical marginTop={8}>
@@ -724,7 +963,7 @@ export const ComponentDemo = () => {
 
 					{/* Vertical TabGroup */}
 					<div>
-						<Text size="medium" color="theme">
+						<Text size="md" color="theme">
 							Vertical TabGroup
 						</Text>
 						<Horizontal gap={16}>
@@ -756,7 +995,7 @@ export const ComponentDemo = () => {
 
 					{/* TabGroup Color Variants */}
 					<div>
-						<Text size="medium" color="theme">
+						<Text size="md" color="theme">
 							Color Variants
 						</Text>
 						<Vertical gap={8} marginTop={8}>
@@ -793,29 +1032,29 @@ export const ComponentDemo = () => {
 
 					{/* TabGroup Sizes */}
 					<div>
-						<Text size="medium" color="theme">
+						<Text size="md" color="theme">
 							Size Variants
 						</Text>
 						<Vertical gap={8} marginTop={8}>
 							<TabGroup
-								items={asTabItems(["small", "medium", "large"])}
+								items={asTabItems(["sm", "md", "lg"])}
 								value={tabGroupValue}
 								onValueChange={setTabGroupValue}
-								size="small"
+								size="sm"
 								fullWidth
 							/>
 							<TabGroup
-								items={asTabItems(["small", "medium", "large"])}
+								items={asTabItems(["sm", "md", "lg"])}
 								value={tabGroupValue}
 								onValueChange={setTabGroupValue}
-								size="medium"
+								size="md"
 								fullWidth
 							/>
 							<TabGroup
-								items={asTabItems(["small", "medium", "large"])}
+								items={asTabItems(["sm", "md", "lg"])}
 								value={tabGroupValue}
 								onValueChange={setTabGroupValue}
-								size="large"
+								size="lg"
 								fullWidth
 							/>
 						</Vertical>
@@ -823,7 +1062,7 @@ export const ComponentDemo = () => {
 
 					{/* TabGroup with Custom Gap */}
 					<div>
-						<Text size="medium" color="theme">
+						<Text size="md" color="theme">
 							Custom Gap
 						</Text>
 						<Vertical marginTop={8}>
@@ -839,7 +1078,7 @@ export const ComponentDemo = () => {
 
 					{/* TabGroup without Shadow */}
 					<div>
-						<Text size="medium" color="theme">
+						<Text size="md" color="theme">
 							Without Shadow
 						</Text>
 						<Vertical marginTop={8}>
@@ -856,7 +1095,7 @@ export const ComponentDemo = () => {
 			</Card>
 
 			{/* Text Demo */}
-			<Card className="demo-section">
+			<Card>
 				<Title order={2} icon={<TextIcon size={20} />}>
 					Text Component
 				</Title>
@@ -864,19 +1103,19 @@ export const ComponentDemo = () => {
 				<Vertical gap={16}>
 					{/* Sizes */}
 					<div>
-						<Text size="medium" color="theme">
+						<Text size="md" color="theme">
 							Sizes
 						</Text>
 						<Vertical gap={8} marginTop={8}>
-							<Text size="small">Small text</Text>
-							<Text size="medium">Medium text</Text>
-							<Text size="large">Large text</Text>
+							<Text size="sm">Small text</Text>
+							<Text size="md">Medium text</Text>
+							<Text size="lg">Large text</Text>
 						</Vertical>
 					</div>
 
 					{/* Colors */}
 					<div>
-						<Text size="medium" color="theme">
+						<Text size="md" color="theme">
 							Colors
 						</Text>
 						<Vertical gap={8} marginTop={8}>
@@ -890,7 +1129,7 @@ export const ComponentDemo = () => {
 
 					{/* With Icons */}
 					<div>
-						<Text size="medium" color="theme">
+						<Text size="md" color="theme">
 							With Icons
 						</Text>
 						<Vertical gap={8} marginTop={8}>
@@ -903,7 +1142,7 @@ export const ComponentDemo = () => {
 			</Card>
 
 			{/* Title Demo */}
-			<Card className="demo-section">
+			<Card>
 				<Title order={2} icon={<Settings size={20} />}>
 					Title Component
 				</Title>
@@ -911,7 +1150,7 @@ export const ComponentDemo = () => {
 				<Vertical gap={16}>
 					{/* Orders */}
 					<div>
-						<Text size="medium" color="theme">
+						<Text size="md" color="theme">
 							Heading Orders
 						</Text>
 						<Vertical gap={8} marginTop={8}>
@@ -926,7 +1165,7 @@ export const ComponentDemo = () => {
 
 					{/* Colors */}
 					<div>
-						<Text size="medium" color="theme">
+						<Text size="md" color="theme">
 							Colors
 						</Text>
 						<Vertical gap={8} marginTop={8}>
@@ -950,7 +1189,7 @@ export const ComponentDemo = () => {
 
 					{/* With Icons */}
 					<div>
-						<Text size="medium" color="theme">
+						<Text size="md" color="theme">
 							With Icons
 						</Text>
 						<Vertical gap={8} marginTop={8}>
@@ -968,7 +1207,7 @@ export const ComponentDemo = () => {
 
 					{/* No Margin */}
 					<div>
-						<Text size="medium" color="theme">
+						<Text size="md" color="theme">
 							No Margin
 						</Text>
 						<Card style={{ padding: 16, marginTop: 8 }}>
@@ -982,7 +1221,7 @@ export const ComponentDemo = () => {
 			</Card>
 
 			{/* Modal Demo */}
-			<Card className="demo-section">
+			<Card>
 				<Title order={2} icon={<Settings size={20} />}>
 					Modal Component
 				</Title>
@@ -1015,7 +1254,7 @@ export const ComponentDemo = () => {
 			</Card>
 
 			{/* LoadingOverlay Demo */}
-			<Card className="demo-section">
+			<Card>
 				<Title order={2} icon={<Loader2 size={20} />}>
 					LoadingOverlay Component
 				</Title>
@@ -1023,7 +1262,7 @@ export const ComponentDemo = () => {
 				<Vertical gap={16}>
 					{/* Basic LoadingOverlay */}
 					<div>
-						<Text size="medium" color="theme">
+						<Text size="md" color="theme">
 							Basic LoadingOverlay
 						</Text>
 						<Vertical marginTop={8}>
@@ -1048,7 +1287,7 @@ export const ComponentDemo = () => {
 
 					{/* LoadingOverlay with Custom Content */}
 					<div>
-						<Text size="medium" color="theme">
+						<Text size="md" color="theme">
 							LoadingOverlay with Custom Content
 						</Text>
 						<Vertical marginTop={8}>
@@ -1057,7 +1296,7 @@ export const ComponentDemo = () => {
 									<Vertical gap={12} alignItems="center">
 										<Loader2 size={32} className="animate-spin" />
 										<Text>Loading your music...</Text>
-										<Text size="small" color="theme">
+										<Text size="sm" color="theme">
 											Please wait
 										</Text>
 									</Vertical>
@@ -1079,9 +1318,697 @@ export const ComponentDemo = () => {
 						</Vertical>
 					</div>
 
-					<Text size="small" color="theme">
+					<Text size="sm" color="theme">
 						Current state: {isLoading ? "Loading..." : "Ready"}
 					</Text>
+				</Vertical>
+			</Card>
+
+			{/* NodeCompare Demo */}
+			<Card>
+				<Title order={2} icon={<Settings size={20} />}>
+					NodeCompare Component
+				</Title>
+
+				<Vertical gap={16}>
+					<div>
+						<Text size="md" color="theme">
+							Before/After Comparison
+						</Text>
+						<Vertical marginTop={4}>
+							<Text size="sm" color="theme">
+								Drag the slider to compare the before and after states
+							</Text>
+						</Vertical>
+						<Vertical marginTop={8}>
+							<NodeCompare
+								beforeNode={
+									<Card style={{ padding: "24px", height: "100%", backgroundColor: "rgba(255, 255, 255, 0.1)" }}>
+										<Vertical gap={16} alignItems="center" justifyContent="center" heightFull>
+											<Title order={3} color="danger">
+												Before
+											</Title>
+											<Text>Original design</Text>
+											<Button variant="light" color="danger">
+												Old Button
+											</Button>
+										</Vertical>
+									</Card>
+								}
+								afterNode={
+									<Card style={{ padding: "24px", height: "100%", backgroundColor: "rgba(255, 255, 255, 0.1)" }}>
+										<Vertical gap={16} alignItems="center" justifyContent="center" heightFull>
+											<Title order={3} color="success">
+												After
+											</Title>
+											<Text>Improved design</Text>
+											<Button variant="filled" color="success">
+												New Button
+											</Button>
+										</Vertical>
+									</Card>
+								}
+								beforeLabel="Before"
+								afterLabel="After"
+								beforeLabelColor="danger"
+								afterLabelColor="success"
+								height={300}
+							/>
+						</Vertical>
+					</div>
+
+					<div>
+						<Text size="md" color="theme">
+							Custom Labels and Colors
+						</Text>
+						<Vertical marginTop={4}>
+							<Text size="sm" color="theme">
+								Using light variant labels with custom colors
+							</Text>
+						</Vertical>
+						<Vertical marginTop={8}>
+							<NodeCompare
+								beforeNode={
+									<Card style={{ padding: "24px", height: "100%", backgroundColor: "rgba(255, 193, 7, 0.1)" }}>
+										<Vertical gap={16} alignItems="center" justifyContent="center" heightFull>
+											<Title order={3} color="warning">
+												Version 1.0
+											</Title>
+											<Text>Basic functionality</Text>
+											<Button variant="light" color="warning">
+												Legacy
+											</Button>
+										</Vertical>
+									</Card>
+								}
+								afterNode={
+									<Card style={{ padding: "24px", height: "100%", backgroundColor: "rgba(76, 175, 80, 0.1)" }}>
+										<Vertical gap={16} alignItems="center" justifyContent="center" heightFull>
+											<Title order={3} color="success">
+												Version 2.0
+											</Title>
+											<Text>Enhanced features</Text>
+											<Button variant="filled" color="success">
+												Modern
+											</Button>
+										</Vertical>
+									</Card>
+								}
+								beforeLabel="Legacy"
+								afterLabel="Modern"
+								beforeLabelColor="warning"
+								afterLabelColor="success"
+								labelVariant="light"
+								height={300}
+							/>
+						</Vertical>
+					</div>
+				</Vertical>
+			</Card>
+
+			{/* Carousel Demo */}
+			<Card>
+				<Title order={2} icon={<SkipForward size={20} />}>
+					Carousel Component
+				</Title>
+
+				<Vertical gap={16}>
+					<div>
+						<Text size="md" color="theme">
+							Basic Horizontal Carousel
+						</Text>
+						<Vertical marginTop={8}>
+							<Carousel
+								Component={({ title, description, color }: { title: string; description: string; color: string }) => (
+									<Card
+										style={{
+											height: "100%",
+											backgroundColor: color,
+											display: "flex",
+											flexDirection: "column",
+											justifyContent: "center",
+											alignItems: "center",
+											textAlign: "center",
+											padding: "24px",
+										}}
+									>
+										<Title order={3} color="white" noMargin>
+											{title}
+										</Title>
+										<Text color="white" size="sm">
+											{description}
+										</Text>
+									</Card>
+								)}
+								items={[
+									{ key: "1", title: "Slide 1", description: "First carousel item", color: "rgba(76, 175, 80, 0.8)" },
+									{ key: "2", title: "Slide 2", description: "Second carousel item", color: "rgba(33, 150, 243, 0.8)" },
+									{ key: "3", title: "Slide 3", description: "Third carousel item", color: "rgba(156, 39, 176, 0.8)" },
+									{ key: "4", title: "Slide 4", description: "Fourth carousel item", color: "rgba(255, 193, 7, 0.8)" },
+									{ key: "5", title: "Slide 5", description: "Fifth carousel item", color: "rgba(244, 67, 54, 0.8)" },
+								]}
+								itemToDisplayCount={3}
+								gap={16}
+								onItemChange={(index) => console.log(`Carousel moved to index: ${index}`)}
+								style={{ height: "200px" }}
+							/>
+						</Vertical>
+					</div>
+
+					<div>
+						<Text size="md" color="theme">
+							Vertical Carousel
+						</Text>
+						<Vertical marginTop={8}>
+							<Carousel
+								Component={({ icon, title, description }: { icon: ReactNode; title: string; description: string }) => (
+									<Card
+										style={{
+											height: "100%",
+											display: "flex",
+											flexDirection: "column",
+											justifyContent: "center",
+											alignItems: "center",
+											textAlign: "center",
+											padding: "24px",
+										}}
+									>
+										<div style={{ fontSize: "32px", marginBottom: "16px" }}>{icon}</div>
+										<Title order={4} noMargin>
+											{title}
+										</Title>
+										<Text size="sm" color="theme">
+											{description}
+										</Text>
+									</Card>
+								)}
+								items={[
+									{ key: "1", icon: <Music size={32} />, title: "Music", description: "Browse your library" },
+									{ key: "2", icon: <Heart size={32} />, title: "Favorites", description: "Your liked songs" },
+									{ key: "3", icon: <Play size={32} />, title: "Now Playing", description: "Current track" },
+									{ key: "4", icon: <Settings size={32} />, title: "Settings", description: "Configure app" },
+								]}
+								itemToDisplayCount={2}
+								gap={16}
+								orientation="vertical"
+								style={{ height: "300px", width: "200px" }}
+							/>
+						</Vertical>
+					</div>
+
+					<div>
+						<Text size="md" color="theme">
+							Single Item Display
+						</Text>
+						<Vertical marginTop={8}>
+							<Carousel
+								Component={({ number, color }: { number: number; color: string }) => (
+									<Card
+										style={{
+											height: "100%",
+											backgroundColor: color,
+											display: "flex",
+											justifyContent: "center",
+											alignItems: "center",
+											padding: "24px",
+										}}
+									>
+										<Title order={1} color="white" noMargin>
+											{number}
+										</Title>
+									</Card>
+								)}
+								items={[
+									{ key: "1", number: 1, color: "rgba(76, 175, 80, 0.8)" },
+									{ key: "2", number: 2, color: "rgba(33, 150, 243, 0.8)" },
+									{ key: "3", number: 3, color: "rgba(156, 39, 176, 0.8)" },
+									{ key: "4", number: 4, color: "rgba(255, 193, 7, 0.8)" },
+									{ key: "5", number: 5, color: "rgba(244, 67, 54, 0.8)" },
+									{ key: "6", number: 6, color: "rgba(0, 188, 212, 0.8)" },
+								]}
+								itemToDisplayCount={1}
+								gap={0}
+								showArrows
+								showDots
+								style={{ height: "150px" }}
+							/>
+						</Vertical>
+					</div>
+
+					<div>
+						<Text size="md" color="theme">
+							No Arrows
+						</Text>
+						<Vertical marginTop={8}>
+							<Carousel
+								Component={({ emoji, text }: { emoji: string; text: string }) => (
+									<Card
+										style={{
+											height: "100%",
+											display: "flex",
+											flexDirection: "column",
+											justifyContent: "center",
+											alignItems: "center",
+											textAlign: "center",
+											padding: "24px",
+										}}
+									>
+										<div style={{ fontSize: "48px", marginBottom: "16px" }}>{emoji}</div>
+										<Text size="sm">{text}</Text>
+									</Card>
+								)}
+								items={[
+									{ key: "1", emoji: "🎵", text: "Music" },
+									{ key: "2", emoji: "🎧", text: "Headphones" },
+									{ key: "3", emoji: "🎤", text: "Microphone" },
+									{ key: "4", emoji: "🎹", text: "Piano" },
+								]}
+								itemToDisplayCount={3}
+								gap={12}
+								showArrows={false}
+								style={{ height: "180px" }}
+							/>
+						</Vertical>
+					</div>
+
+					<div>
+						<Text size="md" color="theme">
+							No Dots
+						</Text>
+						<Vertical marginTop={8}>
+							<Carousel
+								Component={({ emoji, text }: { emoji: string; text: string }) => (
+									<Card
+										style={{ height: "100%", display: "flex", justifyContent: "center", alignItems: "center", padding: "24px" }}
+									>
+										<div style={{ fontSize: "48px", marginBottom: "16px" }}>{emoji}</div>
+										<Text size="sm">{text}</Text>
+									</Card>
+								)}
+								items={[
+									{ key: "1", emoji: "🎵", text: "Music" },
+									{ key: "2", emoji: "🎧", text: "Headphones" },
+									{ key: "3", emoji: "🎤", text: "Microphone" },
+									{ key: "4", emoji: "🎹", text: "Piano" },
+								]}
+								itemToDisplayCount={3}
+								gap={12}
+								showDots={false}
+								style={{ height: "180px" }}
+							/>
+						</Vertical>
+					</div>
+				</Vertical>
+			</Card>
+
+			{/* Input Demo */}
+			<Card>
+				<Title order={2} icon={<TextIcon size={20} />}>
+					Input Component
+				</Title>
+
+				<Vertical gap={16}>
+					{/* Basic Usage */}
+					<div>
+						<Text size="md" color="theme">
+							Basic Usage
+						</Text>
+						<Vertical gap={8} marginTop={8}>
+							<Input placeholder="Enter text here..." />
+							<Input placeholder="Disabled input" disabled />
+							<Input placeholder="Required field" required />
+						</Vertical>
+					</div>
+
+					{/* With Labels */}
+					<div>
+						<Text size="md" color="theme">
+							With Labels
+						</Text>
+						<Vertical gap={8} marginTop={8}>
+							<Input label="Username" placeholder="Enter username" />
+							<Input label="Email" placeholder="Enter email" type="email" required />
+							<Input label="Password" placeholder="Enter password" type="password" />
+						</Vertical>
+					</div>
+
+					{/* Floating Labels */}
+					<div>
+						<Text size="md" color="theme">
+							Floating Labels
+						</Text>
+						<Vertical gap={8} marginTop={8}>
+							<Input label="Floating Label" placeholder="Type here..." floating />
+							<Input label="Floating Required" placeholder="Required field" floating required />
+						</Vertical>
+					</div>
+
+					{/* With Descriptions */}
+					<div>
+						<Text size="md" color="theme">
+							With Descriptions
+						</Text>
+						<Vertical gap={8} marginTop={8}>
+							<Input label="Username" placeholder="Enter username" description="Must be at least 3 characters long" />
+							<Input label="Email" placeholder="Enter email" type="email" description="We'll never share your email" />
+						</Vertical>
+					</div>
+
+					{/* With Error Descriptions */}
+					<div>
+						<Text size="md" color="theme">
+							With Error Descriptions
+						</Text>
+						<Vertical gap={8} marginTop={8}>
+							<Input label="Username" placeholder="Enter username" errorDescription="Username is already taken" />
+							<Input label="Email" placeholder="Enter email" type="email" errorDescription="Please enter a valid email address" />
+							<Input
+								label="Password"
+								placeholder="Enter password"
+								type="password"
+								errorDescription="Password must be at least 8 characters"
+							/>
+						</Vertical>
+					</div>
+
+					{/* With Both Description and Error Description */}
+					<div>
+						<Text size="md" color="theme">
+							With Both Description and Error Description
+						</Text>
+						<Vertical gap={8} marginTop={8}>
+							<Input
+								label="Username"
+								placeholder="Enter username"
+								description="Must be at least 3 characters long"
+								errorDescription="Username is already taken"
+							/>
+							<Input
+								label="Email"
+								placeholder="Enter email"
+								type="email"
+								description="We'll never share your email"
+								errorDescription="Please enter a valid email address"
+							/>
+						</Vertical>
+					</div>
+
+					{/* Clearable Inputs */}
+					<div>
+						<Text size="md" color="theme">
+							Clearable Inputs
+						</Text>
+						<Vertical gap={8} marginTop={8}>
+							<Input placeholder="Type and clear..." clearable value={inputValue} setValue={setInputValue} />
+							<Text size="sm" color="theme">
+								Current value: {inputValue || "empty"}
+							</Text>
+						</Vertical>
+					</div>
+
+					{/* Number Inputs */}
+					<div>
+						<Text size="md" color="theme">
+							Number Inputs
+						</Text>
+						<Vertical gap={8} marginTop={8}>
+							<Input
+								label="Age"
+								type="number"
+								placeholder="Enter age"
+								min={0}
+								max={120}
+								value={numberValue.toString()}
+								setValue={(value) => setNumberValue(parseInt(value) || 0)}
+								setNumberValue={setNumberValue}
+							/>
+							<Text size="sm" color="theme">
+								Number value: {numberValue}
+							</Text>
+						</Vertical>
+					</div>
+
+					{/* Color Variants */}
+					<div>
+						<Text size="md" color="theme">
+							Color Variants
+						</Text>
+						<Vertical gap={8} marginTop={8}>
+							<Input label="Theme Color" placeholder="Default theme color" />
+							<Input label="Success Color" placeholder="Success state" color="success" />
+							<Input label="Warning Color" placeholder="Warning state" color="warning" />
+							<Input label="Danger Color" placeholder="Error state" color="danger" />
+							<Input label="White Color" placeholder="White variant" color="white" />
+						</Vertical>
+					</div>
+
+					{/* Controlled Inputs */}
+					<div>
+						<Text size="md" color="theme">
+							Controlled Inputs
+						</Text>
+						<Vertical gap={8} marginTop={8}>
+							<Input label="Controlled Input" placeholder="Type here..." value={inputValue} setValue={setInputValue} clearable />
+							<Text size="sm" color="theme">
+								Current value: {inputValue || "empty"}
+							</Text>
+							<Horizontal gap={8}>
+								<Button variant="light" size="sm" onClick={() => setInputValue("Hello World!")}>
+									Set to "Hello World!"
+								</Button>
+								<Button variant="light" size="sm" onClick={() => setInputValue("")}>
+									Clear
+								</Button>
+							</Horizontal>
+						</Vertical>
+					</div>
+				</Vertical>
+			</Card>
+
+			{/* NativeSelect Demo */}
+			<Card>
+				<Title order={2} icon={<Settings size={20} />}>
+					NativeSelect Component
+				</Title>
+
+				<Vertical gap={16}>
+					{/* Basic Usage */}
+					<div>
+						<Text size="md" color="theme">
+							Basic Usage
+						</Text>
+						<Vertical gap={8} marginTop={8}>
+							<NativeSelect
+								placeholder="Choose a theme"
+								options={["default", "ocean", "sunset", "neon", "forest", "light", "aurora", "galaxy"]}
+								value={selectedTheme}
+								setValue={setSelectedTheme}
+							/>
+							<NativeSelect
+								placeholder="Choose a color variant"
+								options={["theme", "white", "danger", "warning", "success"]}
+								value={selectedColor}
+								setValue={setSelectedColor}
+							/>
+						</Vertical>
+					</div>
+
+					{/* With Labels */}
+					<div>
+						<Text size="md" color="theme">
+							With Labels
+						</Text>
+						<Vertical gap={8} marginTop={8}>
+							<NativeSelect
+								label="Select Theme"
+								placeholder="Choose a theme"
+								options={["default", "ocean", "sunset", "neon", "forest", "light", "aurora", "galaxy"]}
+								value={selectedTheme}
+								setValue={setSelectedTheme}
+							/>
+							<NativeSelect
+								label="Select Color Variant"
+								placeholder="Choose a color"
+								options={["theme", "white", "danger", "warning", "success"]}
+								value={selectedColor}
+								setValue={setSelectedColor}
+							/>
+						</Vertical>
+					</div>
+
+					{/* With Descriptions */}
+					<div>
+						<Text size="md" color="theme">
+							With Descriptions
+						</Text>
+						<Vertical gap={8} marginTop={8}>
+							<NativeSelect
+								label="Select Theme"
+								placeholder="Choose a theme"
+								options={["default", "ocean", "sunset", "neon", "forest", "light", "aurora", "galaxy"]}
+								value={selectedTheme}
+								setValue={setSelectedTheme}
+								description="Choose your preferred color scheme"
+							/>
+							<NativeSelect
+								label="Select Color Variant"
+								placeholder="Choose a color"
+								options={["theme", "white", "danger", "warning", "success"]}
+								value={selectedColor}
+								setValue={setSelectedColor}
+								description="This changes the select's color scheme"
+							/>
+						</Vertical>
+					</div>
+
+					{/* Required Fields */}
+					<div>
+						<Text size="md" color="theme">
+							Required Fields
+						</Text>
+						<Vertical gap={8} marginTop={8}>
+							<NativeSelect
+								label="Required Field"
+								placeholder="Please select an option"
+								options={["Option 1", "Option 2", "Option 3"]}
+								required
+							/>
+							<NativeSelect
+								label="Required with Error"
+								placeholder="Please select an option"
+								options={["Option 1", "Option 2", "Option 3"]}
+								color="danger"
+								required
+								errorDescription="This field is required"
+							/>
+						</Vertical>
+					</div>
+
+					{/* Color Variants */}
+					<div>
+						<Text size="md" color="theme">
+							Color Variants
+						</Text>
+						<Vertical gap={8} marginTop={8}>
+							<NativeSelect
+								label="Theme Color"
+								placeholder="Default theme color"
+								options={["Option 1", "Option 2", "Option 3"]}
+								color="theme"
+							/>
+							<NativeSelect
+								label="Success Color"
+								placeholder="Success state"
+								options={["Option 1", "Option 2", "Option 3"]}
+								color="success"
+							/>
+							<NativeSelect
+								label="Warning Color"
+								placeholder="Warning state"
+								options={["Option 1", "Option 2", "Option 3"]}
+								color="warning"
+							/>
+							<NativeSelect
+								label="Danger Color"
+								placeholder="Error state"
+								options={["Option 1", "Option 2", "Option 3"]}
+								color="danger"
+							/>
+							<NativeSelect
+								label="White Color"
+								placeholder="White variant"
+								options={["Option 1", "Option 2", "Option 3"]}
+								color="white"
+							/>
+						</Vertical>
+					</div>
+
+					{/* Disabled Options */}
+					<div>
+						<Text size="md" color="theme">
+							Disabled Options
+						</Text>
+						<Vertical gap={8} marginTop={8}>
+							<NativeSelect
+								label="With Disabled Options"
+								placeholder="Select with disabled options"
+								options={[
+									{ value: "Enabled Option 1" },
+									{ value: "Disabled Option 1", disabled: true },
+									{ value: "Enabled Option 2" },
+									{ value: "Disabled Option 2", disabled: true },
+								]}
+								color="warning"
+								description="Some options are disabled"
+							/>
+						</Vertical>
+					</div>
+
+					{/* Full Width */}
+					<div>
+						<Text size="md" color="theme">
+							Full Width
+						</Text>
+						<Vertical gap={8} marginTop={8}>
+							<NativeSelect
+								label="Full Width Select"
+								placeholder="This select takes full width"
+								options={["Option 1", "Option 2", "Option 3", "Option 4", "Option 5"]}
+								fullWidth
+								description="Using fullWidth prop for responsive layouts"
+							/>
+						</Vertical>
+					</div>
+
+					{/* Interactive Examples */}
+					<div>
+						<Text size="md" color="theme">
+							Interactive Examples
+						</Text>
+						<Vertical gap={8} marginTop={8}>
+							<NativeSelect
+								label="Music Genre"
+								placeholder="Select your favorite genre"
+								options={["Rock", "Pop", "Jazz", "Classical", "Electronic", "Hip-Hop", "Country", "Blues"]}
+								color="success"
+								description="Choose your preferred music genre"
+								onChange={(e) => console.log("Selected genre:", e.currentTarget.value)}
+							/>
+							<NativeSelect
+								label="Audio Quality"
+								placeholder="Select audio quality"
+								options={["128 kbps", "256 kbps", "320 kbps", "Lossless", "Hi-Res"]}
+								color="theme"
+								description="Higher quality means larger file sizes"
+								onChange={(e) => console.log("Selected quality:", e.currentTarget.value)}
+							/>
+						</Vertical>
+					</div>
+
+					{/* Controlled vs Uncontrolled */}
+					<div>
+						<Text size="md" color="theme">
+							Controlled vs Uncontrolled
+						</Text>
+						<Vertical gap={8} marginTop={8}>
+							<NativeSelect
+								label="Controlled Select"
+								placeholder="This is controlled"
+								options={["Option 1", "Option 2", "Option 3"]}
+								value={selectedTheme}
+								setValue={setSelectedTheme}
+								color="success"
+								description="Value is controlled by React state"
+							/>
+							<NativeSelect
+								label="Uncontrolled Select"
+								placeholder="This is uncontrolled"
+								options={["Option A", "Option B", "Option C"]}
+								color="warning"
+								description="Uses internal HTML select state"
+							/>
+						</Vertical>
+					</div>
 				</Vertical>
 			</Card>
 
@@ -1089,7 +2016,7 @@ export const ComponentDemo = () => {
 			<FileBrowserDemo />
 
 			{/* Interactive Demo */}
-			<Card className="demo-section">
+			<Card>
 				<Title order={2} icon={<Play size={20} />}>
 					Interactive Music Player Demo
 				</Title>
@@ -1118,7 +2045,7 @@ export const ComponentDemo = () => {
 						<Horizontal gap={12} alignItems="center">
 							<Volume2 size={16} />
 							<Slider value={sliderValue} setValue={setSliderValue} min={0} max={100} />
-							<Text size="small">{sliderValue}%</Text>
+							<Text size="sm">{sliderValue}%</Text>
 						</Horizontal>
 
 						{/* Navigation Tabs */}

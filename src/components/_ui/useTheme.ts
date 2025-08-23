@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 
 /* THEME LOADER UTILITY */
 
-export type Theme = "default" | "ocean" | "sunset" | "neon" | "forest" | "light" | "aurora" | "galaxy";
+export type Theme = "default" | "ocean" | "sunset" | "neon" | "forest" | "light" | "aurora" | "galaxy" | "autumn" | "crimson";
 
 export const useTheme = () => {
 	const [theme, setTheme_] = useState<Theme>("default");
@@ -23,7 +23,7 @@ export const useTheme = () => {
 			const promise = new Promise<void>((resolve) => {
 				setIsLoading(true);
 				setTimeout(async () => {
-					await import(`./themes/${newTheme}.css`);
+					await import(`@/components/_ui/themes/${newTheme}.css`);
 					setIsLoading(false);
 					resolve();
 				}, 200);

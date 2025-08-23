@@ -1,6 +1,6 @@
-import type { BorderType } from "@/components/ui/eborder";
-import { getBorderRadiusClasses } from "@/components/ui/eborder";
-import { LoadingOverlay } from "@/components/ui/LoadingOverlay";
+import type { BorderType } from "@/components/_ui/eborder";
+import { getBorderRadiusClasses } from "@/components/_ui/eborder";
+import { LoadingOverlay } from "@/components/_ui/LoadingOverlay";
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 
 export type LightButtonProps = {
@@ -23,11 +23,11 @@ export type BaseButtonProps = (LightButtonProps | FilledButtonProps) & {
 	children?: ReactNode;
 
 	// Styling props
-	size?: "small" | "medium" | "large";
+	size?: "sm" | "md" | "lg";
 	color?: "theme" | "danger" | "warning" | "success";
 
 	// Layout props
-	borderRadiusSize?: "none" | "small" | "medium" | "large";
+	borderRadiusSize?: "none" | "sm" | "md" | "lg";
 	borderRadius?: BorderType[];
 	borderRadiusFilter?: "left" | "right" | "top" | "bottom" | "all";
 	circular?: boolean;
@@ -48,11 +48,11 @@ export const Button = ({
 	children,
 
 	// Styling props
-	size = "medium",
+	size = "md",
 	color = "theme",
 
 	// Layout props
-	borderRadiusSize = "large",
+	borderRadiusSize = "lg",
 	borderRadius = ["all"],
 	borderRadiusFilter = "all",
 	circular,

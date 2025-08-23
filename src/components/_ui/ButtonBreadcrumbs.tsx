@@ -1,4 +1,4 @@
-import type { TypedOmit } from "@/components/typedOmit";
+import type { TypedOmit } from "@/components/_ui/typedOmit";
 import type { ReactNode } from "react";
 import { useState } from "react";
 import type { ButtonProps } from "./Button";
@@ -75,10 +75,10 @@ export const ButtonBreadcrumbs = ({
 						/>
 					</div>
 					<div className="breadcrumbs-actions">
-						<Button variant="light" size="small" onClick={handleSaveEdit} color="success">
+						<Button variant="light" size="sm" onClick={handleSaveEdit} color="success">
 							Save
 						</Button>
-						<Button variant="light" size="small" onClick={handleCancelEdit} color="danger">
+						<Button variant="light" size="sm" onClick={handleCancelEdit} color="danger">
 							Cancel
 						</Button>
 					</div>
@@ -90,7 +90,7 @@ export const ButtonBreadcrumbs = ({
 							// eslint-disable-next-line react/no-array-index-key
 							<div key={index} className="breadcrumb-item">
 								{/* @ts-expect-error cannot get the variant from the buttonProps */}
-								<Button {...buttonProps} size="small" onClick={() => handleItemClick(index)} icon={item.icon}>
+								<Button {...buttonProps} size="sm" onClick={() => handleItemClick(index)} icon={item.icon}>
 									{item.children || item.text}
 								</Button>
 								{index < items.length - 1 && <Text className="breadcrumb-separator">{separator}</Text>}
@@ -98,7 +98,7 @@ export const ButtonBreadcrumbs = ({
 						))}
 					</div>
 					{editable && (
-						<Button variant="light" size="small" onClick={handleEditClick}>
+						<Button variant="light" size="sm" onClick={handleEditClick}>
 							Edit
 						</Button>
 					)}

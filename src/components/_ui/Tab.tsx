@@ -1,6 +1,6 @@
-import type { TypedOmit } from "@/components/typedOmit";
-import type { ButtonProps } from "@/components/ui/Button";
-import { Button } from "@/components/ui/Button";
+import type { ButtonProps } from "@/components/_ui/Button";
+import { Button } from "@/components/_ui/Button";
+import type { TypedOmit } from "@/components/_ui/typedOmit";
 
 export type BaseTabProps = {
 	// Core props

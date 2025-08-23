@@ -63,7 +63,7 @@ Visual appearance and theming props.
 
 **Examples:**
 - `color?: "theme" | "white" | "danger" | "warning" | "success"`
-- `size?: "small" | "medium" | "large"`
+- `size?: "sm" | "md" | "lg"`
 - `noMargin?: boolean`
 - `thick?: boolean`
 
@@ -71,7 +71,7 @@ Visual appearance and theming props.
 ```typescript
 // Styling props
 color = "theme",
-size = "medium",
+size = "md",
 noMargin = false,
 ```
 
@@ -150,7 +150,7 @@ export const ComponentName = ({
     
     // Styling props
     color = "theme",
-    size = "medium",
+    size = "md",
     
     // Layout props
     fullWidth,

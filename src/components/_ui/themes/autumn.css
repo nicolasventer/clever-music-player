@@ -1,0 +1,63 @@
+/* AUTUMN THEME */
+
+:root {
+	/* Primary Colors */
+	--color-primary: rgb(255, 140, 0);
+	--color-primary-dark: #d2691e;
+	--color-primary-light: rgba(255, 140, 0, 0.3);
+	--color-primary-shadow: rgba(255, 140, 0, 0.4);
+	--color-primary-shadow-hover: rgba(255, 140, 0, 0.6);
+	--gradient-primary: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+
+	/* Background Colors */
+	--color-bg-primary: #2d1810;
+	--color-bg-secondary: #3d2817;
+	--color-bg-tertiary: #4a2c1a;
+	--color-bg-overlay: rgba(255, 255, 255, 0.05);
+	--color-bg-overlay-light: rgba(255, 255, 255, 0.1);
+	--color-bg-overlay-medium: rgba(255, 255, 255, 0.15);
+	--color-bg-overlay-heavy: rgba(255, 255, 255, 0.2);
+
+	/* Text Colors */
+	--color-text-primary: #ffffff;
+	--color-text-secondary: #f4e4c1;
+	--color-text-tertiary: #f8f0e0;
+	--color-text-quaternary: #faf6ed;
+	--color-text-muted: #d4c4a8;
+	--color-text-placeholder: rgba(255, 255, 255, 0.6);
+
+	/* Border Colors */
+	--color-primary-border: rgba(255, 255, 255, 0.2);
+	--color-border-light: rgba(255, 255, 255, 0.1);
+
+	/* Status Colors */
+	--color-success: rgb(74, 222, 128);
+	--color-success-bg: rgba(74, 222, 128, 0.2);
+	--color-success-border: rgba(74, 222, 128, 0.3);
+	--color-success-shadow: rgba(74, 222, 128, 0.4);
+
+	--color-warning: rgb(255, 165, 0);
+	--color-warning-bg: rgba(255, 165, 0, 0.2);
+	--color-warning-border: rgba(255, 165, 0, 0.3);
+	--color-warning-shadow: rgba(255, 165, 0, 0.4);
+
+	--color-danger: rgb(239, 68, 68);
+	--color-danger-bg: rgba(239, 68, 68, 0.2);
+	--color-danger-border: rgba(239, 68, 68, 0.3);
+	--color-danger-shadow: rgba(255, 107, 107, 0.4);
+
+	--color-error: rgb(229, 57, 53);
+
+	/* Shadow Colors */
+	--color-shadow-light: rgba(255, 255, 255, 0.1);
+	--color-shadow-medium: rgba(0, 0, 0, 0.3);
+	--color-shadow-heavy: rgba(0, 0, 0, 0.3);
+
+	/* Scrollbar Colors */
+	--color-scrollbar-track: rgba(255, 255, 255, 0.1);
+	--color-scrollbar-thumb: rgba(255, 255, 255, 0.3);
+	--color-scrollbar-thumb-hover: rgba(255, 255, 255, 0.5);
+
+	/* Border Radius Variables */
+	--border-radius-none: 0px;
+}

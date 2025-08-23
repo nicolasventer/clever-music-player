@@ -1,4 +1,4 @@
-import type { TypedOmit } from "@/components/typedOmit";
+import type { TypedOmit } from "@/components/_ui/typedOmit";
 import { X } from "lucide-react";
 import type { InputHTMLAttributes } from "react";
 
@@ -12,12 +12,20 @@ export type BaseInputProps = {
 
 	// Styling props
 	color?: "theme" | "white" | "danger" | "warning" | "success";
+	labelColor?: "theme" | "white" | "danger" | "warning" | "success";
 
 	// Behavior props
 	clearable?: boolean;
+	floating?: boolean;
+	required?: boolean;
+
+	// Content props
+	label?: string;
+	description?: string;
+	errorDescription?: string;
 };
 
-export type InputProps = TypedOmit<InputHTMLAttributes<HTMLInputElement>, "value" | "min" | "max"> & BaseInputProps;
+export type InputProps = TypedOmit<InputHTMLAttributes<HTMLInputElement>, "value" | "min" | "max" | "required"> & BaseInputProps;
 
 const numStr = (value: string) => value.replace(/[^0-9\-eE.]/g, "");
 
@@ -37,10 +45,18 @@ export const Input = ({
 
 	// Styling props
 	color = "theme",
+	labelColor,
 
 	// Behavior props
 	clearable,
+	floating,
 	disabled,
+	required,
+
+	// Content props
+	label,
+	description,
+	errorDescription,
 
 	// HTML attributes
 	className = "",
@@ -68,14 +84,39 @@ export const Input = ({
 		/>
 	);
 
+	const computedLabelColor = labelColor ?? (color === "theme" ? "white" : color);
+
+	const inputWithLabel = label ? (
+		<div className={`${floating ? "input-with-label-floating" : "input-with-label"} input-${color}`}>
+			<input {...inputProps} onChange={handleChange} className={`input-bottom-line ${className}`.trim()} disabled={disabled} />
+			<label className={`${floating ? "input-label-floating" : "input-label"} input-label-${computedLabelColor}`}>
+				{label}
+				{required && <span className="input-required-asterisk">*</span>}
+			</label>
+		</div>
+	) : (
+		inputElement
+	);
+
+	const inputWithDescription =
+		description || errorDescription ? (
+			<div className="input-with-description">
+				{inputWithLabel}
+				{description && <div className={`input-description input-description-${color}`}>{description}</div>}
+				{errorDescription && <div className="input-description input-description-danger">{errorDescription}</div>}
+			</div>
+		) : (
+			inputWithLabel
+		);
+
 	return clearable && inputProps.value ? (
 		<div className="input-container">
-			{inputElement}
+			{inputWithDescription}
 			<button type="button" onClick={handleClear} className="input-clear-btn" aria-label="Clear input" disabled={disabled}>
 				<X size={16} />
 			</button>
 		</div>
 	) : (
-		inputElement
+		inputWithDescription
 	);
 };

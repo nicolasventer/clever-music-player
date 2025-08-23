@@ -1,4 +1,4 @@
-import type { TypedOmit } from "@/components/typedOmit";
+import type { TypedOmit } from "@/components/_ui/typedOmit";
 import { Search, X } from "lucide-react";
 import type { ChangeEvent, InputHTMLAttributes } from "react";
 import { useRef, useState } from "react";

@@ -8,7 +8,6 @@
 	--color-primary-shadow: rgba(236, 72, 153, 0.4);
 	--color-primary-shadow-hover: rgba(236, 72, 153, 0.6);
 	--gradient-primary: linear-gradient(135deg, rgb(236, 72, 153) 0%, rgb(251, 146, 60) 50%, rgb(168, 85, 247) 100%);
-	--gradient-bg: linear-gradient(135deg, #1a0a2a 0%, #2d0a4a 50%, #3d0a6a 100%);
 
 	/* Background Colors */
 	--color-bg-primary: #1a0a2a;

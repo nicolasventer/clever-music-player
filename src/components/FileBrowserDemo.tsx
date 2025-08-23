@@ -1,6 +1,6 @@
+import type { Entry } from "@/components/_ui/FileBrowser";
+import { FileBrowser } from "@/components/_ui/FileBrowser";
 import { useState } from "react";
-import type { Entry } from "./FileBrowser";
-import { FileBrowser } from "./FileBrowser";
 
 // Sample data for demonstration
 const sampleEntries: Record<string, Entry[]> = {
