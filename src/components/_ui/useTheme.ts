@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 
 /* THEME LOADER UTILITY */
 
-export type Theme = "default" | "ocean" | "sunset" | "neon" | "forest" | "light" | "aurora" | "galaxy" | "autumn" | "crimson";
+export type Theme = "default" | "ocean" | "sunset" | "forest" | "light" | "autumn" | "restaurant";
 
 export const useTheme = () => {
 	const [theme, setTheme_] = useState<Theme>("default");

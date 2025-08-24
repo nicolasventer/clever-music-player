@@ -5,7 +5,7 @@ import { Text } from "@/components/_ui/Text";
 import { Title } from "@/components/_ui/Title";
 import { useTheme, type Theme } from "@/components/_ui/useTheme";
 import { Horizontal, Vertical } from "@/utils/ComponentToolbox";
-import { Droplets, Leaf, Palette, Satellite, Sparkles, Sun, Sunset, TreePine, Zap } from "lucide-react";
+import { Droplets, Leaf, Palette, Sun, Sunset, TreePine, Utensils } from "lucide-react";
 import styles from "./ThemeSelector.module.css";
 
 const themeOptions: Array<{
@@ -36,13 +36,7 @@ const themeOptions: Array<{
 		icon: <Sunset size={20} />,
 		previewColors: ["rgb(236, 72, 153)", "rgb(251, 146, 60)", "#1e1b4b", "#312e81"],
 	},
-	{
-		value: "neon",
-		label: "Neon",
-		description: "Bright cyberpunk theme",
-		icon: <Zap size={20} />,
-		previewColors: ["rgb(0, 255, 255)", "rgb(255, 0, 255)", "#0a0a0a", "#1a1a1a"],
-	},
+
 	{
 		value: "forest",
 		label: "Forest",
@@ -65,25 +59,11 @@ const themeOptions: Array<{
 		previewColors: ["rgb(59, 130, 246)", "rgb(37, 99, 235)", "#ffffff", "#f8fafc"],
 	},
 	{
-		value: "aurora",
-		label: "Aurora",
-		description: "Colorful gradient theme",
-		icon: <Sparkles size={20} />,
-		previewColors: ["rgb(147, 51, 234)", "rgb(59, 130, 246)", "#0a0a23", "#1a1a3a"],
-	},
-	{
-		value: "galaxy",
-		label: "Galaxy",
-		description: "Deep space theme",
-		icon: <Satellite size={20} />,
-		previewColors: ["rgb(139, 92, 246)", "rgb(124, 58, 237)", "#0a0a0f", "#1a1a2e"],
-	},
-	{
-		value: "crimson",
-		label: "Crimson",
-		description: "Passionate red theme",
-		icon: <Zap size={20} />,
-		previewColors: ["rgb(220, 38, 38)", "rgb(153, 27, 27)", "#1a0a0a", "#2d1b1b"],
+		value: "restaurant",
+		label: "Restaurant",
+		description: "Warm restaurant menu theme",
+		icon: <Utensils size={20} />,
+		previewColors: ["rgb(220, 118, 51)", "rgb(139, 69, 19)", "rgb(255, 248, 240)", "rgb(250, 240, 230)"],
 	},
 ];
 

@@ -246,6 +246,7 @@ body {
 .btn-theme.btn-light {
 	background: var(--color-bg-overlay-light);
 	border: 1px solid var(--color-primary-border);
+	color: var(--color-text-tertiary);
 }
 
 .btn-warning {
