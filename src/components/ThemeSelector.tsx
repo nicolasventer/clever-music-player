@@ -6,6 +6,7 @@ import { Title } from "@/components/_ui/Title";
 import { useTheme, type Theme } from "@/components/_ui/useTheme";
 import { Horizontal, Vertical } from "@/utils/ComponentToolbox";
 import { Droplets, Leaf, Palette, Sun, Sunset, TreePine, Utensils } from "lucide-react";
+import { useColorScheme } from "./_ui/useColorScheme";
 import styles from "./ThemeSelector.module.css";
 
 const themeOptions: Array<{
@@ -69,6 +70,7 @@ const themeOptions: Array<{
 
 export const ThemeSelector = () => {
 	const { theme, setTheme, isLoading } = useTheme();
+	const { toggleColorScheme } = useColorScheme();
 
 	const handleThemeChange = async (newTheme: Theme) => {
 		if (newTheme === theme || isLoading) return;
@@ -113,6 +115,9 @@ export const ThemeSelector = () => {
 			<Horizontal gap={8} marginTop={16} justifyContent="center">
 				<Button variant="light" size="sm" onClick={() => handleThemeChange("default")} disabled={isLoading}>
 					Reset to Default
+				</Button>
+				<Button variant="light" size="sm" onClick={() => toggleColorScheme()} disabled={isLoading}>
+					Toggle Light/Dark
 				</Button>
 			</Horizontal>
 		</Card>

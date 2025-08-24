@@ -61,3 +61,63 @@
 	/* Border Radius Variables */
 	--border-radius-none: 0px;
 }
+
+/* Dark Mode */
+[data-theme="dark"] {
+	/* Primary Colors - Keep warm orange tones but adjust for dark mode */
+	--color-primary: rgb(255, 140, 70);
+	--color-primary-dark: rgb(220, 118, 51);
+	--color-primary-light: rgba(255, 140, 70, 0.4);
+	--color-primary-shadow: rgba(180, 80, 30, 0.5);
+	--color-primary-shadow-hover: rgba(180, 80, 30, 0.7);
+	--gradient-primary: linear-gradient(135deg, rgb(180, 80, 30) 0%, rgb(140, 60, 20) 100%);
+
+	/* Background Colors - Deep, warm dark tones */
+	--color-bg-primary: rgb(29 25 22);
+	--color-bg-secondary: rgb(28, 20, 15);
+	--color-bg-tertiary: rgb(38, 28, 22);
+	--color-bg-overlay: rgba(255, 140, 70, 0.08);
+	--color-bg-overlay-light: rgba(255, 140, 70, 0.12);
+	--color-bg-overlay-medium: rgba(255, 140, 70, 0.18);
+	--color-bg-overlay-heavy: rgba(255, 140, 70, 0.25);
+
+	/* Text Colors - Warm light tones for good contrast */
+	--color-text-primary: rgb(245, 235, 220);
+	--color-text-secondary: rgb(225, 215, 200);
+	--color-text-tertiary: rgb(200, 190, 175);
+	--color-text-quaternary: rgb(180, 170, 155);
+	--color-text-muted: rgb(160, 150, 135);
+	--color-text-placeholder: rgba(180, 170, 155, 0.6);
+
+	/* Border Colors - Subtle warm borders */
+	--color-primary-border: rgba(255, 140, 70, 0.4);
+	--color-border-light: rgba(255, 140, 70, 0.15);
+
+	/* Status Colors - Adjusted for dark mode */
+	--color-success: rgb(74, 222, 128);
+	--color-success-bg: rgba(74, 222, 128, 0.15);
+	--color-success-border: rgba(74, 222, 128, 0.3);
+	--color-success-shadow: rgba(74, 222, 128, 0.4);
+
+	--color-warning: rgb(251, 146, 60);
+	--color-warning-bg: rgba(251, 146, 60, 0.15);
+	--color-warning-border: rgba(251, 146, 60, 0.3);
+	--color-warning-shadow: rgba(251, 146, 60, 0.4);
+
+	--color-danger: rgb(248, 113, 113);
+	--color-danger-bg: rgba(248, 113, 113, 0.15);
+	--color-danger-border: rgba(248, 113, 113, 0.3);
+	--color-danger-shadow: rgba(248, 113, 113, 0.4);
+
+	--color-error: rgb(248, 113, 113);
+
+	/* Shadow Colors - Darker shadows for depth */
+	--color-shadow-light: rgba(0, 0, 0, 0.3);
+	--color-shadow-medium: rgba(0, 0, 0, 0.5);
+	--color-shadow-heavy: rgba(0, 0, 0, 0.7);
+
+	/* Scrollbar Colors - Subtle warm scrollbars */
+	--color-scrollbar-track: rgba(255, 140, 70, 0.1);
+	--color-scrollbar-thumb: rgba(255, 140, 70, 0.4);
+	--color-scrollbar-thumb-hover: rgba(255, 140, 70, 0.6);
+}
