@@ -39,6 +39,8 @@ import { useState } from "react";
 
 export const ComponentDemo = () => {
 	const [modalOpen, setModalOpen] = useState(false);
+	const [drawerOpen, setDrawerOpen] = useState(false);
+	const [fullHeightDrawerOpen, setFullHeightDrawerOpen] = useState(false);
 	const [searchValue, setSearchValue] = useState("");
 	const [inputValue, setInputValue] = useState("");
 	const [numberValue, setNumberValue] = useState(50);
@@ -1227,9 +1229,17 @@ export const ComponentDemo = () => {
 				</Title>
 
 				<Vertical gap={16}>
-					<Button variant="filled" icon={<Settings size={16} />} onClick={() => setModalOpen(true)}>
-						Open Modal
-					</Button>
+					<Horizontal gap={8}>
+						<Button variant="filled" icon={<Settings size={16} />} onClick={() => setModalOpen(true)}>
+							Open Modal
+						</Button>
+						<Button variant="light" icon={<Settings size={16} />} onClick={() => setDrawerOpen(true)}>
+							Open Drawer Modal
+						</Button>
+						<Button variant="light" icon={<Settings size={16} />} onClick={() => setFullHeightDrawerOpen(true)}>
+							Open Full Height Drawer
+						</Button>
+					</Horizontal>
 				</Vertical>
 
 				<Modal
@@ -1250,6 +1260,64 @@ export const ComponentDemo = () => {
 							Cancel
 						</Button>
 					</Horizontal>
+				</Modal>
+
+				<Modal
+					isOpen={drawerOpen}
+					onClose={() => setDrawerOpen(false)}
+					title="Settings Drawer"
+					icon={<Settings size={20} />}
+					closeOnClickOutside
+					asDrawer
+				>
+					<Text>This is a drawer modal that slides in from the bottom.</Text>
+					<Text>It's perfect for mobile interfaces and quick actions.</Text>
+
+					<Horizontal gap={8} marginTop={16}>
+						<Button variant="filled" onClick={() => setDrawerOpen(false)}>
+							Save
+						</Button>
+						<Button variant="light" onClick={() => setDrawerOpen(false)}>
+							Cancel
+						</Button>
+					</Horizontal>
+				</Modal>
+
+				{/* Full Height Drawer Modal */}
+				<Modal
+					isOpen={fullHeightDrawerOpen}
+					onClose={() => setFullHeightDrawerOpen(false)}
+					title="Full Height Drawer"
+					icon={<Settings size={20} />}
+					closeOnClickOutside
+					asDrawer
+					fullHeight
+				>
+					<Vertical gap={16} heightFull>
+						<Text>This is a full-height drawer modal that takes up the entire screen height.</Text>
+						<Text>It's perfect for complex forms, detailed views, or content that needs more space.</Text>
+
+						<Card>
+							<Title order={4}>Sample Content Section</Title>
+							<Text>This drawer has plenty of space for complex content.</Text>
+							<Text>You can add forms, lists, or any other components here.</Text>
+						</Card>
+
+						<Card>
+							<Title order={4}>Another Section</Title>
+							<Text>With full height, you can organize content into multiple sections.</Text>
+							<Text>This makes it easier to present complex information clearly.</Text>
+						</Card>
+
+						<Horizontal gap={8} marginTop="auto">
+							<Button variant="filled" onClick={() => setFullHeightDrawerOpen(false)}>
+								Save Changes
+							</Button>
+							<Button variant="light" onClick={() => setFullHeightDrawerOpen(false)}>
+								Cancel
+							</Button>
+						</Horizontal>
+					</Vertical>
 				</Modal>
 			</Card>
 

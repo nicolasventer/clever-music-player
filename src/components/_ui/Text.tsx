@@ -12,6 +12,7 @@ export type BaseTextProps = {
 	// Behavior props
 	br?: boolean;
 	link?: boolean | string;
+	ellipsis?: boolean;
 
 	// HTML attributes
 	iconProps?: HTMLAttributes<HTMLSpanElement>;
@@ -32,6 +33,7 @@ export const Text = ({
 	// Behavior props
 	br,
 	link,
+	ellipsis,
 
 	// HTML attributes
 	className,
@@ -57,6 +59,9 @@ export const Text = ({
 
 		// Clickable classes
 		if (onClick) baseClasses.push("text-clickable");
+
+		// Ellipsis classes
+		if (ellipsis) baseClasses.push("text-ellipsis");
 
 		if (className) baseClasses.push(className);
 
