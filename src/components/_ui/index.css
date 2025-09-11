@@ -196,16 +196,16 @@ body {
 }
 
 .btn-md {
-	padding: 8px 16px;
-	font-size: 12px;
+	padding: 10px 20px;
+	font-size: 14px;
 	--border-radius-sm: 8px;
 	--border-radius-md: 12px;
 	--border-radius-lg: 20px;
 }
 
 .btn-lg {
-	padding: 12px 20px;
-	font-size: 14px;
+	padding: 14px 28px;
+	font-size: 16px;
 	--border-radius-sm: 8px;
 	--border-radius-md: 16px;
 	--border-radius-lg: 32px;
@@ -731,11 +731,10 @@ body {
 .input-bottom-line {
 	border: none;
 	border-bottom: 2px solid var(--color-input-border-default);
-	background: transparent;
 	border-radius: 0;
 	outline: none;
 	box-shadow: none;
-	padding: 4px 0;
+	padding: 4px 4px;
 	font-size: 1rem;
 	color: inherit;
 	transition: border-color 0.2s;
@@ -1393,6 +1392,16 @@ button > .loading-overlay {
 	margin: 0;
 }
 
+.ellipsis {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.no-wrap {
+	white-space: nowrap;
+}
+
 .no-shadow {
 	box-shadow: none;
 }
@@ -1631,13 +1640,6 @@ button > .loading-overlay {
 
 .text-clickable {
 	cursor: pointer;
-}
-
-/* Text Ellipsis */
-.text-ellipsis {
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
 }
 
 /* CARD BUTTON COMPONENT STYLES */

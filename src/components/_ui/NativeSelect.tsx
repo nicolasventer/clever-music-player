@@ -2,7 +2,7 @@ import type { TypedOmit } from "@/components/_ui/typedOmit";
 import type { SelectHTMLAttributes } from "react";
 import { useMemo } from "react";
 
-export type SelectOption<T extends string> = T | { value: T; disabled?: boolean };
+export type SelectOption<T extends string> = T | { value: T; disabled?: boolean; label?: string };
 
 export type RequiredNativeSelectProps<T extends string> = {
 	// Value/State props
@@ -103,7 +103,7 @@ export const NativeSelect = <T extends string>({
 	};
 
 	const transformedOptions = useMemo(
-		() => options.map((option) => (typeof option === "string" ? { value: option, disabled: false } : option)),
+		() => options.map((option) => (typeof option === "string" ? { value: option, disabled: false, label: option } : option)),
 		[options]
 	);
 
@@ -116,7 +116,7 @@ export const NativeSelect = <T extends string>({
 			)}
 			{transformedOptions.map((option) => (
 				<option key={option.value} value={option.value} disabled={option.disabled}>
-					{option.value}
+					{option.label ?? option.value}
 				</option>
 			))}
 		</select>
@@ -134,7 +134,7 @@ export const NativeSelect = <T extends string>({
 				)}
 				{transformedOptions.map((option) => (
 					<option key={option.value} value={option.value} disabled={option.disabled}>
-						{option.value}
+						{option.label ?? option.value}
 					</option>
 				))}
 			</select>

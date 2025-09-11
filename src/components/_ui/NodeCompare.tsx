@@ -1,11 +1,15 @@
 import type { TypedOmit } from "@/components/_ui/typedOmit";
-import type { HTMLAttributes, ReactNode } from "react";
+import type { Dispatch, HTMLAttributes, ReactNode, SetStateAction } from "react";
 import { useEffect, useRef, useState } from "react";
 
 type BaseNodeCompareProps = {
 	// Core props
 	beforeNode: ReactNode;
 	afterNode: ReactNode;
+
+	// Value/State props
+	sliderPosition?: number; // 0-100
+	setSliderPosition?: Dispatch<SetStateAction<number>>;
 
 	// Content props
 	beforeLabel?: string;
@@ -31,6 +35,10 @@ export const NodeCompare = ({
 	beforeNode,
 	afterNode,
 
+	// Value/State props
+	sliderPosition,
+	setSliderPosition,
+
 	// Content props
 	beforeLabel,
 	afterLabel,
@@ -48,9 +56,14 @@ export const NodeCompare = ({
 	className = "",
 	...divProps
 }: NodeCompareProps) => {
-	const [sliderPosition, setSliderPosition] = useState(50);
+	const [sliderPosition_, setSliderPosition_] = useState(sliderPosition ?? 50);
 	const [isDragging, setIsDragging] = useState(false);
 	const containerRef = useRef<HTMLDivElement>(null);
+
+	const setSliderPositionAll: typeof setSliderPosition_ = (value) => {
+		setSliderPosition_(value);
+		setSliderPosition?.(value);
+	};
 
 	const handleMouseDown = (e: React.MouseEvent) => {
 		setIsDragging(true);
@@ -85,7 +98,7 @@ export const NodeCompare = ({
 		const x = e.clientX - rect.left;
 		const percentage = (x / rect.width) * 100;
 
-		setSliderPosition(Math.max(0, Math.min(100, percentage)));
+		setSliderPositionAll(Math.max(0, Math.min(100, percentage)));
 	};
 
 	const updateSliderPositionTouch = (e: TouchEvent | React.TouchEvent) => {
@@ -96,7 +109,7 @@ export const NodeCompare = ({
 		const x = touch.clientX - rect.left;
 		const percentage = (x / rect.width) * 100;
 
-		setSliderPosition(Math.max(0, Math.min(100, percentage)));
+		setSliderPositionAll(Math.max(0, Math.min(100, percentage)));
 	};
 
 	useEffect(() => {
@@ -119,7 +132,7 @@ export const NodeCompare = ({
 	return (
 		<div {...divProps} className={`node-compare ${className}`} style={{ ...divProps.style, width, height }} ref={containerRef}>
 			{/* Before Node (Background) */}
-			<div className="nc-node-container" style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}>
+			<div className="nc-node-container" style={{ clipPath: `inset(0 ${100 - sliderPosition_}% 0 0)` }}>
 				{beforeNode}
 				{/* Labels for background */}
 				<div className="node-compare-labels">
@@ -129,7 +142,7 @@ export const NodeCompare = ({
 			</div>
 
 			{/* After Node (Foreground with clip-path) */}
-			<div className="node-compare-after-container" style={{ clipPath: `inset(0 0 0 ${sliderPosition}%)` }}>
+			<div className="node-compare-after-container" style={{ clipPath: `inset(0 0 0 ${sliderPosition_}%)` }}>
 				<div className="nc-node-container">{afterNode}</div>
 				{/* Labels for foreground */}
 				<div className="node-compare-labels">
@@ -141,7 +154,7 @@ export const NodeCompare = ({
 			{/* Slider Handle */}
 			<div
 				className="node-compare-slider"
-				style={{ left: `${sliderPosition}%` }}
+				style={{ left: `${sliderPosition_}%` }}
 				onMouseDown={handleMouseDown}
 				onTouchStart={handleTouchStart}
 			>
@@ -153,7 +166,7 @@ export const NodeCompare = ({
 			</div>
 
 			{/* Display Line */}
-			<div className="node-compare-display-line" style={{ left: `${sliderPosition}%` }}></div>
+			<div className="node-compare-display-line" style={{ left: `${sliderPosition_}%` }}></div>
 		</div>
 	);
 };

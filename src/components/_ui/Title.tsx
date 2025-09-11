@@ -11,6 +11,8 @@ export type BaseTitleProps = {
 	// Styling props
 	color?: "white" | "theme" | "danger" | "warning" | "success";
 	noMargin?: boolean;
+	ellipsis?: boolean;
+	noWrap?: boolean;
 
 	// HTML attributes
 	iconProps?: HTMLAttributes<HTMLSpanElement>;
@@ -29,7 +31,9 @@ export const Title = ({
 
 	// Styling props
 	color = "white",
-	noMargin = false,
+	noMargin,
+	ellipsis,
+	noWrap,
 
 	// HTML attributes
 	className,
@@ -45,6 +49,10 @@ export const Title = ({
 		if (icon) baseClasses.push("icon-with-text");
 
 		if (noMargin) baseClasses.push("no-margin");
+
+		if (ellipsis) baseClasses.push("ellipsis");
+
+		if (noWrap) baseClasses.push("no-wrap");
 
 		if (className) baseClasses.push(className);
 

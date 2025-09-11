@@ -230,6 +230,8 @@ type BoxBaseProps = {
 	marginRight?: CssProperty;
 	/** the margin */
 	margin?: CssProperty;
+	/** the flex */
+	flex?: boolean | CssProperty;
 	/** the flex grow */
 	flexGrow?: boolean | CssProperty;
 	/** whether to set the overflow to auto */
@@ -266,6 +268,7 @@ const computeBoxBaseStyle = ({
 	marginBottom,
 	marginLeft,
 	marginRight,
+	flex,
 	flexGrow,
 	overflowAuto,
 	positionAbsolute,
@@ -277,6 +280,8 @@ const computeBoxBaseStyle = ({
 	height: heightMaxContent ? "max-content" : heightFull ? "100%" : height,
 	...getPadding({ padding, paddingTop, paddingBottom, paddingLeft, paddingRight }),
 	...getMargin({ margin, marginTop, marginBottom, marginLeft, marginRight }),
+	flexBasis: typeof flex === "boolean" ? (flex ? "100%" : undefined) : flex,
+	flexShrink: typeof flex === "boolean" ? (flex ? 1 : undefined) : flex,
 	flexGrow: typeof flexGrow === "boolean" ? (flexGrow ? 1 : undefined) : flexGrow,
 	overflow: overflowAuto ? "auto" : undefined,
 	position: positionAbsolute ? "absolute" : positionRelative ? "relative" : undefined,
@@ -322,6 +327,7 @@ export const Layout = forwardRef(function Layout(
 		marginBottom,
 		marginLeft,
 		marginRight,
+		flex,
 		flexGrow,
 		overflowAuto,
 		positionAbsolute,
@@ -368,6 +374,7 @@ export const Layout = forwardRef(function Layout(
 					marginBottom,
 					marginLeft,
 					marginRight,
+					flex,
 					flexGrow,
 					overflowAuto,
 					positionAbsolute,
@@ -401,27 +408,8 @@ export const Vertical = forwardRef(function Vertical(props: LayoutProps, ref: Fo
 	return <Layout ref={ref} {...props} layout="vertical" />;
 });
 
-/** The type of the parameters of a function */
-type Params<T> = T extends (...args: [infer U]) => any ? U : Record<string, never>;
-
 /** The type of a css property */
 type CssProperty = number | string | undefined;
-
-/**
- * Create a component with a flex grow property set
- * @template T the component type
- * @param props
- * @param props.Comp the component to wrap
- * @param {CssProperty} [props.flexGrow=1] the flex grow value (default: 1)
- * @returns a component with a flex grow property set
- */
-export const FlexGrow = <T extends (...args: any) => any>({
-	Comp,
-	flexGrow = 1,
-	...divProps
-}: { Comp: T; flexGrow?: CssProperty } & Params<T>) => (
-	<Comp {...divProps} style={{ flexGrow, ...(typeof divProps.style === "object" ? divProps.style : {}) }} />
-);
 
 /**
  * Create a component with a tag
@@ -451,16 +439,26 @@ export const Box = forwardRef(function Box(
 		heightFull,
 		padding,
 		paddingTop,
+		paddingBottom,
 		paddingLeft,
+		paddingRight,
 		margin,
 		marginTop,
+		marginBottom,
 		marginLeft,
+		marginRight,
+		flex,
 		flexGrow,
 		overflowAuto,
 		positionAbsolute,
 		positionRelative,
 		topLeft,
 		borderSolid,
+
+		alignItems,
+		justifyContent,
+		gap,
+
 		...divProps
 	}: BoxProps,
 	ref: ForwardedRef<HTMLDivElement>
@@ -470,6 +468,9 @@ export const Box = forwardRef(function Box(
 			ref={ref}
 			{...divProps}
 			style={{
+				alignItems,
+				justifyContent,
+				gap,
 				...computeBoxBaseStyle({
 					width,
 					widthMaxContent,
@@ -479,10 +480,15 @@ export const Box = forwardRef(function Box(
 					heightFull,
 					padding,
 					paddingTop,
+					paddingBottom,
 					paddingLeft,
+					paddingRight,
 					margin,
 					marginTop,
+					marginBottom,
 					marginLeft,
+					marginRight,
+					flex,
 					flexGrow,
 					overflowAuto,
 					positionAbsolute,
@@ -490,7 +496,7 @@ export const Box = forwardRef(function Box(
 					topLeft,
 					borderSolid,
 				}),
-				...(typeof divProps.style === "object" ? { ...divProps.style } : {}),
+				...(typeof divProps.style === "object" ? divProps.style : {}),
 			}}
 		/>
 	);

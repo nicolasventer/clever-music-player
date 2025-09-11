@@ -8,11 +8,12 @@ export type BaseTextProps = {
 	// Styling props
 	size?: "sm" | "md" | "lg";
 	color?: "white" | "theme" | "success" | "warning" | "danger";
+	ellipsis?: boolean;
+	noWrap?: boolean;
 
 	// Behavior props
 	br?: boolean;
 	link?: boolean | string;
-	ellipsis?: boolean;
 
 	// HTML attributes
 	iconProps?: HTMLAttributes<HTMLSpanElement>;
@@ -29,11 +30,12 @@ export const Text = ({
 	// Styling props
 	size = "md",
 	color = "white",
+	ellipsis,
+	noWrap,
 
 	// Behavior props
 	br,
 	link,
-	ellipsis,
 
 	// HTML attributes
 	className,
@@ -61,7 +63,10 @@ export const Text = ({
 		if (onClick) baseClasses.push("text-clickable");
 
 		// Ellipsis classes
-		if (ellipsis) baseClasses.push("text-ellipsis");
+		if (ellipsis) baseClasses.push("ellipsis");
+
+		// No wrap classes
+		if (noWrap) baseClasses.push("no-wrap");
 
 		if (className) baseClasses.push(className);
 

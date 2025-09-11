@@ -21,6 +21,7 @@ export type BaseInputProps = {
 
 	// Content props
 	label?: string;
+	LabelRender?: (props: { labelDisplay: React.ReactNode }) => React.ReactNode;
 	description?: string;
 	errorDescription?: string;
 };
@@ -55,6 +56,7 @@ export const Input = ({
 
 	// Content props
 	label,
+	LabelRender = ({ labelDisplay }) => labelDisplay,
 	description,
 	errorDescription,
 
@@ -78,6 +80,7 @@ export const Input = ({
 	const inputElement = (
 		<input
 			{...inputProps}
+			type={type}
 			onChange={handleChange}
 			className={`input-bottom-line input-${color} ${className}`.trim()}
 			disabled={disabled}
@@ -86,13 +89,23 @@ export const Input = ({
 
 	const computedLabelColor = labelColor ?? (color === "theme" ? "white" : color);
 
+	const labelDisplay = (
+		<label className={`${floating ? "input-label-floating" : "input-label"} input-label-${computedLabelColor}`}>
+			{label}
+			{required && <span className="input-required-asterisk">*</span>}
+		</label>
+	);
+
 	const inputWithLabel = label ? (
 		<div className={`${floating ? "input-with-label-floating" : "input-with-label"} input-${color}`}>
-			<input {...inputProps} onChange={handleChange} className={`input-bottom-line ${className}`.trim()} disabled={disabled} />
-			<label className={`${floating ? "input-label-floating" : "input-label"} input-label-${computedLabelColor}`}>
-				{label}
-				{required && <span className="input-required-asterisk">*</span>}
-			</label>
+			<input
+				{...inputProps}
+				type={type}
+				onChange={handleChange}
+				className={`input-bottom-line ${className}`.trim()}
+				disabled={disabled}
+			/>
+			<LabelRender labelDisplay={labelDisplay} />
 		</div>
 	) : (
 		inputElement
