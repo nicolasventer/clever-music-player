@@ -1,7 +1,7 @@
 import type { TypedOmit } from "@/components/_ui/typedOmit";
 import { Search, X } from "lucide-react";
-import type { ChangeEvent, InputHTMLAttributes } from "react";
-import { useRef, useState } from "react";
+import type { ChangeEvent, InputHTMLAttributes, Ref } from "react";
+import { useCallback, useRef, useState } from "react";
 
 export type BaseSearchInputProps = {
 	// Value/State props
@@ -13,6 +13,9 @@ export type BaseSearchInputProps = {
 
 	// Behavior props
 	clearable?: boolean;
+
+	// HTML attributes
+	ref?: Ref<HTMLInputElement>;
 };
 
 export type SearchInputProps = TypedOmit<InputHTMLAttributes<HTMLInputElement>, "value"> & BaseSearchInputProps;
@@ -32,9 +35,18 @@ export const SearchInput = ({
 	// HTML attributes
 	className = "",
 	onChange,
+	ref,
 	...inputProps
 }: SearchInputProps) => {
-	const ref = useRef<HTMLInputElement>(null);
+	const internalRef = useRef<HTMLInputElement>(null);
+	const setInternalRef = useCallback(
+		(element: HTMLInputElement) => {
+			internalRef.current = element;
+			if (typeof ref === "function") ref(element);
+			else if (ref) ref.current = element;
+		},
+		[internalRef, ref]
+	);
 	const [privateValue, setPrivateValue] = useState(value);
 
 	const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -46,9 +58,9 @@ export const SearchInput = ({
 	const handleClear = () => {
 		setValue?.("");
 		setPrivateValue("");
-		if (ref.current) {
-			ref.current.value = "";
-			ref.current.focus();
+		if (internalRef.current) {
+			internalRef.current.value = "";
+			internalRef.current.focus();
 		}
 	};
 
@@ -57,7 +69,7 @@ export const SearchInput = ({
 	return (
 		<div className={`search-input-container ${colorClass} ${className}`}>
 			<input
-				ref={ref}
+				ref={setInternalRef}
 				type="text"
 				value={value ?? privateValue}
 				disabled={disabled}

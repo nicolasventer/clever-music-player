@@ -4,8 +4,8 @@ import { Card } from "@/components/_ui/Card";
 import { Title } from "@/components/_ui/Title";
 import type { TypedOmit } from "@/components/_ui/typedOmit";
 import { X } from "lucide-react";
-import type { HTMLAttributes, ReactNode } from "react";
-import { useEffect, useRef, useState } from "react";
+import type { HTMLAttributes, ReactNode, Ref } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export type BaseModalProps = {
 	// Core props
@@ -24,6 +24,11 @@ export type BaseModalProps = {
 	// Layout props
 	cardProps?: TypedOmit<CardProps, "children">;
 	fullHeight?: boolean;
+
+	// HTML attributes
+	ref?: Ref<HTMLDivElement>;
+	headerProps?: HTMLAttributes<HTMLDivElement>;
+	contentProps?: HTMLAttributes<HTMLDivElement>;
 };
 
 export type ModalProps = HTMLAttributes<HTMLDivElement> & BaseModalProps;
@@ -48,9 +53,20 @@ export const Modal = ({
 
 	// HTML attributes
 	className = "",
+	ref,
+	headerProps,
+	contentProps,
 	...divProps
 }: ModalProps) => {
-	const ref = useClickOutside(() => closeOnClickOutside && handleClose());
+	const clickOutsideRef = useClickOutside(() => closeOnClickOutside && handleClose());
+	const setRef = useCallback(
+		(element: HTMLDivElement) => {
+			clickOutsideRef.current = element;
+			if (typeof ref === "function") ref(element);
+			else if (ref) ref.current = element;
+		},
+		[clickOutsideRef, ref]
+	);
 	const [wasOpen, setWasOpen] = useState(isOpen);
 	const [isClosing, setIsClosing] = useState(false);
 
@@ -74,18 +90,22 @@ export const Modal = ({
 			{wasOpen || isClosing ? (
 				<div className={`modal-overlay ${asDrawer ? "drawer-overlay" : ""} ${isClosing ? "closing" : ""}`}>
 					<div
-						ref={ref}
+						ref={setRef}
 						className={`modal-card ${asDrawer ? "modal-drawer" : ""} ${fullHeight ? "full-height" : ""} ${className}`.trim()}
 						{...divProps}
 					>
 						<Card {...cardProps} className={`modal-card-inner ${cardProps?.className ?? ""}`.trim()}>
-							<div className="modal-header">
-								<Title order={3} icon={icon} noMargin>
-									{title}
-								</Title>
-								<Button icon={<X size={16} />} variant="light" onClick={handleClose} className="modal-close-btn" />
+							{(title || onClose) && (
+								<div {...headerProps} className={`	modal-header ${headerProps?.className ?? ""}`.trim()}>
+									<Title order={3} icon={icon} noMargin>
+										{title}
+									</Title>
+									{onClose && <Button icon={<X size={16} />} variant="light" onClick={handleClose} className="modal-close-btn" />}
+								</div>
+							)}
+							<div {...contentProps} className={`modal-content ${contentProps?.className ?? ""}`.trim()}>
+								{children}
 							</div>
-							<div className="modal-content">{children}</div>
 						</Card>
 					</div>
 				</div>

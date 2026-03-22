@@ -1,5 +1,5 @@
 import type { TypedOmit } from "@/components/_ui/typedOmit";
-import type { ReactNode } from "react";
+import type { ReactNode, Ref } from "react";
 import { useState } from "react";
 import type { ButtonProps } from "./Button";
 import { Button } from "./Button";
@@ -18,15 +18,19 @@ export type BaseButtonBreadcrumbsProps = {
 	separator?: string;
 	onClick?: (textArray: string[]) => void;
 	editable?: boolean;
+
+	// HTML attributes
+	ref?: Ref<HTMLDivElement>;
 };
 
-export type ButtonBreadcrumbsProps = BaseButtonBreadcrumbsProps & TypedOmit<ButtonProps, "icon" | "children" | "onClick">;
+export type ButtonBreadcrumbsProps = BaseButtonBreadcrumbsProps & TypedOmit<ButtonProps, "icon" | "children" | "onClick" | "ref">;
 
 export const ButtonBreadcrumbs = ({
 	items,
 	separator = "/",
 	onClick,
 	editable = false,
+	ref,
 	...buttonProps
 }: ButtonBreadcrumbsProps) => {
 	const [isEditing, setIsEditing] = useState(false);
@@ -64,7 +68,7 @@ export const ButtonBreadcrumbs = ({
 	return (
 		<>
 			{isEditing ? (
-				<div className="button-breadcrumbs-editor">
+				<div className="button-breadcrumbs-editor" ref={ref}>
 					<div className="breadcrumbs-input-container">
 						<Input
 							value={editingText}
@@ -84,7 +88,7 @@ export const ButtonBreadcrumbs = ({
 					</div>
 				</div>
 			) : (
-				<div className="button-breadcrumbs">
+				<div className="button-breadcrumbs" ref={ref}>
 					<div className="breadcrumbs-navigation">
 						{items.map((item, index) => (
 							// eslint-disable-next-line react/no-array-index-key

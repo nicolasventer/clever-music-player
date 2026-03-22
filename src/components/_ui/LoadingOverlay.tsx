@@ -1,5 +1,5 @@
 import { Loader2 } from "lucide-react";
-import type { HTMLAttributes } from "react";
+import type { HTMLAttributes, Ref } from "react";
 
 export type LoadingOverlayProps = {
 	// Core props
@@ -7,6 +7,9 @@ export type LoadingOverlayProps = {
 
 	// Layout props
 	className?: string;
+
+	// HTML attributes
+	ref?: Ref<HTMLDivElement>;
 } & HTMLAttributes<HTMLDivElement>;
 
 export const LoadingIcon = () => <Loader2 size={24} className="animate-spin" />;
@@ -26,11 +29,12 @@ export const LoadingOverlay = ({
 	className = "",
 
 	// HTML attributes
+	ref,
 	...divProps
 }: LoadingOverlayProps) => (
 	<>
 		{isVisible && (
-			<div className={`loading-overlay ${className}`.trim()} {...divProps}>
+			<div className={`loading-overlay ${className}`.trim()} ref={ref} {...divProps}>
 				{children ?? <LoadingIcon />}
 			</div>
 		)}

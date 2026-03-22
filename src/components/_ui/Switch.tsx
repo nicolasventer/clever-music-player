@@ -1,5 +1,5 @@
 import type { TypedOmit } from "@/components/_ui/typedOmit";
-import type { ChangeEvent, InputHTMLAttributes } from "react";
+import type { ChangeEvent, InputHTMLAttributes, Ref } from "react";
 import { useState } from "react";
 
 export type BaseSwitchProps = {
@@ -16,6 +16,9 @@ export type BaseSwitchProps = {
 	// Label props
 	label?: string;
 	labelPosition?: "left" | "right";
+
+	// HTML attributes
+	ref?: Ref<HTMLInputElement>;
 };
 
 export type SwitchProps = TypedOmit<InputHTMLAttributes<HTMLInputElement>, "type" | "checked" | "color" | "size"> &
@@ -39,6 +42,7 @@ export const Switch = ({
 	// HTML attributes
 	onChange,
 	className = "",
+	ref,
 	...inputProps
 }: SwitchProps) => {
 	const [privateChecked, setPrivateChecked] = useState(checked ?? defaultChecked ?? false);
@@ -87,6 +91,7 @@ export const Switch = ({
 					onChange={handleChange}
 					disabled={disabled}
 					className="switch-input"
+					ref={ref}
 					{...inputProps}
 				/>
 				<div className={getTrackClasses()}>

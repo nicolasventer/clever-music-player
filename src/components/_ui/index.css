@@ -182,10 +182,6 @@ body {
 	align-items: center;
 }
 
-.btn-text {
-	margin-left: 6px;
-}
-
 /* Button Size Variants */
 .btn-sm {
 	padding: 6px 12px;
@@ -1088,6 +1084,10 @@ input:not(.input-with-label-floating input)::placeholder {
 	--border-radius-lg: 40px;
 }
 
+.card.no-shadow {
+	border-width: 3px;
+}
+
 /* Card Border Radius Variants */
 .card-radius-none {
 	--border-radius: var(--border-radius-none);
@@ -1253,6 +1253,9 @@ input:not(.input-with-label-floating input)::placeholder {
 	background: transparent;
 	border: none;
 	box-shadow: none;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
 }
 
 .modal-header {
@@ -1268,10 +1271,8 @@ input:not(.input-with-label-floating input)::placeholder {
 }
 
 .modal-content {
-	line-height: 1.6;
-	display: flex;
-	flex-direction: column;
-	gap: 16px;
+	height: 100%;
+	overflow: auto;
 }
 
 .full-height {
@@ -1615,7 +1616,7 @@ button > .loading-overlay {
 
 /* Text with Icon */
 .text-with-icon {
-	gap: 0.5rem;
+	gap: 4px;
 }
 
 .text-icon {
@@ -1627,6 +1628,8 @@ button > .loading-overlay {
 
 .text-content {
 	display: inline;
+	text-wrap-mode: wrap;
+	text-wrap-style: balance;
 }
 
 .text-link {

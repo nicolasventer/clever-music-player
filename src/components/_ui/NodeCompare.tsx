@@ -1,6 +1,6 @@
 import type { TypedOmit } from "@/components/_ui/typedOmit";
-import type { Dispatch, HTMLAttributes, ReactNode, SetStateAction } from "react";
-import { useEffect, useRef, useState } from "react";
+import type { Dispatch, HTMLAttributes, ReactNode, Ref, SetStateAction } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 type BaseNodeCompareProps = {
 	// Core props
@@ -26,6 +26,7 @@ type BaseNodeCompareProps = {
 
 	// HTML attributes
 	className?: string;
+	ref?: Ref<HTMLDivElement>;
 };
 
 export type NodeCompareProps = BaseNodeCompareProps & TypedOmit<HTMLAttributes<HTMLDivElement>, "children">;
@@ -54,11 +55,20 @@ export const NodeCompare = ({
 
 	// HTML attributes
 	className = "",
+	ref,
 	...divProps
 }: NodeCompareProps) => {
 	const [sliderPosition_, setSliderPosition_] = useState(sliderPosition ?? 50);
 	const [isDragging, setIsDragging] = useState(false);
 	const containerRef = useRef<HTMLDivElement>(null);
+	const setContainerRef = useCallback(
+		(element: HTMLDivElement) => {
+			containerRef.current = element;
+			if (typeof ref === "function") ref(element);
+			else if (ref) ref.current = element;
+		},
+		[containerRef, ref]
+	);
 
 	const setSliderPositionAll: typeof setSliderPosition_ = (value) => {
 		setSliderPosition_(value);
@@ -130,7 +140,7 @@ export const NodeCompare = ({
 	}, [isDragging]);
 
 	return (
-		<div {...divProps} className={`node-compare ${className}`} style={{ ...divProps.style, width, height }} ref={containerRef}>
+		<div {...divProps} className={`node-compare ${className}`} style={{ ...divProps.style, width, height }} ref={setContainerRef}>
 			{/* Before Node (Background) */}
 			<div className="nc-node-container" style={{ clipPath: `inset(0 ${100 - sliderPosition_}% 0 0)` }}>
 				{beforeNode}

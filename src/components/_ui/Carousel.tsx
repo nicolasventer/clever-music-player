@@ -1,5 +1,5 @@
 import type { TypedOmit } from "@/components/_ui/typedOmit";
-import type { HTMLAttributes, ReactNode } from "react";
+import type { HTMLAttributes, ReactNode, Ref } from "react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 export type BaseCarouselProps<T> = {
@@ -20,6 +20,9 @@ export type BaseCarouselProps<T> = {
 	// Behavior props
 	showArrows?: boolean; // default true
 	showDots?: boolean; // default true
+
+	// HTML attributes
+	ref?: Ref<HTMLDivElement>;
 };
 
 export type CarouselProps<T> = BaseCarouselProps<T> & TypedOmit<HTMLAttributes<HTMLDivElement>, "children">;
@@ -45,11 +48,20 @@ export const Carousel = <T,>({
 
 	// HTML attributes
 	style,
+	ref,
 	...divProps
 }: CarouselProps<T>) => {
 	if (itemToDisplayCount < 1) throw new Error("itemToDisplayCount must be greater than 0");
 
-	const [carouselRef, setCarouselRef] = useState<HTMLDivElement | null>(null);
+	const [carouselRef, setCarouselRef_] = useState<HTMLDivElement | null>(null);
+	const setCarouselRef = useCallback(
+		(element: HTMLDivElement) => {
+			setCarouselRef_(element);
+			if (typeof ref === "function") ref(element);
+			else if (ref) ref.current = element;
+		},
+		[ref]
+	);
 	const [currentIndex, setCurrentIndex] = useState(0);
 	const [isDragging, setIsDragging] = useState(false);
 	const [startPos, setStartPos] = useState(0);

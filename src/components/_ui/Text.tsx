@@ -1,4 +1,4 @@
-import type { HTMLAttributes, MouseEventHandler, ReactNode } from "react";
+import type { HTMLAttributes, MouseEventHandler, ReactNode, Ref } from "react";
 
 export type BaseTextProps = {
 	// Content props
@@ -18,6 +18,7 @@ export type BaseTextProps = {
 	// HTML attributes
 	iconProps?: HTMLAttributes<HTMLSpanElement>;
 	textProps?: HTMLAttributes<HTMLSpanElement>;
+	ref?: Ref<HTMLSpanElement>;
 };
 
 export type TextProps = HTMLAttributes<HTMLSpanElement> & BaseTextProps;
@@ -42,6 +43,7 @@ export const Text = ({
 	onClick,
 	iconProps,
 	textProps,
+	ref,
 	...spanProps
 }: TextProps) => {
 	const getTextClasses = () => {
@@ -81,7 +83,7 @@ export const Text = ({
 	return (
 		<>
 			{br && <br />}
-			<span className={getTextClasses()} onClick={handleClick} {...spanProps}>
+			<span className={getTextClasses()} onClick={handleClick} ref={ref} {...spanProps}>
 				{icon && (
 					<span className="text-icon" {...iconProps}>
 						{icon}

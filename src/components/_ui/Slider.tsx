@@ -1,5 +1,5 @@
 import type { TypedOmit } from "@/components/_ui/typedOmit";
-import type { ChangeEvent, InputHTMLAttributes } from "react";
+import type { ChangeEvent, InputHTMLAttributes, Ref } from "react";
 import { useState } from "react";
 
 export type BaseSliderProps = {
@@ -15,6 +15,9 @@ export type BaseSliderProps = {
 
 	// Styling props
 	thick?: boolean;
+
+	// HTML attributes
+	ref?: Ref<HTMLInputElement>;
 };
 
 export type SliderProps = TypedOmit<InputHTMLAttributes<HTMLInputElement>, "type" | "value" | "min" | "max" | "step"> &
@@ -37,6 +40,7 @@ export const Slider = ({
 	// HTML attributes
 	onChange,
 	className = "",
+	ref,
 	...inputProps
 }: SliderProps) => {
 	const [privateValue, setPrivateValue] = useState(value ?? initialValue ?? 0);
@@ -57,6 +61,7 @@ export const Slider = ({
 				value={value ?? privateValue}
 				onChange={handleChange}
 				className={`slider-input ${thick ? "slider-input-thick" : ""}`}
+				ref={ref}
 				{...inputProps}
 			/>
 			<div className={`slider-track ${thick ? "slider-track-thick" : ""}`}>

@@ -1,5 +1,5 @@
 import { getBorderRadiusClasses } from "@/components/_ui/eborder";
-import type { HTMLAttributes, ReactNode } from "react";
+import type { HTMLAttributes, ReactNode, Ref } from "react";
 
 export type BaseDividerProps = {
 	// Content props
@@ -15,6 +15,7 @@ export type BaseDividerProps = {
 
 	// HTML attributes
 	margin?: number | string | undefined;
+	ref?: Ref<HTMLDivElement>;
 };
 
 export type DividerProps = BaseDividerProps & HTMLAttributes<HTMLDivElement>;
@@ -34,6 +35,7 @@ export const Divider = ({
 	// HTML attributes
 	margin,
 	style,
+	ref,
 	...divProps
 }: DividerProps) => {
 	const getDividerClasses = () => {
@@ -57,12 +59,12 @@ export const Divider = ({
 	};
 
 	return children ? (
-		<div className={getDividerClasses()} style={{ ...style, margin }} {...divProps}>
+		<div className={getDividerClasses()} style={{ ...style, margin }} {...divProps} ref={ref}>
 			<div className="divider-line divider-line-start" style={{ flex: contentPosition }} />
 			<div className="divider-content">{children}</div>
 			<div className="divider-line divider-line-end" style={{ flex: 1 - contentPosition }} />
 		</div>
 	) : (
-		<div className={getDividerClasses()} style={{ ...style, margin }} {...divProps} />
+		<div className={getDividerClasses()} style={{ ...style, margin }} {...divProps} ref={ref} />
 	);
 };

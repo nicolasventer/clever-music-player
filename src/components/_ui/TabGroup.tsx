@@ -1,7 +1,7 @@
 import type { TabProps } from "@/components/_ui/Tab";
 import { Tab } from "@/components/_ui/Tab";
 import type { TypedOmit } from "@/components/_ui/typedOmit";
-import type { ButtonHTMLAttributes, HTMLAttributes, ReactNode } from "react";
+import type { ButtonHTMLAttributes, HTMLAttributes, ReactNode, Ref } from "react";
 import { useState } from "react";
 
 export type TabItem<T extends string> =
@@ -33,11 +33,14 @@ export type BaseTabGroupProps<T extends string> = {
 	gap?: number;
 	alignItems?: "center" | "flex-start" | "flex-end" | "stretch" | "baseline";
 	justifyContent?: "center" | "flex-start" | "flex-end" | "space-between" | "space-around" | "space-evenly";
+
+	// HTML attributes
+	ref?: Ref<HTMLDivElement>;
 };
 
 export type TabGroupProps<T extends string> = TypedOmit<
 	TypedOmit<TabProps, keyof ButtonHTMLAttributes<HTMLButtonElement>>,
-	"circular" | "icon" | "isActive" | "tabCount" | "borderRadiusFilter" | "fullWidth"
+	"circular" | "icon" | "isActive" | "tabCount" | "borderRadiusFilter" | "fullWidth" | "ref"
 > &
 	BaseTabGroupProps<T> &
 	HTMLAttributes<HTMLDivElement>;
@@ -85,6 +88,7 @@ export const TabGroup = <T extends string>({
 
 	// HTML attributes
 	className,
+	ref,
 	...divProps
 }: TabGroupProps<T>) => {
 	const [privateValue, setPrivateValue] = useState<T>(
@@ -111,7 +115,7 @@ export const TabGroup = <T extends string>({
 	};
 
 	return (
-		<div className={getContainerClasses()} style={{ gap, alignItems, justifyContent }} {...divProps}>
+		<div className={getContainerClasses()} style={{ gap, alignItems, justifyContent }} ref={ref} {...divProps}>
 			{items
 				.map((item) => (typeof item === "string" ? { value: item } : item))
 				.map((item, index) => (

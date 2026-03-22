@@ -1,6 +1,6 @@
 import type { TypedOmit } from "@/components/_ui/typedOmit";
 import { X } from "lucide-react";
-import type { InputHTMLAttributes } from "react";
+import type { InputHTMLAttributes, Ref } from "react";
 
 export type BaseInputProps = {
 	// Value/State props
@@ -24,6 +24,9 @@ export type BaseInputProps = {
 	LabelRender?: (props: { labelDisplay: React.ReactNode }) => React.ReactNode;
 	description?: string;
 	errorDescription?: string;
+
+	// HTML attributes
+	ref?: Ref<HTMLInputElement>;
 };
 
 export type InputProps = TypedOmit<InputHTMLAttributes<HTMLInputElement>, "value" | "min" | "max" | "required"> & BaseInputProps;
@@ -64,6 +67,7 @@ export const Input = ({
 	className = "",
 	type,
 	onChange,
+	ref,
 	...inputProps
 }: InputProps) => {
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -84,6 +88,7 @@ export const Input = ({
 			onChange={handleChange}
 			className={`input-bottom-line input-${color} ${className}`.trim()}
 			disabled={disabled}
+			ref={ref}
 		/>
 	);
 
@@ -104,6 +109,7 @@ export const Input = ({
 				onChange={handleChange}
 				className={`input-bottom-line ${className}`.trim()}
 				disabled={disabled}
+				ref={ref}
 			/>
 			<LabelRender labelDisplay={labelDisplay} />
 		</div>

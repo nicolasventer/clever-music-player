@@ -1,7 +1,7 @@
 import type { BorderType } from "@/components/_ui/eborder";
 import { getBorderRadiusClasses } from "@/components/_ui/eborder";
 import { LoadingOverlay } from "@/components/_ui/LoadingOverlay";
-import type { ButtonHTMLAttributes, ReactNode } from "react";
+import type { ButtonHTMLAttributes, ReactNode, Ref } from "react";
 
 export type LightButtonProps = {
 	variant: "light";
@@ -38,6 +38,7 @@ export type BaseButtonProps = (LightButtonProps | FilledButtonProps) & {
 	noShadow?: boolean;
 	isLoading?: boolean;
 	display?: "icon" | "children" | "both";
+	ref?: Ref<HTMLButtonElement>;
 };
 
 export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & BaseButtonProps;
@@ -66,6 +67,7 @@ export const Button = ({
 	display = "both",
 
 	// HTML attributes
+	ref,
 	className,
 	...buttonProps
 }: ButtonProps) => {
@@ -108,7 +110,7 @@ export const Button = ({
 	};
 
 	return (
-		<button className={getButtonClasses()} disabled={isLoading || disabled} {...buttonProps}>
+		<button className={getButtonClasses()} disabled={isLoading || disabled} {...buttonProps} ref={ref}>
 			{(display === "icon" || display === "both") && icon && <span className="btn-icon">{icon}</span>}
 			{(display === "children" || display === "both") && children && <span className="btn-text">{children}</span>}
 			<LoadingOverlay isVisible={isLoading} />

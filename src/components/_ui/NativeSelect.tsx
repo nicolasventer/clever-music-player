@@ -1,5 +1,5 @@
 import type { TypedOmit } from "@/components/_ui/typedOmit";
-import type { SelectHTMLAttributes } from "react";
+import type { Ref, SelectHTMLAttributes } from "react";
 import { useMemo } from "react";
 
 export type SelectOption<T extends string> = T | { value: T; disabled?: boolean; label?: string };
@@ -58,6 +58,9 @@ export type BaseNativeSelectProps<T extends string> = (
 	description?: string;
 	errorDescription?: string;
 	placeholder?: string;
+
+	// HTML attributes
+	ref?: Ref<HTMLSelectElement>;
 };
 
 export type NativeSelectProps<T extends string> = TypedOmit<SelectHTMLAttributes<HTMLSelectElement>, "value" | "required"> &
@@ -88,6 +91,7 @@ export const NativeSelect = <T extends string>({
 	// HTML attributes
 	className = "",
 	onChange,
+	ref,
 	...selectProps
 }: NativeSelectProps<T>) => {
 	const getSelectClasses = () => {
@@ -108,7 +112,7 @@ export const NativeSelect = <T extends string>({
 	);
 
 	const selectElement = (
-		<select {...selectProps} onChange={handleChange} className={getSelectClasses()} disabled={disabled}>
+		<select {...selectProps} onChange={handleChange} className={getSelectClasses()} disabled={disabled} ref={ref}>
 			{placeholder && (
 				<option value="" disabled>
 					{placeholder}
@@ -126,7 +130,7 @@ export const NativeSelect = <T extends string>({
 
 	const selectWithLabel = label ? (
 		<div className={`select-with-label select-${color} ${fullWidth ? "select-full-width" : ""}`}>
-			<select {...selectProps} onChange={handleChange} className={getSelectClasses()} disabled={disabled}>
+			<select {...selectProps} onChange={handleChange} className={getSelectClasses()} disabled={disabled} ref={ref}>
 				{placeholder && (
 					<option value="" disabled={required}>
 						{placeholder}

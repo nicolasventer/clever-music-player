@@ -1,4 +1,4 @@
-import type { HTMLAttributes, ReactNode } from "react";
+import type { HTMLAttributes, ReactNode, Ref } from "react";
 
 export type BaseTitleProps = {
 	// Core props
@@ -17,6 +17,7 @@ export type BaseTitleProps = {
 	// HTML attributes
 	iconProps?: HTMLAttributes<HTMLSpanElement>;
 	textProps?: HTMLAttributes<HTMLSpanElement>;
+	ref?: Ref<HTMLHeadingElement>;
 };
 
 export type TitleProps = HTMLAttributes<HTMLHeadingElement> & BaseTitleProps;
@@ -39,6 +40,7 @@ export const Title = ({
 	className,
 	iconProps,
 	textProps,
+	ref,
 	...headingProps
 }: TitleProps) => {
 	const getTitleClasses = () => {
@@ -77,42 +79,42 @@ export const Title = ({
 
 		if (order === 1)
 			return (
-				<h1 className={getTitleClasses()} {...headingProps}>
+				<h1 className={getTitleClasses()} ref={ref} {...headingProps}>
 					{content}
 				</h1>
 			);
 		if (order === 2)
 			return (
-				<h2 className={getTitleClasses()} {...headingProps}>
+				<h2 className={getTitleClasses()} ref={ref} {...headingProps}>
 					{content}
 				</h2>
 			);
 		if (order === 3)
 			return (
-				<h3 className={getTitleClasses()} {...headingProps}>
+				<h3 className={getTitleClasses()} ref={ref} {...headingProps}>
 					{content}
 				</h3>
 			);
 		if (order === 4)
 			return (
-				<h4 className={getTitleClasses()} {...headingProps}>
+				<h4 className={getTitleClasses()} ref={ref} {...headingProps}>
 					{content}
 				</h4>
 			);
 		if (order === 5)
 			return (
-				<h5 className={getTitleClasses()} {...headingProps}>
+				<h5 className={getTitleClasses()} ref={ref} {...headingProps}>
 					{content}
 				</h5>
 			);
 		if (order === 6)
 			return (
-				<h6 className={getTitleClasses()} {...headingProps}>
+				<h6 className={getTitleClasses()} ref={ref} {...headingProps}>
 					{content}
 				</h6>
 			);
 		return (
-			<h1 className={getTitleClasses()} {...headingProps}>
+			<h1 className={getTitleClasses()} ref={ref} {...headingProps}>
 				{content}
 			</h1>
 		);
